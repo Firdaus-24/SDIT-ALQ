@@ -19,7 +19,7 @@
                 </a>
                 <a href="{{ route('jabatan') }}"
                     class="text-white flex items-center px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-user  flex-none w-8"></i>
+                    <i class="fa fa-tree  flex-none w-8"></i>
                     <span class="grow">Jabatan</span>
                 </a>
                 <a href="#" class="text-white flex items-center px-2 hover:bg-white hover:text-gray-800">
