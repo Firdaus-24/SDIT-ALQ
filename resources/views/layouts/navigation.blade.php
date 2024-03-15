@@ -30,10 +30,13 @@
                     <i class="fa fa-book  flex-none w-8"></i>
                     <span class="grow">Cases</span>
                 </a>
-                <a href="#" class="text-white flex items-center px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-arrow-right flex-none w-8"></i>
-                    <span class="grow">Logout</span>
-                </a>
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="text-white flex items-center ">
+                        <i class="fa fa-arrow-right flex-none w-8"></i>
+                        <span class="grow">Logout</span>
+                    </button>
+                </form>
             </div>
         </div>
     </nav>

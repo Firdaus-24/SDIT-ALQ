@@ -35,7 +35,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
     Route::post('jabatan', [JabatanController::class, 'store'])->name('jabatan-add');
+    Route::post('updatejabatan', [JabatanController::class, 'update'])->name('jabatan-update');
     Route::get('jabatan/json', [JabatanController::class, 'dataTable'])->name('listJabatan');
+    Route::post('jabatanDelete', [JabatanController::class, 'destroy'])->name('deleteJabatan');
 });
 // Route::get('admin', function () {
 //     return '<h1>hello admin</h1>';

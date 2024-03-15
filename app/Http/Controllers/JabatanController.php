@@ -42,10 +42,17 @@ class JabatanController extends Controller
                 return $active;
             })
             ->addColumn('actions', function ($data) {
+                if ($data->is_active == 'T') {
+                    $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='text-xs lg:text-sm text-white rounded p-2' style='background-color:red' onclick='deleteJabatan({$data->id})'>Off</a>";
+                } else {
+                    $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='text-xs lg:text-sm  rounded p-2' style='background-color:#FFDF00' onclick='deleteJabatan({$data->id})'>Active</a>";
+                }
                 return "
-                        <div class='flex flex-row'>
-                            <a href='#' class='m-2 text-xs lg:text-sm' data='" . $data->id . "'>Edit</a>
-                            <a href='#' class='m-2 text-xs lg:text-sm' data='" . $data->id . "'>Delete</a>
+                        <div class='flex flex-row '>
+                        <button id='openModal' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='openModal({$data->id}, \"{$data->name}\")'>
+                            Edit
+                            </button>
+                           {$str}
                         </div>
                         ";
             })->rawColumns(['actions']);
@@ -72,34 +79,44 @@ class JabatanController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Jabatan $jabatan)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Jabatan $jabatan)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Jabatan $jabatan)
     {
-        //
+        $request->validate([
+            'txtid' => 'required',
+            'txtnama' => 'required|max:100|min:2|unique:jabatans,name,'
+        ]);
+
+        try {
+            $data = Jabatan::findOrFail($request->txtid);
+
+            // cek jika nama nya sama
+            $data->name = $request->txtnama;
+            $data->updated_at = now();
+
+            $data->save();
+
+            return back()->with('msg', 'data updated succesfully');
+        } catch (\Throwable $th) {
+            $th = "error euy";
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Jabatan $jabatan)
+    public function destroy(Jabatan $jabatan, Request $request)
     {
-        //
+        $data = Jabatan::where('id', $request->id)->first();
+
+        if ($data->is_active == 'T') {
+            $data->is_active = "F";
+            $data->save();
+        } else {
+            $data->is_active = "T";
+            $data->save();
+        }
+        return Response()->json($data);
     }
 }

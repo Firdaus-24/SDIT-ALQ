@@ -64,6 +64,45 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div id="myModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center hidden">
+        <!-- Overlay hitam untuk latar belakang modal -->
+        <div class="absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+        <!-- Konten Modal -->
+        <div class="bg-white w-2/3 lg:w-1/3 p-6 rounded-lg z-50">
+            <!-- Tombol untuk menutup modal -->
+            <button id="closeModal" class="absolute top-0 right-0 m-4 text-2xl" onclick="closeMdal()">&times;</button>
+
+            <!-- Form -->
+            <h5 class="uppercase font-bold mb-3 text-center">Update jabatan</h5>
+            <form class="w-full max-w-lg" action="{{ route('jabatan-update') }}" method="post"
+                onsubmit="return confirm('Are you sure to updated??')">
+                @csrf
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs lg:text-sm font-bold mb-2"
+                            for="nama">
+                            Nama
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 text-xs lg:text-sm border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            id="update-id" type="hidden" name="txtid" autocomplete="off" autofocus required>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 text-xs lg:text-sm border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            id="update-nama" type="text" name="txtnama" autocomplete="off" autofocus required>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button
+                        class="bg-blue-500 hover:bg-blue-700 text-white text-xs lg:text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit">
+                        Kirim
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script>
         $(function() {
             $('#tableJabatan').DataTable({
@@ -72,6 +111,7 @@
                 paging: true,
                 responsive: true,
                 searching: true,
+                scrollY: '410px',
                 ajax: {
                     url: "{{ route('listJabatan') }}",
                 },
@@ -118,6 +158,38 @@
                     }
                 ]
             });
+
+
         });
+
+        const openModal = (id, name) => {
+            $('#myModal').css("display", "flex");
+            $('#update-id').val(id)
+            $('#update-nama').val(name)
+        }
+        const closeMdal = () => {
+            $('#myModal').css("display", "none");
+        }
+
+        const deleteJabatan = (id) => {
+            if (confirm("Are you sure to deleted?") == true) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    data: {
+                        id
+                    },
+                    url: `{{ url('jabatanDelete') }}`,
+                    dataType: 'json',
+                    success: function(res) {
+                        let oTable = $('#tableJabatan').dataTable();
+                        oTable.fnDraw(false)
+                        // console.log(res);
+                    }
+                })
+            }
+        }
     </script>
 @endsection
