@@ -13,13 +13,27 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
+            $table->string('images')->nullable();
             $table->string('code', 10)->unique()->nullable();
             $table->string('name', 100);
             $table->string('alamat');
+            $table->string('kelurahan')->nullable();
+            $table->string('kota');
+            $table->string('kodepos', 5);
+            $table->enum('jenis_kelamin', ['P', 'W']);
+            $table->string('agama');
+            $table->string('bank');
+            $table->string('rekening')->nullable();
+            $table->string('no_ktp', 16);
+            $table->dateTime('tgl_masuk');
+            $table->dateTime('tgl_keluar')->nullable();
             $table->string('noHp');
             $table->string('email');
-            $table->foreignId('user_id');
+            $table->string('code_otp')->unique()->nullable();
             $table->foreignId('jab_id');
+            $table->enum('status', ['nikah', 'singel', 'duda/janda']);
+            $table->integer('jumlah_anak')->nullable();
+            $table->enum('is_active', ['T', 'F']);
             $table->timestamps();
         });
     }

@@ -186,7 +186,6 @@
                     success: function(res) {
                         let oTable = $('#tableJabatan').dataTable();
                         oTable.fnDraw(false)
-                        // console.log(res);
                     }
                 })
             }
