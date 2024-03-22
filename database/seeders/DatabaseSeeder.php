@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Jabatan;
+use App\Models\Teachers;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -75,5 +76,6 @@ class DatabaseSeeder extends Seeder
 
 
         Jabatan::factory(100)->create();
+        Teachers::factory(20)->create();
     }
 }

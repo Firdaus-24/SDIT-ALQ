@@ -42,11 +42,8 @@ class JabatanController extends Controller
                 return $active;
             })
             ->addColumn('actions', function ($data) {
-                if ($data->is_active == 'T') {
-                    $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='text-xs lg:text-sm text-white rounded p-2' style='background-color:red' onclick='deleteJabatan({$data->id})'>Off</a>";
-                } else {
-                    $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='text-xs lg:text-sm  rounded p-2' style='background-color:#FFDF00' onclick='deleteJabatan({$data->id})'>Active</a>";
-                }
+                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='text-xs lg:text-sm text-white rounded p-2' onclick='deleteJabatan({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
+
                 return "
                         <div class='flex flex-row '>
                         <button id='openModal' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='openModal({$data->id}, \"{$data->name}\")'>
