@@ -10,12 +10,12 @@
             <!-- Card 1 -->
             <div class="bg-white p-4 shadow-md rounded-lg">
                 <h2 class="text-sm lg:text-lg font-bold mb-2">Teacher</h2>
-                <p class="text-gray-500">Total teacher: 100</p>
+                <p class="text-gray-500">Total teacher: {{ $teacher }}</p>
             </div>
             <!-- Card 2 -->
             <div class="bg-white p-4 shadow-md rounded-lg">
                 <h2 class="text-sm lg:text-lg font-bold mb-2">Student</h2>
-
+                <p class="text-gray-500">Total teacher: {{ $student }}</p>
             </div>
         </div>
     </div>
