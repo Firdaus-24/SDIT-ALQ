@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li class="w-full px-3">
-                <a href="#"
+                <a href="{{ route('student') }}"
                     class="text-white flex items-center justify-between px-2 hover:bg-white hover:text-gray-800">
                     <i class="fa fa-users  flex-none w-8"></i>
                     <span class="grow">Students</span>

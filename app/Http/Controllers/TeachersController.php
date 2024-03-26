@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teachers;
+use ReturnTypeWillChange;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreTeachersRequest;
 use App\Http\Requests\UpdateTeacherRequest;
-use ReturnTypeWillChange;
 
 class TeachersController extends Controller
 {
@@ -127,6 +128,9 @@ class TeachersController extends Controller
     {
         $data = Teachers::find($idteacher);
         if ($request->file('image')) {
+            if (Storage::exists(strval($data->images))) {
+                Storage::delete(strval($data->images));
+            }
             $data->images = $request->file('image')->store('teachers-images');
         }
         $data->code = $request->txtcode;
