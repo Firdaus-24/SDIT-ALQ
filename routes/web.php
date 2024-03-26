@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeachersController;
 use App\Models\Teachers;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,18 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('teacher/detail/{id}', [TeachersController::class, 'show'])->name('detailTeacher');
     Route::post('teacherDelete', [TeachersController::class, 'destroy'])->name('deleteTeacher');
 });
+
+Route::middleware('auth', 'verified', 'role:admin')->group(function () {
+    Route::get('student', [StudentController::class, 'index'])->name('student');
+    Route::get('student/add', [StudentController::class, 'create'])->name('studentCreate');
+    Route::post('student/add', [StudentController::class, 'store'])->name('studentStore');
+    Route::get('student/detail/{id}', [StudentController::class, 'show'])->name('studentDetail');
+    Route::get('student/edit/{id}', [StudentController::class, 'edit'])->name('studentEdit');
+    Route::post('student/edit/{id}', [StudentController::class, 'update'])->name('studentUpdate');
+    Route::post('studentDelete', [StudentController::class, 'destroy'])->name('studentDelete');
+    Route::get('student/json', [StudentController::class, 'dataTable'])->name('list.student');
+});
+
 // Route::get('admin', function () {
 //     return '<h1>hello admin</h1>';
 // })->middleware(['auth', 'verified', 'role:admin|superadmin']);

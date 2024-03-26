@@ -33,7 +33,7 @@
         <header class="w-4/12 lg:w-1/6">
             @include('layouts.navigation')
         </header>
-        <div class="w-8/12 lg:w-5/6 ">
+        <div class="w-8/12 lg:w-5/6 min-h-screen">
             @yield('container')
         </div>
     </div>

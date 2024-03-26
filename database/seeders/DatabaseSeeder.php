@@ -4,13 +4,14 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Jabatan;
-use App\Models\Teachers;
 use App\Models\User;
+use App\Models\Jabatan;
+use App\Models\Student;
+use App\Models\Teachers;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -75,7 +76,8 @@ class DatabaseSeeder extends Seeder
         $admin->assignRole('users');
 
 
-        Jabatan::factory(100)->create();
-        Teachers::factory(20)->create();
+        Jabatan::factory(10)->create();
+        Teachers::factory(10)->create();
+        Student::factory(10)->create();
     }
 }
