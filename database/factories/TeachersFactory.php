@@ -31,7 +31,7 @@ class TeachersFactory extends Factory
             'tgl_keluar' => $this->faker->dateTime(),
             'noHp' => $this->faker->randomNumber(5, false),
             'email' => $this->faker->email(),
-            'jab_id' => $this->faker->randomDigit(),
+            'jab_id' => $this->faker->randomDigitNotNull(),
             'status' => 'singel',
             'jumlah_anak' => $this->faker->randomDigit(),
             'is_active' => 'T',

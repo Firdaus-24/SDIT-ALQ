@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\KeterlambatanGurusController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeachersController;
+use App\Models\KeterlambatanGurus;
 use App\Models\Teachers;
 use Illuminate\Support\Facades\Route;
 
@@ -22,20 +24,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
+// dashboard
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+// profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+// jabatan
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
     Route::post('jabatan', [JabatanController::class, 'store'])->name('jabatan-add');
@@ -43,6 +42,7 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('jabatan/json', [JabatanController::class, 'dataTable'])->name('listJabatan');
     Route::post('jabatanDelete', [JabatanController::class, 'destroy'])->name('deleteJabatan');
 });
+// teacher
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('teachers', [TeachersController::class, 'index'])->name('teachers');
     Route::get('teachers/add', [TeachersController::class, 'create'])->name('teachersAdd');
@@ -53,7 +53,7 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('teacher/detail/{id}', [TeachersController::class, 'show'])->name('detailTeacher');
     Route::post('teacherDelete', [TeachersController::class, 'destroy'])->name('deleteTeacher');
 });
-
+// student
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('student', [StudentController::class, 'index'])->name('student');
     Route::get('student/add', [StudentController::class, 'create'])->name('studentCreate');
@@ -63,6 +63,17 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::post('student/edit/{id}', [StudentController::class, 'update'])->name('studentUpdate');
     Route::post('studentDelete', [StudentController::class, 'destroy'])->name('studentDelete');
     Route::get('student/json', [StudentController::class, 'dataTable'])->name('list.student');
+});
+// keterlambatan
+Route::middleware('auth', 'verified', 'role:admin')->group(function () {
+    Route::get('keterlambatan', [KeterlambatanGurusController::class, 'index'])->name('keterlambatan');
+    Route::get('keterlambatan/add', [KeterlambatanGurusController::class, 'create'])->name('keterlambatanAdd');
+    Route::post('keterlambatan/add', [KeterlambatanGurusController::class, 'store'])->name('keterlambatanStore');
+    Route::get('keterlambatan/json', [KeterlambatanGurusController::class, 'dataTable'])->name('list.keterlambatan');
+    Route::get('keterlambatan/{id}', [KeterlambatanGurusController::class, 'edit'])->name('keterlambatanEdit');
+    Route::post('keterlambatan/{id}', [KeterlambatanGurusController::class, 'update'])->name('keterlambatanUpdate');
+    Route::delete('keterlambatan/delete/{id}', [KeterlambatanGurusController::class, 'destroy'])->name('keterlambatanDelete');
+    Route::get('keterlambatan/teachers/{name}', [KeterlambatanGurusController::class, 'searchName'])->name('list.nameTeacher');
 });
 
 // Route::get('admin', function () {
