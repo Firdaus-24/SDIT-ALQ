@@ -16,4 +16,9 @@ class Jabatan extends Model
     {
         return $this->hasMany(Teachers::class, 'id', 'jab_id');
     }
+
+    function keterlambatanGuru()
+    {
+        return $this->hasMany(KeterlambatanGurus::class, 'id', 'jab_id');
+    }
 }

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Jabatan;
+use App\Models\KeterlambatanGurus;
 use App\Models\Student;
 use App\Models\Teachers;
 use Illuminate\Support\Str;
@@ -79,5 +80,6 @@ class DatabaseSeeder extends Seeder
         Jabatan::factory(10)->create();
         Teachers::factory(10)->create();
         Student::factory(10)->create();
+        KeterlambatanGurus::factory(10)->create();
     }
 }
