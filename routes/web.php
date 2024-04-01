@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\KesalahanController;
 use App\Http\Controllers\KeterlambatanGurusController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -74,6 +75,14 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::post('keterlambatan/{id}', [KeterlambatanGurusController::class, 'update'])->name('keterlambatanUpdate');
     Route::delete('keterlambatan/delete/{id}', [KeterlambatanGurusController::class, 'destroy'])->name('keterlambatanDelete');
     Route::get('keterlambatan/teachers/{name}', [KeterlambatanGurusController::class, 'searchName'])->name('list.nameTeacher');
+});
+// kesalahan
+Route::middleware('auth', 'verified', 'role:admin')->group(function () {
+    Route::get('kesalahan', [KesalahanController::class, 'index'])->name('kesalahan');
+    Route::post('kesalahan', [KesalahanController::class, 'store'])->name('kesalahan-add');
+    Route::post('updatekesalahan', [KesalahanController::class, 'update'])->name('kesalahan-update');
+    Route::get('kesalahan/json', [KesalahanController::class, 'dataTable'])->name('listkesalahan');
+    Route::post('kesalahanDelete', [KesalahanController::class, 'destroy'])->name('deletekesalahan');
 });
 
 // Route::get('admin', function () {

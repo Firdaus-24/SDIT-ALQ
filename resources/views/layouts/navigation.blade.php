@@ -45,10 +45,10 @@
                 </a>
             </li>
             <li class="w-full px-3">
-                <a href="{{ route('student') }}"
+                <a href="{{ route('kesalahan') }}"
                     class="text-white flex items-center justify-between px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-bars flex-none w-8"></i>
-                    <span class="grow">Setting</span>
+                    <i class="fa fa-layer-group flex-none w-8"></i>
+                    <span class="grow">Kesalahan</span>
                 </a>
             </li>
         </ul>
