@@ -15,4 +15,8 @@ class student extends Model
     {
         return $this->hasMany(PrestasiDetail::class, 'id', 'student_id');
     }
+    public function kesalahanDetail()
+    {
+        return $this->hasMany(kesalahanDetail::class, 'id', 'student_id');
+    }
 }

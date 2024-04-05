@@ -87,7 +87,7 @@
             <!-- Form -->
             <h5 class="uppercase font-bold mb-3 text-center">Update Master Kesalahan</h5>
             <form class="w-full max-w-lg" action="{{ route('kesalahan-update') }}" method="post"
-                onsubmit="return confirm('Are you sure to updated??')">
+                onsubmit="return confirm('Andah yakin untuk update data??')">
                 @csrf
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
