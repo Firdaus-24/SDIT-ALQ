@@ -1,15 +1,17 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
+use App\Models\Teachers;
+use App\Models\KeterlambatanGurus;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JabatanController;
-use App\Http\Controllers\KesalahanController;
-use App\Http\Controllers\KeterlambatanGurusController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\TeachersController;
-use App\Models\KeterlambatanGurus;
-use App\Models\Teachers;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KesalahanController;
+use App\Http\Controllers\PrestasiDetailController;
+use App\Http\Controllers\KeterlambatanGurusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +66,7 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::post('student/edit/{id}', [StudentController::class, 'update'])->name('studentUpdate');
     Route::post('studentDelete', [StudentController::class, 'destroy'])->name('studentDelete');
     Route::get('student/json', [StudentController::class, 'dataTable'])->name('list.student');
+    Route::get('student/json/{name}', [StudentController::class, 'searchName'])->name('list.studentName');
 });
 // keterlambatan
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {
@@ -83,6 +86,24 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::post('updatekesalahan', [KesalahanController::class, 'update'])->name('kesalahan-update');
     Route::get('kesalahan/json', [KesalahanController::class, 'dataTable'])->name('listkesalahan');
     Route::post('kesalahanDelete', [KesalahanController::class, 'destroy'])->name('deletekesalahan');
+});
+// prestasi
+Route::middleware('auth', 'verified', 'role:admin')->group(function () {
+    Route::get('prestasi', [PrestasiController::class, 'index'])->name('prestasi');
+    Route::post('prestasi', [PrestasiController::class, 'store'])->name('prestasi-add');
+    Route::post('updateprestasi', [PrestasiController::class, 'update'])->name('prestasi-update');
+    Route::get('prestasi/json', [PrestasiController::class, 'dataTable'])->name('listprestasi');
+    Route::post('prestasiDelete', [PrestasiController::class, 'destroy'])->name('deleteprestasi');
+});
+// prestasi detail
+Route::middleware('auth', 'verified', 'role:admin')->group(function () {
+    Route::get('prestasi-detail', [PrestasiDetailController::class, 'index'])->name('prestasiDetail');
+    Route::get('prestasi-detail/add', [PrestasiDetailController::class, 'create'])->name('prestasiDetailCreate');
+    Route::post('prestasi-detail/add', [PrestasiDetailController::class, 'store'])->name('prestasiDetailAdd');
+    Route::get('updateprestasi/update/{id}', [PrestasiDetailController::class, 'edit'])->name('prestasiDetailEdit');
+    Route::post('updateprestasi/update/{id}', [PrestasiDetailController::class, 'update'])->name('prestasiDetailUpdate');
+    Route::get('prestasi-detail/json', [PrestasiDetailController::class, 'dataTable'])->name('listprestasi-detail');
+    Route::delete('prestasiDetailDelete/{id}', [PrestasiDetailController::class, 'destroy'])->name('deletePrestasiDetail');
 });
 
 // Route::get('admin', function () {

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\StudentT;
 
 class StudentController extends Controller
 {
@@ -163,5 +164,15 @@ class StudentController extends Controller
             $data->save();
         }
         return Response()->json($data);
+    }
+
+    public function searchName($name)
+    {
+        return response()->json(
+            Student::where('is_active', 'T')
+                ->where('is_lulus', 'F')
+                ->where('name', 'LIKE', '%' . $name . '%')
+                ->get()
+        );
     }
 }
