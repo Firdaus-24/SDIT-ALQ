@@ -11,6 +11,7 @@ use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KesalahanController;
 use App\Http\Controllers\PrestasiDetailController;
+use App\Http\Controllers\KesalahanDetailController;
 use App\Http\Controllers\KeterlambatanGurusController;
 
 /*
@@ -104,6 +105,17 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::post('updateprestasi/update/{id}', [PrestasiDetailController::class, 'update'])->name('prestasiDetailUpdate');
     Route::get('prestasi-detail/json', [PrestasiDetailController::class, 'dataTable'])->name('listprestasi-detail');
     Route::delete('prestasiDetailDelete/{id}', [PrestasiDetailController::class, 'destroy'])->name('deletePrestasiDetail');
+});
+
+// kelsahan detail
+Route::middleware('auth', 'verified', 'role:admin')->group(function () {
+    Route::get('kesalahan-detail', [KesalahanDetailController::class, 'index'])->name('kesalahanDetail');
+    Route::get('kesalahan-detail/add', [KesalahanDetailController::class, 'create'])->name('kesalahanDetailCreate');
+    Route::post('kesalahan-detail/add', [KesalahanDetailController::class, 'store'])->name('kesalahanDetailAdd');
+    Route::get('updatekesalahan/update/{id}', [KesalahanDetailController::class, 'edit'])->name('kesalahanDetailEdit');
+    Route::post('updatekesalahan/update/{id}', [KesalahanDetailController::class, 'update'])->name('kesalahanDetailUpdate');
+    Route::get('kesalahan-detail/json', [KesalahanDetailController::class, 'dataTable'])->name('listkesalahan-detail');
+    Route::delete('kesalahanDetailDelete/{id}', [KesalahanDetailController::class, 'destroy'])->name('deletekesalahanDetail');
 });
 
 // Route::get('admin', function () {

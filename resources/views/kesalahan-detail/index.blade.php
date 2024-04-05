@@ -2,20 +2,20 @@
 
 @section('container')
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="text-2xl lg:text-4xl text-bold mb-3">DETAIL PRESTASI SISWA</h1>
+        <h1 class="text-2xl lg:text-4xl text-bold mb-3">DETAIL KESALAHAN SISWA</h1>
         <div class="alert-prestasiDetail-delete hidden">
 
         </div>
         <div class="w-full bg-white p-4 shadow-md rounded-lg overflow-x-auto">
             <button class="bg-sky-700 p-2 text-white text-xs lg:text-base rounded-md mb-4 float-right"
-                onclick="window.location.href = '{{ route('prestasiDetailCreate') }}'">Tambah</button>
-            <table class="display text-xs lg:text-base" style="width:100%" id="tableDetailPrestasi">
+                onclick="window.location.href = '{{ route('kesalahanDetailCreate') }}'">Tambah</button>
+            <table class="display text-xs lg:text-base" style="width:100%" id="tableDetailKesalahan">
                 <thead>
                     <tr>
                         <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">No</th>
                         <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Nama</th>
                         <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Kelas</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Prestasi</th>
+                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Kesalahan</th>
                         <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Tanggal</th>
                         <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Keterangan</th>
                         <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">actions</th>
@@ -27,14 +27,14 @@
     </div>
     <script>
         $(function() {
-            $('#tableDetailPrestasi').DataTable({
+            $('#tableDetailKesalahan').DataTable({
                 processing: true,
                 serverSide: true,
                 paging: true,
                 responsive: true,
                 searching: true,
                 ajax: {
-                    url: "{{ route('listprestasi-detail') }}",
+                    url: "{{ route('listkesalahan-detail') }}",
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -51,8 +51,8 @@
                         name: 'kelas'
                     },
                     {
-                        data: 'prestasi',
-                        name: 'prestasi'
+                        data: 'kesalahan',
+                        name: 'kesalahan'
                     },
                     {
                         data: 'tanggal',
@@ -77,7 +77,7 @@
             if (confirm("Anda yakin untuk di hapus?") == true) {
                 let token = $("meta[name='csrf-token']").attr("content");
                 $.ajax({
-                    url: `prestasiDetailDelete/${id}`,
+                    url: `kesalahanDetailDelete/${id}`,
                     type: "DELETE",
                     data: {
                         "_token": "{{ csrf_token() }}",
@@ -104,7 +104,7 @@
                         } else {
                             return false
                         }
-                        let oTable = $('#tableDetailPrestasi').dataTable();
+                        let oTable = $('#tableDetailKesalahan').dataTable();
                         oTable.fnDraw(false)
                     }
                 })

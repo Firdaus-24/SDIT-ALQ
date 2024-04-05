@@ -69,7 +69,7 @@ class KesalahanController extends Controller
             'is_active' => "T",
         ]);
 
-        return back()->with('msg', 'data saved successfully');
+        return back()->with('msg', 'data berhasil disimpan');
     }
 
     /**
@@ -93,7 +93,7 @@ class KesalahanController extends Controller
 
             $data->save();
 
-            return back()->with('msg', 'data updated succesfully');
+            return back()->with('msg', 'data berhasil di update');
         } catch (\Throwable $th) {
             $th = "error euy";
         }

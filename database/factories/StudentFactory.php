@@ -25,7 +25,7 @@ class studentFactory extends Factory
             'agama' => 'ISLAM',
             'wali' => $this->faker->name(),
             'is_lulus' => 'F',
-            'kelas' => $this->faker->randomNumber(),
+            'kelas' => $this->faker->randomDigitNotNull(),
             'is_active' => 'T',
         ];
     }

@@ -3,24 +3,21 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Prestasi;
+use App\Models\Kesalahan;
 use Illuminate\Http\Request;
-use App\Models\PrestasiDetail;
+use App\Models\kesalahanDetail;
 use Yajra\DataTables\Facades\DataTables;
 
-class PrestasiDetailController extends Controller
+class KesalahanDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('prestasi-detail.index');
+        return view('kesalahan-detail.index');
     }
 
     public function dataTable()
     {
-        $data = PrestasiDetail::with('student', 'prestasi')->get();
+        $data = kesalahanDetail::with('student', 'kesalahan')->get();
         $dataTable = DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('name', function ($data) {
@@ -29,8 +26,8 @@ class PrestasiDetailController extends Controller
             ->addColumn('kelas', function ($data) {
                 return $data->student->kelas;
             })
-            ->addColumn('prestasi', function ($data) {
-                return $data->prestasi->name;
+            ->addColumn('kesalahan', function ($data) {
+                return $data->kesalahan->name;
             })
             ->addColumn('tanggal', function ($data) {
                 return $data->tanggal;
@@ -39,7 +36,7 @@ class PrestasiDetailController extends Controller
                 return $data->keterangan;
             })
             ->addColumn('actions', function ($data) {
-                $url = route('prestasiDetailEdit', ['id' => $data->id]);
+                $url = route('kesalahanDetailEdit', ['id' => $data->id]);
                 $str = "<a href='#' type='button' id='btn-delete' class='text-xs lg:text-sm text-white rounded p-2' onclick='prestasiDetailDelete(\"{$data->id}\")' style='background-color:red' >Delete</a>";
 
                 return "
@@ -58,19 +55,19 @@ class PrestasiDetailController extends Controller
      */
     public function create()
     {
-        $prestasi = Prestasi::where('is_active', 'T')->get();
-        return view('prestasi-detail.prestasiDetailAdd', ['prestasi' => $prestasi]);
+        $kesalahan = Kesalahan::where('is_active', 'T')->get();
+        return view('kesalahan-detail.kesalahanDetailAdd', ['kesalahan' => $kesalahan]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PrestasiDetail $prestasiDetail, Request $request)
+    public function store(KesalahanDetail $kesalahanDetail, Request $request)
     {
         $rules = [
             'txtidstudent' => 'required|numeric',
             'txtname' => 'required|max:255',
-            'txtprestasiId' => 'required|numeric',
+            'txtkesalahanId' => 'required|numeric',
             'txttanggal' => 'required|date',
             'txtketerangan' => 'required|max:255'
         ];
@@ -78,22 +75,22 @@ class PrestasiDetailController extends Controller
         $customeMassages = [
             'txtidstudent.required' => 'Nama siswa tidak valid!!',
             'txtidstudent.numeric' => 'Data siswa tidak terdaftar!!',
-            'txtprestasiId.required' => 'Data harus di isi!!',
-            'txtprestasiId.numeric' => 'Data tidak terdaftar!!',
+            'txtkesalahanId.required' => 'Data harus di isi!!',
+            'txtkesalahanId.numeric' => 'Data tidak terdaftar!!',
             'txttanggal.date' => 'Format data tidak di kenali!!',
             'txtketerangan.max' => 'Maximal 255 character!!',
         ];
 
         $this->validate($request, $rules, $customeMassages);
 
-        $prestasiDetail = new PrestasiDetail;
+        $kesalahanDetail = new KesalahanDetail;
 
-        $prestasiDetail->student_id = $request->txtidstudent;
-        $prestasiDetail->prestasi_id = $request->txtprestasiId;
-        $prestasiDetail->tanggal = $request->txttanggal;
-        $prestasiDetail->keterangan = $request->txtketerangan;
+        $kesalahanDetail->student_id = $request->txtidstudent;
+        $kesalahanDetail->kesalahan_id = $request->txtkesalahanId;
+        $kesalahanDetail->tanggal = $request->txttanggal;
+        $kesalahanDetail->keterangan = $request->txtketerangan;
 
-        $prestasiDetail->save();
+        $kesalahanDetail->save();
 
         return back()->with('msg', 'data berhasil di simpan');
     }
@@ -101,12 +98,12 @@ class PrestasiDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PrestasiDetail $prestasiDetail, $id)
+    public function edit(KesalahanDetail $kesalahanDetail, $id)
     {
-        $data = PrestasiDetail::with('student')->findOrFail($id);
-        $prestasi = Prestasi::where('is_active', 'T')->get();
+        $data = KesalahanDetail::with('student')->findOrFail($id);
+        $kesalahan = Kesalahan::where('is_active', 'T')->get();
         try {
-            return view('prestasi-detail.prestasiDetailUpdate', ['data' => $data, 'prestasi' => $prestasi]);
+            return view('kesalahan-detail.kesalahanDetailUpdate', ['data' => $data, 'kesalahan' => $kesalahan]);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -120,7 +117,7 @@ class PrestasiDetailController extends Controller
         $rules = [
             'txtidstudent' => 'required|numeric',
             'txtname' => 'required|max:255',
-            'txtprestasiId' => 'required|numeric',
+            'txtkesalahanId' => 'required|numeric',
             'txttanggal' => 'required|date',
             'txtketerangan' => 'required|max:255'
         ];
@@ -128,22 +125,22 @@ class PrestasiDetailController extends Controller
         $customeMassages = [
             'txtidstudent.required' => 'Nama siswa tidak valid!!',
             'txtidstudent.numeric' => 'Data siswa tidak terdaftar!!',
-            'txtprestasiId.required' => 'Data harus di isi!!',
-            'txtprestasiId.numeric' => 'Data tidak terdaftar!!',
+            'txtkesalahanId.required' => 'Data harus di isi!!',
+            'txtkesalahanId.numeric' => 'Data tidak terdaftar!!',
             'txttanggal.date' => 'Format data tidak di kenali!!',
             'txtketerangan.max' => 'Maximal 255 character!!',
         ];
 
         $this->validate($request, $rules, $customeMassages);
 
-        $prestasiDetail = PrestasiDetail::findOrFail($request->id);
+        $kesalahanDetail = KesalahanDetail::findOrFail($request->id);
 
-        $prestasiDetail->student_id = $request->txtidstudent;
-        $prestasiDetail->prestasi_id = $request->txtprestasiId;
-        $prestasiDetail->tanggal = $request->txttanggal;
-        $prestasiDetail->keterangan = $request->txtketerangan;
+        $kesalahanDetail->student_id = $request->txtidstudent;
+        $kesalahanDetail->kesalahan_id = $request->txtkesalahanId;
+        $kesalahanDetail->tanggal = $request->txttanggal;
+        $kesalahanDetail->keterangan = $request->txtketerangan;
 
-        $prestasiDetail->save();
+        $kesalahanDetail->save();
 
         return back()->with('msg', 'data berhasil di update');
     }
@@ -154,7 +151,7 @@ class PrestasiDetailController extends Controller
     public function destroy($id)
     {
         //delete post by ID
-        PrestasiDetail::where('id', $id)->delete();
+        KesalahanDetail::where('id', $id)->delete();
 
         //return response
         return response()->json([

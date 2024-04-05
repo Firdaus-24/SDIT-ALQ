@@ -64,7 +64,8 @@
                         <a href="{{ route('kesalahan') }}">Master</a>
                     </li>
                     <li class="text-white flex items-center justify-between px-2 hover:bg-white hover:text-gray-800">
-                        Rekap</li>
+                        <a href="{{ route('kesalahanDetail') }}">Detail</a>
+                    </li>
                 </ul>
             </li>
             {{-- prestasi --}}
