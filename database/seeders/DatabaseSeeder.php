@@ -68,18 +68,18 @@ class DatabaseSeeder extends Seeder
         $admin->assignRole('superadmin');
 
         $admin = User::create([
-            'name' => 'ujang',
+            'name' => 'radikasadewa',
             'uuid' => Str::uuid(),
-            'email' => 'ujang@test.com',
+            'email' => 'radikasadewa@test.com',
             'password' => bcrypt('12345678')
         ]);
 
         $admin->assignRole('users');
 
 
-        Jabatan::factory(10)->create();
-        Teachers::factory(10)->create();
-        Student::factory(10)->create();
-        KeterlambatanGurus::factory(10)->create();
+        // Jabatan::factory(10)->create();
+        // Teachers::factory(10)->create();
+        // Student::factory(10)->create();
+        // KeterlambatanGurus::factory(10)->create();
     }
 }
