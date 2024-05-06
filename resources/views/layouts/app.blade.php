@@ -20,24 +20,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     --}}
     {{-- jquery --}}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     {{-- datatables --}}
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css" rel="stylesheet" />
+    <script src="{{ asset('assets/js/jquery.dataTable.min.js') }}"></script>
+    <link href="{{ asset('assets/css/dataTable.dataTable.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/datatable.css') }}" rel="stylesheet" />
 
 </head>
 
 <body class="font-sans">
     <div class="flex bg-gray-100 dark:bg-gray-900 ">
-        <header class="w-4/12 lg:w-1/6">
-            @include('layouts.navigation')
+        <header class="w-4/12 lg:w-1/6 hidden" id="hero-navbar">
+            <div class="hero-navigation ">
+                @include('layouts.navigation')
+            </div>
         </header>
-        <div class="w-8/12 lg:w-5/6 min-h-screen">
+        <div class="w-full min-h-screen" id="hero-content">
+            <div class="float-right inline-block mt-3 mr-3" id="content-btn-toggle">
+                <button id="toggleButton">
+                    <div
+                        class="relative flex items-center justify-center rounded-full w-[30px] h-[30px] md:w-[40px] md:h-[40px] transform transition-all bg-slate-700 ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
+                        <div
+                            class="flex flex-col justify-between w-[15px] h-[15px] transform transition-all duration-300 group-focus:-rotate-[45deg] origin-center">
+                            <div
+                                class="bg-white h-[2px] w-1/2 rounded transform transition-all duration-300 group-focus:-rotate-90 group-focus:h-[1px] origin-right delay-75 group-focus:-translate-y-[1px]">
+                            </div>
+                            <div class="bg-white h-[1px] rounded"></div>
+                            <div
+                                class="bg-white h-[2px] w-1/2 rounded self-end transform transition-all duration-300 group-focus:-rotate-90 group-focus:h-[1px] origin-left delay-75 group-focus:translate-y-[1px]">
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </div>
             @yield('container')
+
         </div>
     </div>
 
+
+    <script src="{{ asset('assets/js/script.js') }}"></script>
 </body>
 
 </html>
