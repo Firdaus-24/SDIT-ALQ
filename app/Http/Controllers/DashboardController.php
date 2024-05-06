@@ -11,7 +11,11 @@ class DashboardController extends Controller
     public function index()
     {
         $teacher = Teachers::where('is_active', '=', 'T')->count();
+        $teacherOff = Teachers::where('is_active', '=', 'F')->count();
         $student = Student::where('is_active', '=', 'T')->count();
-        return view('dashboard', compact('teacher', 'student'));
+        $studentLaki = Student::where('is_active', '=', 'T')->where('jenis_kelamin', '=', 'P')->count();
+        $studentPerempuan = Student::where('is_active', '=', 'T')->where('jenis_kelamin', '=', 'W')->count();
+        $alumni = Student::where('is_active', '=', 'T')->where('is_lulus', '=', 'T')->count();
+        return view('dashboard', compact('teacher', 'student', 'teacherOff', 'studentLaki', 'studentPerempuan', 'alumni'));
     }
 }
