@@ -39,7 +39,7 @@ class TeacherImport implements ToCollection
                 $data['noHp'] = !empty($row[14]) ? $row[14] : '';
                 $data['email'] = !empty($row[15]) ? $row[15] : '';
                 $data['jab_id'] = $jabatan;
-                $data['status'] = !empty($row[17]) ? $row[17] : 'singel';
+                $data['status'] = !empty($row[17]) ? $row[17] : 'single';
                 $data['jumlah_anak'] = !empty($row[18]) ? $row[18] : 0;
                 $data['is_active'] = 'T';
 

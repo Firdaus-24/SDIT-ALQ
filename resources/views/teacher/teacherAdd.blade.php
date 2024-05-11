@@ -156,7 +156,7 @@
                         <select name="txtstatus" id="txtstatus" class="text-xs rounded lg:text-sm" required>
                             <option value="">Pilih</option>
                             <option value="nikah" {{ old('txtstatus') == 'nikah' ? 'selected' : '' }}>Menikah</option>
-                            <option value="singel" {{ old('txtstatus') == 'singel' ? 'selected' : '' }}>Singel</option>
+                            <option value="single" {{ old('txtstatus') == 'single' ? 'selected' : '' }}>Single</option>
                             <option value="duda/janda" {{ old('txtstatus') == 'duda/janda' ? 'selected' : '' }}>Duda /
                                 Janda</option>
                         </select>
