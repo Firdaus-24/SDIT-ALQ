@@ -158,8 +158,8 @@
                             <option value="">Pilih</option>
                             <option value="nikah" {{ $data->status == 'nikah' ? 'selected' : '' }}>Menikah</option>
                             <option value="single" {{ $data->status == 'single' ? 'selected' : '' }}>Single</option>
-                            <option value="duda/janda" {{ $data->status == 'duda/janda' ? 'selected' : '' }}>Duda /
-                                Janda</option>
+                            <option value="duda/janda" {{ $data->status == 'duda/janda' ? 'selected' : '' }}>Duda/Janda
+                            </option>
                         </select>
                     </div>
                     <div class="flex flex-col">
