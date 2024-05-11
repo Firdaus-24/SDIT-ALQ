@@ -2,8 +2,9 @@
 
 @section('container')
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="text-2xl lg:text-4xl text-bold mb-3"><span class="text-gray-500 hover:text-gray-950"><a
-                    href="{{ route('teachers') }}">TEACHERS</a></span>->Update Teachers</h1>
+        <h1 class="text-2xl lg:text-4xl text-bold mb-3 dark:text-white"><span
+                class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
+                    href="{{ route('teachers') }}">GURU</a></span>->Update guru</h1>
         @if (session('msg'))
             <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md mb-3 rounded-lg"
                 role="alert">
@@ -24,7 +25,7 @@
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="flex flex-col">
-                        <label for="txtname" class="text-xs lg:text-sm">Name</label>
+                        <label for="txtname" class="text-xs lg:text-sm">Nama</label>
                         <input type="text" value="{{ $data->name }}" name="txtname" id="txtname" required
                             autocomplete="off" autofocus class="rounded text-xs lg:text-sm" maxlength="100">
                         @error('txtname')

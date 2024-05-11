@@ -29,14 +29,12 @@
 </head>
 
 <body class="font-sans">
-    <div class="flex bg-gray-100 dark:bg-gray-900 ">
-        <header class="w-4/12 lg:w-1/6 hidden" id="hero-navbar">
-            <div class="hero-navigation ">
-                @include('layouts.navigation')
-            </div>
+    <div class="flex bg-gray-100 dark:bg-gray-900">
+        <header class="flex-none hidden w-4/12 lg:w-1/6" id="hero-navbar">
+            @include('layouts.navigation')
         </header>
-        <div class="w-full min-h-screen" id="hero-content">
-            <div class="float-right inline-block mt-3 mr-3" id="content-btn-toggle">
+        <div class="w-full min-h-screen overflow-x-auto">
+            <div class="inline-block float-right mt-3 mr-3" id="content-btn-toggle">
                 <button id="toggleButton">
                     <div
                         class="relative flex items-center justify-center rounded-full w-[30px] h-[30px] md:w-[40px] md:h-[40px] transform transition-all bg-slate-700 ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">

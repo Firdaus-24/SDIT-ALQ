@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="bg-gray-800 w-4/12 lg:w-1/6 h-screen fixed top-0 left-0 flex flex-col justify-between shadow-lg">
+<nav class="bg-gray-800 fixed flex flex-col justify-between shadow-lg h-screen  w-4/12 lg:w-1/6">
     <!-- Logo -->
     <div class="py-4">
         <div class="header mb-8">
@@ -105,9 +105,3 @@
     </div>
 
 </nav>
-
-<script>
-    const openListNavbar = (id) => {
-        $(`.${id}`).toggle('show');
-    }
-</script>

@@ -2,8 +2,9 @@
 
 @section('container')
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="text-2xl lg:text-4xl text-bold mb-3"><span class="text-gray-500 hover:text-gray-950"><a
-                    href="{{ route('teachers') }}">TEACHERS</a></span>->Detail Teachers</h1>
+        <h1 class="text-2xl lg:text-4xl text-bold mb-3 dark:text-white"><span
+                class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
+                    href="{{ route('teachers') }}">GURU</a></span>->Detail Guru</h1>
         <div class="w-full bg-white p-4 shadow-md rounded-lg overflow-x-auto">
             <div class="flex flex-col items-center w-full my-3">
                 @if ($data->images)
@@ -18,7 +19,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col">
-                    <label for="txtname" class="text-xs lg:text-sm">Name</label>
+                    <label for="txtname" class="text-xs lg:text-sm">Nama</label>
                     <input type="text" value="{{ $data->name }}" name="txtname" id="txtname" readonly
                         autocomplete="off" autofocus class="rounded text-xs lg:text-sm" maxlength="100">
                 </div>

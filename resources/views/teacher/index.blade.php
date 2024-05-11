@@ -2,19 +2,24 @@
 
 @section('container')
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="text-2xl lg:text-4xl text-bold mb-3">TEACHERS</h1>
-        <div class="w-full bg-white p-4 shadow-md rounded-lg overflow-x-auto">
-            <button class="bg-sky-700 p-2 text-white text-xs lg:text-base rounded-md mb-4 float-right"
-                onclick="window.location.href = '{{ route('teachersAdd') }}'">Tambah</button>
-            <table class="display text-xs lg:text-base" style="width:100%" id="tableTeacher">
+        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">GURU</h1>
+        <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
+            <span class="float-right">
+                <button type="button" class="p-2 mb-4 text-xs text-white bg-red-700 rounded-md lg:text-base"
+                    onclick="window.location.href = '{{ route('importFileTeacher') }}'">Import</button>
+                <button class="p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
+                    onclick="window.location.href = '{{ route('teachersAdd') }}'">Tambah</button>
+
+            </span>
+            <table class="text-xs display lg:text-base" style="width:100%" id="tableTeacher">
                 <thead>
                     <tr>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">NIP</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Name</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Contact</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Email</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Jabatan</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">actions</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">NIP</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Nama</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Contact</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Email</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Jabatan</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">actions</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -80,8 +85,9 @@
 
         });
 
-        const teacherDeletes = (id) => {
-            if (confirm("Are you sure to deleted?") == true) {
+        const teacherDeletes = (id, active) => {
+            const msg = (active == "T") ? "Anda yakin untuk menonaktifkan?" : "Anda yakin mengaktifkan?"
+            if (confirm(msg) == true) {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
