@@ -4,59 +4,62 @@
 @section('container')
     <!-- Content -->
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="text-2xl lg:text-4xl text-bold mb-3">JABATAN</h1>
+        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">JABATAN</h1>
         @if (session('msg'))
-            <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md mb-3 rounded-lg"
+            <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
                 role="alert">
                 <div class="flex">
                     <div class="py-1 mx-3">
                         <i class="fa fa-exclamation"></i>
                     </div>
                     <div>
-                        <p class="font-bold text-sm lg:text-base">Success</p>
+                        <p class="text-sm font-bold lg:text-base">Success</p>
                         <p class="text-xs lg:text-sm">{{ session('msg') }}</p>
                     </div>
                 </div>
             </div>
         @endif
         @error('txtnama')
-            <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md mb-3 rounded-lg"
+            <div class="px-4 py-3 mb-3 text-red-900 bg-red-100 border-t-4 border-red-500 rounded-lg rounded-b shadow-md"
                 role="alert">
                 <div class="flex">
                     <div class="py-1 mx-3">
                         <i class="fa fa-exclamation"></i>
                     </div>
                     <div>
-                        <p class="font-bold text-sm lg:text-base">Error</p>
+                        <p class="text-sm font-bold lg:text-base">Error</p>
                         <p class="text-xs lg:text-sm">{{ $message }}</p>
                     </div>
                 </div>
             </div>
         @enderror
-        <div class="w-full bg-white p-4 shadow-md rounded-lg mb-3">
-            <h2 class="text-sm lg:text-lg font-bold mb-2">Form Jabatan</h2>
+        <div class="w-full p-4 mb-3 bg-white rounded-lg shadow-md">
+            <h2 class="mb-2 text-sm font-bold lg:text-lg">Form Jabatan</h2>
             <div class="flex flex-col mb-3">
                 <form action="{{ route('jabatan-add') }}" method="POST">
                     @csrf
                     <label for="nama" class="text-xs lg:text-sm">Nama</label>
                     <div class="flex">
-                        <input type="text" class="w-5/6 rounded text-xs lg:text-sm" name="txtnama" id="txtnama"
+                        <input type="text" class="w-5/6 text-xs rounded lg:text-sm" name="txtnama" id="txtnama"
                             value="{{ old('nama') }}" required autocomplete="off" maxlength="100">
-                        <button class="w-1/6 bg-sky-700 text-xs lg:text-sm text-white rounded ml-2">Save</button>
+                        <button type="submit"
+                            class="w-1/6 ml-2 text-[12px] text-white rounded bg-sky-700 lg:text-sm">Save</button>
+                        <button type="button" class="w-1/6 ml-2 text-[12px] text-white rounded bg-red-700 lg:text-sm"
+                            onclick="window.location.href = '{{ route('jabatanImport') }}'">Upload</button>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="w-full bg-white p-4 shadow-md rounded-lg overflow-x-auto">
-            <table class="display text-xs lg:text-base" style="width:100%" id="tableJabatan">
+        <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
+            <table class="text-xs display lg:text-base" style="width:100%" id="tableJabatan">
                 <thead>
                     <tr>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">No</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Name</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Create at</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Update at</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Is active</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">actions</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">No</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Name</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Create at</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Update at</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Is active</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">actions</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -65,37 +68,37 @@
     </div>
 
     <!-- Modal -->
-    <div id="myModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center hidden">
+    <div id="myModal" class="fixed top-0 left-0 flex items-center justify-center hidden w-full h-full">
         <!-- Overlay hitam untuk latar belakang modal -->
         <div class="absolute w-full h-full bg-gray-900 opacity-50"></div>
 
         <!-- Konten Modal -->
-        <div class="bg-white w-2/3 lg:w-1/3 p-6 rounded-lg z-50">
+        <div class="z-50 w-2/3 p-6 bg-white rounded-lg lg:w-1/3">
             <!-- Tombol untuk menutup modal -->
             <button id="closeModal" class="absolute top-0 right-0 m-4 text-2xl" onclick="closeMdal()">&times;</button>
 
             <!-- Form -->
-            <h5 class="uppercase font-bold mb-3 text-center">Update jabatan</h5>
+            <h5 class="mb-3 font-bold text-center uppercase">Update jabatan</h5>
             <form class="w-full max-w-lg" action="{{ route('jabatan-update') }}" method="post"
                 onsubmit="return confirm('Are you sure to updated??')">
                 @csrf
-                <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="flex flex-wrap mb-6 -mx-3">
                     <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs lg:text-sm font-bold mb-2"
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase lg:text-sm"
                             for="nama">
                             Nama
                         </label>
                         <input
-                            class="appearance-none block w-full bg-gray-200 text-gray-700 text-xs lg:text-sm border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            class="block w-full px-4 py-3 mb-3 text-xs leading-tight text-gray-700 bg-gray-200 border rounded appearance-none lg:text-sm focus:outline-none focus:bg-white"
                             id="update-id" type="hidden" name="txtid" autocomplete="off" autofocus required>
                         <input
-                            class="appearance-none block w-full bg-gray-200 text-gray-700 text-xs lg:text-sm border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            class="block w-full px-4 py-3 mb-3 text-xs leading-tight text-gray-700 bg-gray-200 border rounded appearance-none lg:text-sm focus:outline-none focus:bg-white"
                             id="update-nama" type="text" name="txtnama" autocomplete="off" autofocus required>
                     </div>
                 </div>
                 <div class="flex items-center justify-between">
                     <button
-                        class="bg-blue-500 hover:bg-blue-700 text-white text-xs lg:text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        class="px-4 py-2 text-xs font-bold text-white bg-blue-500 rounded hover:bg-blue-700 lg:text-sm focus:outline-none focus:shadow-outline"
                         type="submit">
                         Kirim
                     </button>
@@ -111,7 +114,7 @@
                 paging: true,
                 responsive: true,
                 searching: true,
-                scrollY: '410px',
+                // scrollY: '410px',
                 ajax: {
                     url: "{{ route('listJabatan') }}",
                 },

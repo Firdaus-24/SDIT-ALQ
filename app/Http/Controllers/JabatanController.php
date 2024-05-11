@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\JabatanImport;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Excel;
+
 
 class JabatanController extends Controller
 {
@@ -42,11 +45,11 @@ class JabatanController extends Controller
                 return $active;
             })
             ->addColumn('actions', function ($data) {
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='text-xs lg:text-sm text-white rounded p-2' onclick='deleteJabatan({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
+                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='p-2 text-xs text-white rounded lg:text-sm' onclick='deleteJabatan({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
 
                 return "
                         <div class='flex flex-row '>
-                        <button id='openModal' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='openModal({$data->id}, \"{$data->name}\")'>
+                        <button id='openModal' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='openModal({$data->id}, \"{$data->name}\")'>
                             Edit
                             </button>
                            {$str}
@@ -115,5 +118,20 @@ class JabatanController extends Controller
             $data->save();
         }
         return Response()->json($data);
+    }
+
+    public function importFile()
+    {
+        return view('jabatan.jabatanImport');
+    }
+
+    public function prosesImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+        Excel::import(new JabatanImport(), $request->file('file'));
+
+        return redirect()->back()->with('error', 'Gagal mengunggah file.');
     }
 }

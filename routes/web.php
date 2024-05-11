@@ -45,6 +45,8 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::post('updatejabatan', [JabatanController::class, 'update'])->name('jabatan-update');
     Route::get('jabatan/json', [JabatanController::class, 'dataTable'])->name('listJabatan');
     Route::post('jabatanDelete', [JabatanController::class, 'destroy'])->name('deleteJabatan');
+    Route::get('jabatan/import', [JabatanController::class, 'importFile'])->name('jabatanImport');
+    Route::post('jabatan/import', [JabatanController::class, 'prosesImport'])->name('jabatanImportProses');
 });
 // teacher
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {
@@ -56,6 +58,8 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::get('teacher/json', [TeachersController::class, 'dataTable'])->name('listTeachers');
     Route::get('teacher/detail/{id}', [TeachersController::class, 'show'])->name('detailTeacher');
     Route::post('teacherDelete', [TeachersController::class, 'destroy'])->name('deleteTeacher');
+    Route::get('teacher/import', [TeachersController::class, 'importFile'])->name('importFileTeacher');
+    Route::post('teacher/import', [TeachersController::class, 'prosesImport'])->name('prosesImportTeacher');
 });
 // student
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {

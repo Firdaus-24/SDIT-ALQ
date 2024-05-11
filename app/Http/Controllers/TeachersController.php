@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teachers;
-use ReturnTypeWillChange;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreTeachersRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use App\Imports\ImportTeacher;
+use App\Imports\TeacherImport;
+use Excel;
 
 class TeachersController extends Controller
 {
@@ -43,17 +45,17 @@ class TeachersController extends Controller
             })
             ->addColumn('actions', function ($data) {
                 $url = route('detailTeacher', ['id' => $data->id]);
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='text-xs lg:text-sm text-white rounded p-2' onclick='teacherDeletes({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
+                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='p-2 text-xs text-white rounded lg:text-sm' onclick='teacherDeletes({$data->id},\"{$data->is_active}\")' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
 
                 return "
                         <div class='flex flex-row '>
-                        <button id='btn-teacher' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='window.location.href=\"{$url}\"'>
+                        <button id='btn-teacher' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='window.location.href=\"{$url}\"'>
                             Detail
                             </button>
                            {$str}
                         </div>
                         ";
-            })->rawColumns(['actions']);;
+            })->rawColumns(['actions']);
         return $dataTable->make(true);
     }
 
@@ -172,5 +174,20 @@ class TeachersController extends Controller
             $data->save();
         }
         return Response()->json($data);
+    }
+
+
+    public function importFile()
+    {
+        return view('teacher.teacherImport');
+    }
+    public function prosesImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+        Excel::import(new TeacherImport(), $request->file('file'));
+
+        return redirect()->back()->with('error', 'Gagal mengunggah file.');
     }
 }

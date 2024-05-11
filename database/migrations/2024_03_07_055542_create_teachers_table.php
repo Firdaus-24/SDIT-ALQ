@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('code_otp')->unique()->nullable();
             $table->foreignId('jab_id');
-            $table->enum('status', ['nikah', 'singel', 'duda/janda']);
+            $table->enum('status', ['nikah', 'single', 'duda/janda']);
             $table->integer('jumlah_anak')->nullable();
             $table->enum('is_active', ['T', 'F']);
             $table->timestamps();
