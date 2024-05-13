@@ -2,22 +2,27 @@
 
 @section('container')
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="text-2xl lg:text-4xl text-bold mb-3">STUDENT</h1>
-        <div class="w-full bg-white p-4 shadow-md rounded-lg overflow-x-auto">
-            <button class="bg-sky-700 p-2 text-white text-xs lg:text-base rounded-md mb-4 float-right"
-                onclick="window.location.href = '{{ route('studentCreate') }}'">Tambah</button>
-            <table class="display text-xs lg:text-base" style="width:100%" id="tableStudent">
+        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">STUDENT</h1>
+        <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
+            <span class="float-right">
+                <button type="button" class="p-2 mb-4 text-xs text-white bg-red-700 rounded-md lg:text-base"
+                    onclick="window.location.href = '{{ route('studentImport') }}'">Import</button>
+                <button class="p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
+                    onclick="window.location.href = '{{ route('studentCreate') }}'">Tambah</button>
+            </span>
+
+            <table class="text-xs display lg:text-base" style="width:100%" id="tableStudent">
                 <thead>
                     <tr>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Name</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">NISN</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">JK</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Tempat Lahir</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Tanggal Lahir</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Agama</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Kelas</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">Wali</th>
-                        <th class="px-6 py-2 text-xs lg:text-sm text-gray-500">actions</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Name</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">NISN</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">JK</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Tempat Lahir</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Tanggal Lahir</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Agama</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Kelas</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Wali</th>
+                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">actions</th>
                     </tr>
                 </thead>
                 <tbody></tbody>

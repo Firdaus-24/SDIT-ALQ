@@ -45,7 +45,7 @@
                         <button type="submit"
                             class="w-1/6 ml-2 text-[12px] text-white rounded bg-sky-700 lg:text-sm">Save</button>
                         <button type="button" class="w-1/6 ml-2 text-[12px] text-white rounded bg-red-700 lg:text-sm"
-                            onclick="window.location.href = '{{ route('jabatanImport') }}'">Upload</button>
+                            onclick="window.location.href = '{{ route('jabatanImport') }}'">Import</button>
                     </div>
                 </form>
             </div>
@@ -80,7 +80,7 @@
             <!-- Form -->
             <h5 class="mb-3 font-bold text-center uppercase">Update jabatan</h5>
             <form class="w-full max-w-lg" action="{{ route('jabatan-update') }}" method="post"
-                onsubmit="return confirm('Are you sure to updated??')">
+                onsubmit="return confirm('Apa anda yakin??')">
                 @csrf
                 <div class="flex flex-wrap mb-6 -mx-3">
                     <div class="w-full px-3">

@@ -97,7 +97,7 @@ class TeachersController extends Controller
         $teachers->is_active = "T";
         $teachers->save();
 
-        return back()->with('msg', 'data saved successfully');
+        return back()->with('msg', 'data berhasil di simpan');
     }
 
     /**
@@ -156,7 +156,7 @@ class TeachersController extends Controller
         $data->is_active = "T";
         $data->save();
 
-        return back()->with('msg', 'data updated successfully');
+        return back()->with('msg', 'data berhasil di update');
     }
 
     /**
