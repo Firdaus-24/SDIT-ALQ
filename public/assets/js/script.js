@@ -5,6 +5,7 @@ $(function () {
     });
 });
 
+// click navbar
 $(document).click(function (e) {
     const sideMenu = document.querySelector("#hero-navbar");
     const btnMenu = document.querySelector("#toggleButton");

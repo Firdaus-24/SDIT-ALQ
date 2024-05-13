@@ -72,6 +72,11 @@ Route::middleware('auth', 'verified', 'role:admin')->group(function () {
     Route::post('studentDelete', [StudentController::class, 'destroy'])->name('studentDelete');
     Route::get('student/json', [StudentController::class, 'dataTable'])->name('list.student');
     Route::get('student/json/{name}', [StudentController::class, 'searchName'])->name('list.studentName');
+    Route::get('student/import', [StudentController::class, 'importFile'])->name('studentImport');
+    Route::post('student/import', [StudentController::class, 'prosesImport'])->name('prosesStudentImport');
+    Route::get('kenaikan', [StudentController::class, 'kenaikanKelas'])->name('kenaikanKelas');
+    Route::post('kenaikan/list', [StudentController::class, 'getStudentKenaikan'])->name('studentListKenaikan');
+    Route::post('kenaikan', [StudentController::class, 'prosesStudentKenaikan'])->name('studentProsesKenaikan');
 });
 // keterlambatan
 Route::middleware('auth', 'verified', 'role:admin')->group(function () {

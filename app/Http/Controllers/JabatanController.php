@@ -75,7 +75,7 @@ class JabatanController extends Controller
         ]);
 
 
-        return back()->with('msg', 'data saved successfully');
+        return back()->with('msg', 'data berhasil di simpan');
     }
 
     /**
@@ -97,7 +97,7 @@ class JabatanController extends Controller
 
             $data->save();
 
-            return back()->with('msg', 'data updated succesfully');
+            return back()->with('msg', 'data berhasil di update');
         } catch (\Throwable $th) {
             $th = "error euy";
         }

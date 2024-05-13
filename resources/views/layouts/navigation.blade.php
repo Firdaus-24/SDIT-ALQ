@@ -1,10 +1,10 @@
 <!-- Navbar -->
-<nav class="bg-gray-800 fixed flex flex-col justify-between shadow-lg h-screen  w-4/12 lg:w-1/6">
+<nav class="fixed flex flex-col justify-between w-4/12 h-screen bg-gray-800 shadow-lg lg:w-1/6">
     <!-- Logo -->
     <div class="py-4">
-        <div class="header mb-8">
+        <div class="mb-8 header">
             {{--  style="max-width:120px"  --}}
-            <img class="w-12 md:w-24 mx-auto my-3"src="{{ asset('assets/images/sd-it-logo.png') }}" alt="sd-it-logo">
+            <img class="w-12 mx-auto my-3 md:w-24"src="{{ asset('assets/images/sd-it-logo.png') }}" alt="sd-it-logo">
             <h3 class="text-white text-center text-[10px] md:text-sm text-bold">SDIT Al-Qur'aniyyah</h3>
         </div>
 
@@ -13,59 +13,70 @@
             {{-- dashboard --}}
             <li class="w-full px-2 md:px-3">
                 <a href="{{ route('dashboard') }}"
-                    class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-home flex-none w-8"></i>
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                    <i class="flex-none w-8 fa fa-home"></i>
                     <span class="grow">Dashboard</span>
                 </a>
             </li>
             {{-- teacher --}}
             <li class="w-full px-2 md:px-3">
                 <a href="{{ route('teachers') }}"
-                    class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-user  flex-none w-8"></i>
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                    <i class="flex-none w-8 fa fa-user"></i>
                     <span class="grow">Guru</span>
                 </a>
             </li>
             {{-- jabatan --}}
             <li class="w-full px-2 md:px-3">
                 <a href="{{ route('jabatan') }}"
-                    class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-tree  flex-none w-8"></i>
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                    <i class="flex-none w-8 fa fa-tree"></i>
                     <span class="grow">Jabatan</span>
                 </a>
             </li>
             {{-- student --}}
             <li class="w-full px-2 md:px-3">
-                <a href="{{ route('student') }}"
-                    class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-users  flex-none w-8"></i>
-                    <span class="grow">Siswa</span>
+                <a href="#"
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800"
+                    onclick="openListNavbar('nav-list-student')">
+                    <i class="flex-none w-8 fa fa-users"></i>
+                    <span class="grow">Menegement Siswa</span>
                 </a>
+                <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-student">
+                    <li
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                        <a href="{{ route('student') }}">Data siswa</a>
+                    </li>
+                    <li
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                        <a href="{{ route('kenaikanKelas') }}">Kenaikan kelas</a>
+                    </li>
+                </ul>
             </li>
             {{-- keterlambatan --}}
             <li class="w-full px-2 md:px-3">
                 <a href="{{ route('keterlambatan') }}"
-                    class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
-                    <i class="fa fa-clock flex-none w-8"></i>
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                    <i class="flex-none w-8 fa fa-clock"></i>
                     <span class="grow">Keterlambatan</span>
                 </a>
             </li>
             {{-- kesalahan --}}
             <li class="w-full px-2 md:px-3">
                 <a href="#"
-                    class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800"
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800"
                     onclick="openListNavbar('nav-list-kesalahan')">
-                    <i class="fa fa-layer-group flex-none w-8"></i>
+                    <i class="flex-none w-8 fa fa-layer-group"></i>
                     <span class="grow">Kesalahan</span>
                 </a>
 
-                <ul class="w-full pl-8 space-y-1 mt-1 hidden nav-list-kesalahan">
+                <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-kesalahan">
                     <li
-                        class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
                         <a href="{{ route('kesalahan') }}">Master</a>
                     </li>
                     <li
-                        class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
                         <a href="{{ route('kesalahanDetail') }}">Detail</a>
                     </li>
                 </ul>
@@ -73,19 +84,19 @@
             {{-- prestasi --}}
             <li class="w-full px-2 md:px-3">
                 <a href="#"
-                    class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800"
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800"
                     onclick="openListNavbar('nav-list-prestasi')">
-                    <i class="fa fa-trophy flex-none w-8"></i>
+                    <i class="flex-none w-8 fa fa-trophy"></i>
                     <span class="grow">Prestasi</span>
                 </a>
 
-                <ul class="w-full pl-8 space-y-1 mt-1 hidden nav-list-prestasi">
+                <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-prestasi">
                     <li
-                        class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
                         <a href="{{ route('prestasi') }}">Master</a>
                     </li>
                     <li
-                        class="text-white flex items-center justify-between px-0 md:px-2 hover:bg-white hover:text-gray-800">
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
                         <a href="{{ route('prestasiDetail') }}">Detail</a>
                     </li>
                 </ul>
@@ -94,10 +105,10 @@
     </div>
     <!-- Footer -->
     <div class="py-2 text-[10px] lg:text-base">
-        <form action="{{ route('logout') }}" method="post" class="w-full px-0 md:px-3 mb-4">
+        <form action="{{ route('logout') }}" method="post" class="w-full px-0 mb-4 md:px-3">
             @csrf
-            <button type="submit" class="text-white flex items-center justify-between px-0 md:px-2">
-                <i class="fa fa-arrow-right flex-none w-8"></i>
+            <button type="submit" class="flex items-center justify-between px-0 text-white md:px-2">
+                <i class="flex-none w-8 fa fa-arrow-right"></i>
                 <span class="grow">Logout</span>
             </button>
         </form>

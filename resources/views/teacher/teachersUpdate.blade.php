@@ -21,7 +21,7 @@
         @endif
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
             <form action="{{ route('teacherUpdate', ['id' => $data->id]) }}" method="post" enctype="multipart/form-data"
-                onsubmit="return confirm('Are you sure?')">
+                onsubmit="return confirm('Apa anda yakin??')">
                 @csrf
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="flex flex-col">
@@ -158,8 +158,8 @@
                             <option value="">Pilih</option>
                             <option value="nikah" {{ $data->status == 'nikah' ? 'selected' : '' }}>Menikah</option>
                             <option value="single" {{ $data->status == 'single' ? 'selected' : '' }}>Single</option>
-                            <option value="duda/janda" {{ $data->status == 'duda/janda' ? 'selected' : '' }}>Duda /
-                                Janda</option>
+                            <option value="duda/janda" {{ $data->status == 'duda/janda' ? 'selected' : '' }}>Duda/Janda
+                            </option>
                         </select>
                     </div>
                     <div class="flex flex-col">

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Excel;
 use Exception;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Imports\StudentImport;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\StudentT;
+use Illuminate\Http\Response;
 
 class StudentController extends Controller
 {
@@ -50,11 +52,11 @@ class StudentController extends Controller
             })
             ->addColumn('actions', function ($data) {
                 $url = route('studentDetail', ['id' => $data->id]);
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete' class='text-xs lg:text-sm text-white rounded p-2' onclick='studentDelete({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
+                $str = "<a href='javascript:void(0)' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='studentDelete({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
 
                 return "
                         <div class='flex flex-row '>
-                        <button id='btn-teacher' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='window.location.href=\"{$url}\"'>
+                        <button id='btn-teacher' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='window.location.href=\"{$url}\"'>
                             Detail
                             </button>
                            {$str}
@@ -94,7 +96,7 @@ class StudentController extends Controller
         $student->is_lulus = "F";
         $student->save();
 
-        return back()->with('msg', 'data saved successfully');
+        return back()->with('msg', 'data berhasil di simpan');
     }
 
     /**
@@ -146,7 +148,7 @@ class StudentController extends Controller
         $student->wali = $request->txtwali;
         $student->save();
 
-        return back()->with('msg', 'data updated successfully');
+        return back()->with('msg', 'data berhasil di update');
     }
 
     /**
@@ -174,5 +176,65 @@ class StudentController extends Controller
                 ->where('name', 'LIKE', '%' . $name . '%')
                 ->get()
         );
+    }
+
+    // import file excel view
+    public function importFile()
+    {
+        return view('student.studentImport');
+    }
+
+    public function prosesImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+        Excel::import(new StudentImport(), $request->file('file'));
+
+        return redirect()->back()->with('error', 'Gagal mengunggah file.');
+    }
+
+    // kenaikan kelas
+    public function kenaikanKelas()
+    {
+        return view('student.kenaikanKelas');
+    }
+
+    public function getStudentKenaikan(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Student::where('kelas', $request->kelas)->get();
+            $returnHTML = view('student.listKenaikan', compact('data'))->render();
+            return response()->json(array('success' => true, 'html' => $returnHTML));
+        } else {
+            return response()->json([
+                'error' => 'Page not found!!'
+            ], 404);
+        }
+    }
+
+    public function prosesStudentKenaikan(Request $request)
+    {
+        $txtidstudents = $request->input('txtidstudent', []);
+
+        try {
+            foreach ($txtidstudents as $txtidstudent) {
+                $student = Student::findOrFail($txtidstudent);
+
+                if ($request->kelas < 7) {
+                    $student->update([
+                        'kelas' => $request->kelas
+                    ]);
+                } else if ($request->kelas == 7) {
+                    $student->update([
+                        'is_lulus' => 'T'
+                    ]);
+                    // return redirect()->back()->with('msg', 'Semua siswa berhasil lulus');
+                }
+            }
+            return redirect()->back()->with('msg', 'Kelas berhasil di perbaharui');
+        } catch (\Throwable $th) {
+            return response("User with id {$txtidstudent} not found", Response::HTTP_NOT_FOUND);
+        }
     }
 }
