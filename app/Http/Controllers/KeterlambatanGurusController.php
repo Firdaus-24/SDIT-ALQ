@@ -40,11 +40,11 @@ class KeterlambatanGurusController extends Controller
             })
             ->addColumn('actions', function ($data) {
                 $url = route('keterlambatanEdit', ['id' => $data->id]);
-                $str = "<a href='#' type='button' id='btn-delete' class='text-xs lg:text-sm text-white rounded p-2' onclick='keterlambatanDelete(\"{$data->id}\")' style='background-color:red' >Delete</a>";
+                $str = "<a href='#' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='keterlambatanDelete(\"{$data->id}\")' style='background-color:red' >Delete</a>";
 
                 return "
                         <div class='flex flex-row '>
-                            <button id='btn-keterlambatan' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='window.location.href=\"{$url}\"'>
+                            <button id='btn-keterlambatan' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='window.location.href=\"{$url}\"'>
                                 Update
                             </button>
                            {$str}
@@ -83,10 +83,10 @@ class KeterlambatanGurusController extends Controller
                 'keterangan' => $request->txtketerangan,
             ]);
         } catch (\Exception $e) {
-            return back()->with('errors', 'data teacher not found');
+            return back()->with('errors', 'data guru tidak terdaftar');
         }
 
-        return back()->with('msg', 'data saved successfully');
+        return back()->with('msg', 'data berhasil di simpan');
     }
 
     /**
@@ -114,10 +114,10 @@ class KeterlambatanGurusController extends Controller
             $keterlambatanGurus->keterangan = $request->txtketerangan;
             $keterlambatanGurus->save();
         } catch (\Exception $e) {
-            return back()->with('errors', 'data teacher not found');
+            return back()->with('errors', 'data guru tidak terdaftar');
         }
 
-        return back()->with('msg', 'data saved successfully');
+        return back()->with('msg', 'data berhasil di update');
     }
 
     /**
@@ -131,7 +131,7 @@ class KeterlambatanGurusController extends Controller
         //return response
         return response()->json([
             'success' => true,
-            'msg' => 'Data deleted successfully',
+            'msg' => 'Data berhasil di hapus!!',
         ]);
     }
 }
