@@ -2,7 +2,7 @@
 
 @section('container')
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">STUDENT</h1>
+        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">SISWA</h1>
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
             <span class="float-right">
                 <button type="button" class="p-2 mb-4 text-xs text-white bg-red-700 rounded-md lg:text-base"

@@ -4,7 +4,7 @@
 @section('container')
     <!-- Content -->
     <div class="container p-4 mx-auto mt-1">
-        <h1 class="mb-3 text-2xl lg:text-4xl text-bold">MASTER KESALAHAN</h1>
+        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">MASTER KESALAHAN SISWA</h1>
         @if (session('msg'))
             <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
                 role="alert">
@@ -87,7 +87,7 @@
             <!-- Form -->
             <h5 class="mb-3 font-bold text-center uppercase">Update Master Kesalahan</h5>
             <form class="w-full max-w-lg" action="{{ route('kesalahan-update') }}" method="post"
-                onsubmit="return confirm('Andah yakin untuk update data??')">
+                onsubmit="return confirm('Anda yakin untuk update data??')">
                 @csrf
                 <div class="flex flex-wrap mb-6 -mx-3">
                     <div class="w-full px-3">
@@ -195,7 +195,7 @@
         }
 
         const deleteKesalahan = (id) => {
-            if (confirm("Are you sure to deleted?") == true) {
+            if (confirm("Anda yakin untuk menonaktifkan?") == true) {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
