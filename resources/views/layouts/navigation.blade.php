@@ -22,7 +22,8 @@
             <li class="w-full px-2 md:px-3">
                 <a href="{{ route('teachers') }}"
                     class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                    <i class="flex-none w-8 fa fa-user"></i>
+                    {{-- <i class="fa-solid fa-person-chalkboard"></i> --}}
+                    <i class="flex-none w-8 fa fa-school"></i>
                     <span class="grow">Guru</span>
                 </a>
             </li>
@@ -100,6 +101,14 @@
                         <a href="{{ route('prestasiDetail') }}">Detail</a>
                     </li>
                 </ul>
+            </li>
+            {{-- profile --}}
+            <li class="w-full px-2 md:px-3">
+                <a href="{{ route('profile.edit') }}"
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                    <i class="flex-none w-8 fa fa-user"></i>
+                    <span class="grow">Profile</span>
+                </a>
             </li>
         </ul>
     </div>
