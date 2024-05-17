@@ -4,15 +4,14 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+
 use App\Models\User;
-use App\Models\Jabatan;
-use App\Models\KeterlambatanGurus;
-use App\Models\Student;
-use App\Models\Teachers;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Database\Seeders\UserSeeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Database\Seeders\RolePermissionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,58 +27,215 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Permission::create(['name' => 'tambah-user']);
-        Permission::create(['name' => 'edit-user']);
-        Permission::create(['name' => 'delete-user']);
-        Permission::create(['name' => 'lihat-user']);
+        $this->call(
+            [
+                RolePermissionSeeder::class,
+                UserSeeder::class,
+            ]
+        );
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'superadmin']);
-        Role::create(['name' => 'users']);
+        // Permission::create(['name' => 'tambah-user']);
+        // Permission::create(['name' => 'edit-user']);
+        // Permission::create(['name' => 'delete-user']);
+        // Permission::create(['name' => 'lihat-user']);
 
-        $roleAdmin = Role::findByName('admin');
-        $roleAdmin->givePermissionTo('tambah-user');
-        $roleAdmin->givePermissionTo('edit-user');
-        $roleAdmin->givePermissionTo('delete-user');
-        $roleAdmin->givePermissionTo('lihat-user');
+        // Permission::create(['name' => 'tambah-guru']);
+        // Permission::create(['name' => 'edit-guru']);
+        // Permission::create(['name' => 'delete-guru']);
+        // Permission::create(['name' => 'lihat-guru']);
 
-        $roleAdmin = Role::findByName('superadmin');
-        $roleAdmin->givePermissionTo('tambah-user');
-        $roleAdmin->givePermissionTo('edit-user');
-        $roleAdmin->givePermissionTo('delete-user');
-        $roleAdmin->givePermissionTo('lihat-user');
+        // Permission::create(['name' => 'tambah-jabatan']);
+        // Permission::create(['name' => 'edit-jabatan']);
+        // Permission::create(['name' => 'delete-jabatan']);
+        // Permission::create(['name' => 'lihat-jabatan']);
 
-        $admin = User::create([
-            'name' => 'admin',
-            'uuid' => Str::uuid(),
-            'email' => 'admin@test.com',
-            'password' => bcrypt('12345678')
-        ]);
+        // Permission::create(['name' => 'tambah-siswa']);
+        // Permission::create(['name' => 'edit-siswa']);
+        // Permission::create(['name' => 'delete-siswa']);
+        // Permission::create(['name' => 'lihat-siswa']);
+        // Permission::create(['name' => 'kenaikan-kelas']);
 
-        $admin->assignRole('admin');
+        // Permission::create(['name' => 'tambah-kesalahan-siswa']);
+        // Permission::create(['name' => 'edit-kesalahan-siswa']);
+        // Permission::create(['name' => 'delete-kesalahan-siswa']);
+        // Permission::create(['name' => 'lihat-kesalahan-siswa']);
 
-        $admin = User::create([
-            'name' => 'superadmin',
-            'uuid' => Str::uuid(),
-            'email' => 'superadmin@test.com',
-            'password' => bcrypt('12345678')
-        ]);
+        // Permission::create(['name' => 'tambah-detailkesalahan-siswa']);
+        // Permission::create(['name' => 'edit-detailkesalahan-siswa']);
+        // Permission::create(['name' => 'delete-detailkesalahan-siswa']);
+        // Permission::create(['name' => 'lihat-detailkesalahan-siswa']);
 
-        $admin->assignRole('superadmin');
+        // Permission::create(['name' => 'tambah-prestasi-siswa']);
+        // Permission::create(['name' => 'edit-prestasi-siswa']);
+        // Permission::create(['name' => 'delete-prestasi-siswa']);
+        // Permission::create(['name' => 'lihat-prestasi-siswa']);
 
-        $admin = User::create([
-            'name' => 'radikasadewa',
-            'uuid' => Str::uuid(),
-            'email' => 'radikasadewa@test.com',
-            'password' => bcrypt('12345678')
-        ]);
+        // Permission::create(['name' => 'tambah-detailprestasi-siswa']);
+        // Permission::create(['name' => 'edit-detailprestasi-siswa']);
+        // Permission::create(['name' => 'delete-detailprestasi-siswa']);
+        // Permission::create(['name' => 'lihat-detailprestasi-siswa']);
 
-        $admin->assignRole('users');
+        // Permission::create(['name' => 'tambah-keterlambatanguru']);
+        // Permission::create(['name' => 'edit-keterlambatanguru']);
+        // Permission::create(['name' => 'delete-keterlambatanguru']);
+        // Permission::create(['name' => 'lihat-keterlambatanguru']);
+
+        // Role::create(['name' => 'admin']);
+        // Role::create(['name' => 'superadmin']);
+        // Role::create(['name' => 'user']);
+
+        // // admin
+        // $roleAdmin = Role::findByName('admin');
+        // $roleAdmin->givePermissionTo('tambah-user');
+        // $roleAdmin->givePermissionTo('edit-user');
+        // $roleAdmin->givePermissionTo('delete-user');
+        // $roleAdmin->givePermissionTo('lihat-user');
+
+        // $roleAdmin->givePermissionTo('tambah-guru');
+        // $roleAdmin->givePermissionTo('edit-guru');
+        // $roleAdmin->givePermissionTo('delete-guru');
+        // $roleAdmin->givePermissionTo('lihat-guru');
+
+        // $roleAdmin->givePermissionTo('tambah-jabatan');
+        // $roleAdmin->givePermissionTo('edit-jabatan');
+        // $roleAdmin->givePermissionTo('delete-jabatan');
+        // $roleAdmin->givePermissionTo('lihat-jabatan');
+
+        // $roleAdmin->givePermissionTo('tambah-siswa');
+        // $roleAdmin->givePermissionTo('edit-siswa');
+        // $roleAdmin->givePermissionTo('delete-siswa');
+        // $roleAdmin->givePermissionTo('lihat-siswa');
+        // $roleAdmin->givePermissionTo('kenaikan-kelas');
+
+        // $roleAdmin->givePermissionTo('tambah-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('edit-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('delete-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('lihat-kesalahan-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('edit-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('delete-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('lihat-detailkesalahan-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('edit-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('delete-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('lihat-prestasi-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('edit-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('delete-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('lihat-detailprestasi-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('edit-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('delete-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('lihat-keterlambatanguru');
+
+        // // superadmin
+        // $roleAdmin = Role::findByName('superadmin');
+        // $roleAdmin->givePermissionTo('tambah-user');
+        // $roleAdmin->givePermissionTo('edit-user');
+        // $roleAdmin->givePermissionTo('delete-user');
+        // $roleAdmin->givePermissionTo('lihat-user');
+
+        // $roleAdmin->givePermissionTo('tambah-guru');
+        // $roleAdmin->givePermissionTo('edit-guru');
+        // $roleAdmin->givePermissionTo('delete-guru');
+        // $roleAdmin->givePermissionTo('lihat-guru');
+
+        // $roleAdmin->givePermissionTo('tambah-jabatan');
+        // $roleAdmin->givePermissionTo('edit-jabatan');
+        // $roleAdmin->givePermissionTo('delete-jabatan');
+        // $roleAdmin->givePermissionTo('lihat-jabatan');
+
+        // $roleAdmin->givePermissionTo('tambah-siswa');
+        // $roleAdmin->givePermissionTo('edit-siswa');
+        // $roleAdmin->givePermissionTo('delete-siswa');
+        // $roleAdmin->givePermissionTo('lihat-siswa');
+        // $roleAdmin->givePermissionTo('kenaikan-kelas');
+
+        // $roleAdmin->givePermissionTo('tambah-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('edit-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('delete-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('lihat-kesalahan-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('edit-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('delete-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('lihat-detailkesalahan-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('edit-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('delete-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('lihat-prestasi-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('edit-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('delete-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('lihat-detailprestasi-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('edit-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('delete-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('lihat-keterlambatanguru');
+
+        // // user
+        // $roleAdmin = Role::findByName('user');
+        // $roleAdmin->givePermissionTo('tambah-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('edit-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('delete-kesalahan-siswa');
+        // $roleAdmin->givePermissionTo('lihat-kesalahan-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('edit-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('delete-detailkesalahan-siswa');
+        // $roleAdmin->givePermissionTo('lihat-detailkesalahan-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('edit-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('delete-prestasi-siswa');
+        // $roleAdmin->givePermissionTo('lihat-prestasi-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('edit-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('delete-detailprestasi-siswa');
+        // $roleAdmin->givePermissionTo('lihat-detailprestasi-siswa');
+
+        // $roleAdmin->givePermissionTo('tambah-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('edit-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('delete-keterlambatanguru');
+        // $roleAdmin->givePermissionTo('lihat-keterlambatanguru');
 
 
-        // Jabatan::factory(10)->create();
-        // Teachers::factory(10)->create();
-        // Student::factory(10)->create();
-        // KeterlambatanGurus::factory(10)->create();
+        // $admin = User::create([
+        //     'name' => 'admin',
+        //     'uuid' => Str::uuid(),
+        //     'email' => 'admin@test.com',
+        //     'password' => bcrypt('12345678'),
+        //     'is_active' => 1
+        // ]);
+
+        // $admin->assignRole('admin');
+
+        // $admin = User::create([
+        //     'name' => 'superadmin',
+        //     'uuid' => Str::uuid(),
+        //     'email' => 'superadmin@test.com',
+        //     'password' => bcrypt('12345678'),
+        //     'is_active' => 1
+        // ]);
+
+        // $admin->assignRole('superadmin');
+
+        // $admin = User::create([
+        //     'name' => 'radikasadewa',
+        //     'uuid' => Str::uuid(),
+        //     'email' => 'radikasadewa@test.com',
+        //     'password' => bcrypt('12345678'),
+        //     'is_active' => 1
+        // ]);
+
+        // $admin->assignRole('user');
     }
 }
