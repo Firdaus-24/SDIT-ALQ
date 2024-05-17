@@ -229,7 +229,6 @@ class StudentController extends Controller
                     $student->update([
                         'is_lulus' => 'T'
                     ]);
-                    // return redirect()->back()->with('msg', 'Semua siswa berhasil lulus');
                 }
             }
             return redirect()->back()->with('msg', 'Kelas berhasil di perbaharui');

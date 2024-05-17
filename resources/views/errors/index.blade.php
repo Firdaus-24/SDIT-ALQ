@@ -1,17 +1,20 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Errors') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ $exceptions }}
-                </div>
+
+@section('container')
+    <!-- Content -->
+    <div class="container p-4 mx-auto mt-1">
+        <span class="flex flex-col">
+            <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">Errors</h1>
+            <h3 class="mb-4 text-xs font-bold lg:text-sm dark:text-white">Hi... {{ Auth::user()->name }}</h3>
+        </span>
+
+        <div class="grid grid-cols-12">
+            <!-- Card 1 -->
+            <div class="col-span-12 p-4 bg-white rounded-lg shadow-md">
+                {{ $exceptions }}
             </div>
+
         </div>
     </div>
-</x-app-layout>
+@endsection

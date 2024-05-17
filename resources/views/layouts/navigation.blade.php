@@ -22,8 +22,7 @@
             <li class="w-full px-2 md:px-3">
                 <a href="{{ route('teachers') }}"
                     class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                    {{-- <i class="fa-solid fa-person-chalkboard"></i> --}}
-                    <i class="flex-none w-8 fa fa-school"></i>
+                    <i class="flex-none w-8 fa fa-users"></i>
                     <span class="grow">Guru</span>
                 </a>
             </li>
@@ -40,7 +39,7 @@
                 <a href="#"
                     class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800"
                     onclick="openListNavbar('nav-list-student')">
-                    <i class="flex-none w-8 fa fa-users"></i>
+                    <i class="flex-none w-8 fa fa-graduation-cap"></i>
                     <span class="grow">Menegement Siswa</span>
                 </a>
                 <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-student">
@@ -109,6 +108,25 @@
                     <i class="flex-none w-8 fa fa-user"></i>
                     <span class="grow">Profile</span>
                 </a>
+            </li>
+            {{-- menegement users --}}
+            <li class="w-full px-2 md:px-3">
+                <a href="#"
+                    class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800"
+                    onclick="openListNavbar('nav-list-menegement-users')">
+                    <i class="flex-none w-8 fa fa-user"></i>
+                    <span class="grow">Menegement users</span>
+                </a>
+                <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-menegement-users">
+                    <li
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                        <a href="{{ route('user') }}">User</a>
+                    </li>
+                    <li
+                        class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
+                        <a href="{{ route('roles.index') }}">Role</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>
