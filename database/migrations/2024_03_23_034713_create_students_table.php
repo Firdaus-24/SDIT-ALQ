@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('is_lulus', ['T', 'F']);
             $table->integer('kelas');
             $table->string('images')->nullable();
-            $table->enum('is_active', ['T', 'F']);
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

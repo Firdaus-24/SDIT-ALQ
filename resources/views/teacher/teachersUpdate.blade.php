@@ -4,7 +4,7 @@
     <div class="container p-4 mx-auto mt-1">
         <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white"><span
                 class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
-                    href="{{ route('teachers') }}">GURU</a></span>->Update guru</h1>
+                    href="{{ route('guru.index') }}">GURU</a></span>->Update guru</h1>
         @if (session('msg'))
             <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
                 role="alert">
@@ -20,8 +20,9 @@
             </div>
         @endif
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
-            <form action="{{ route('teacherUpdate', ['id' => $data->id]) }}" method="post" enctype="multipart/form-data"
+            <form action="{{ route('guru.update', $data->id) }}" method="post" enctype="multipart/form-data"
                 onsubmit="return confirm('Apa anda yakin??')">
+                @method('PUT')
                 @csrf
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="flex flex-col">

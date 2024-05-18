@@ -11,6 +11,17 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RolesController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function __construct()
+    {
+        $this->middleware(['permission:roles.index|roles.list|roles.create|roles.edit'], ['only' => ['index', 'dataTable']]);
+        $this->middleware(['permission:roles.create'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:roles.edit|roles.update'], ['only' => ['edit', 'update']]);
+    }
     public function index()
     {
         return view('roles.index');
@@ -33,9 +44,7 @@ class RolesController extends Controller
                 })->join(', ');
             })
             ->addColumn('actions', function ($roles) {
-                $url = route('roles.edit', ['id' => $roles->id]);
-                // $str = "<a href='javascript:void(0)' type='button' id='btn-delete-user' class='p-2 text-xs text-white rounded lg:text-sm' onclick='userDelete({$roles['id']})' style='background-color:#FFDF00;'>Delete</a>";
-                // {$str}
+                $url = route('roles.edit',  $roles->id);
 
                 return "
                     <div class='flex flex-row'>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Student;
 use App\Models\Kesalahan;
 use Illuminate\Http\Request;
 use App\Models\kesalahanDetail;
@@ -10,6 +11,20 @@ use Yajra\DataTables\Facades\DataTables;
 
 class KesalahanDetailController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware(['permission:detailkesalahan-siswa.list|detailkesalahan-siswa.create|detailkesalahan-siswa.edit|detailkesalahan-siswa.delete'], ['only' => ['index', 'show', 'dataTable']]);
+        $this->middleware(['permission:detailkesalahan-siswa.create'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:detailkesalahan-siswa.edit'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:detailkesalahan-siswa.delete'], ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         return view('kesalahan-detail.index');
@@ -36,12 +51,12 @@ class KesalahanDetailController extends Controller
                 return $data->keterangan;
             })
             ->addColumn('actions', function ($data) {
-                $url = route('kesalahanDetailEdit', ['id' => $data->id]);
-                $str = "<a href='#' type='button' id='btn-delete' class='text-xs lg:text-sm text-white rounded p-2' onclick='prestasiDetailDelete(\"{$data->id}\")' style='background-color:red' >Delete</a>";
+                $url = route('detailkesalahan-siswa.edit', $data->id);
+                $str = "<a href='#' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='prestasiDetailDelete(\"{$data->id}\")' style='background-color:red' >Delete</a>";
 
                 return "
                         <div class='flex flex-row '>
-                            <button id='btn-teacher' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='window.location.href=\"{$url}\"'>
+                            <button id='btn-teacher' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='window.location.href=\"{$url}\"'>
                                 Update
                             </button>
                            {$str}
@@ -55,7 +70,7 @@ class KesalahanDetailController extends Controller
      */
     public function create()
     {
-        $kesalahan = Kesalahan::where('is_active', 'T')->get();
+        $kesalahan = Kesalahan::where('is_active', 1)->get();
         return view('kesalahan-detail.kesalahanDetailAdd', ['kesalahan' => $kesalahan]);
     }
 
@@ -101,7 +116,7 @@ class KesalahanDetailController extends Controller
     public function edit(KesalahanDetail $kesalahanDetail, $id)
     {
         $data = KesalahanDetail::with('student')->findOrFail($id);
-        $kesalahan = Kesalahan::where('is_active', 'T')->get();
+        $kesalahan = Kesalahan::where('is_active', 1)->get();
         try {
             return view('kesalahan-detail.kesalahanDetailUpdate', ['data' => $data, 'kesalahan' => $kesalahan]);
         } catch (Exception $e) {
@@ -109,10 +124,20 @@ class KesalahanDetailController extends Controller
         }
     }
 
+    // seacrh siswa by name
+    public function searchName($name)
+    {
+        return response()->json(
+            Student::where('is_active', 1)
+                ->where('is_lulus', 'F')
+                ->where('name', 'LIKE', '%' . $name . '%')
+                ->get()
+        );
+    }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $rules = [
             'txtidstudent' => 'required|numeric',
@@ -133,7 +158,7 @@ class KesalahanDetailController extends Controller
 
         $this->validate($request, $rules, $customeMassages);
 
-        $kesalahanDetail = KesalahanDetail::findOrFail($request->id);
+        $kesalahanDetail = KesalahanDetail::findOrFail($id);
 
         $kesalahanDetail->student_id = $request->txtidstudent;
         $kesalahanDetail->kesalahan_id = $request->txtkesalahanId;

@@ -3,7 +3,8 @@
 @section('container')
     <div class="container p-4 mx-auto mt-1">
         <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white"><span
-                class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a href="{{ route('prestasiDetail') }}">DETAIL
+                class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
+                    href="{{ route('detailprestasi-siswa.index') }}">DETAIL
                     PRESTASI</a></span>->Form Detail Prestasi</h1>
         @if (session('msg'))
             <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
@@ -20,7 +21,7 @@
             </div>
         @endif
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
-            <form action="{{ route('prestasiDetailAdd') }}" method="post"
+            <form action="{{ route('detailprestasi-siswa.store') }}" method="post"
                 onsubmit="return confirm('Anda yakin menyimpan data ini?')">
                 @csrf
                 <input type="hidden" value="{{ old('txtidstudent') }}" name="txtidstudent" id="txtidstudent"
@@ -106,7 +107,7 @@
     </div>
     <script>
         const searchNameStudent = (name) => {
-            let url = "{{ route('list.studentName', ':name') }}";
+            let url = "{{ route('detailprestasi-siswaByName.list', ':name') }}";
             url = url.replace(':name', name);
             if (name.length > 0) {
                 $.ajax({

@@ -22,7 +22,7 @@
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
             <span class="float-right">
                 <button class="p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
-                    onclick="window.location.href = '{{ route('userRegister') }}'">Register</button>
+                    onclick="window.location.href = '{{ route('user.create') }}'">Register</button>
 
             </span>
             <table class="text-xs display lg:text-base" style="width:100%" id="tableUser">
@@ -52,7 +52,7 @@
                 searching: true,
                 // scrollY: '410px',
                 ajax: {
-                    url: "{{ route('userList') }}",
+                    url: "{{ route('user.list') }}",
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -90,17 +90,14 @@
         });
 
         const userDelete = (id) => {
-            if (confirm("Anda yakin untuk menghapus user ini?") == true) {
+            if (confirm("Anda yakin untuk menonaktifkan user ini?") == true) {
                 $.ajax({
+                    url: `user/${id}`,
+                    type: "DELETE",
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
-                    type: "POST",
-                    data: {
-                        id
-                    },
-                    url: `{{ url('user/${id}/active') }}`,
-                    dataType: 'json',
+                    cache: false,
                     success: function(res) {
                         let oTable = $('#tableUser').dataTable();
                         oTable.fnDraw(false)

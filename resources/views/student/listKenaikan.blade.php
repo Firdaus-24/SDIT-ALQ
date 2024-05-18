@@ -16,7 +16,7 @@
                 <span class="w-full justify-self-start">
                     <p class="text-xs font-bold lg:text-sm">{{ $item->name }}</p>
                     <p class="text-xs font-extralight lg:text-sm">{{ $item->nisn }}
-                        {{ $item->is_lulus == 'T' ? '- (Lulus)' : '' }}
+                        {{ $item->is_lulus == 1 ? '- (Lulus)' : '' }}
                     </p>
                     <p class="text-xs lg:text-sm font-extralight">Kelas - {{ $item->kelas }}</p>
                 </span>

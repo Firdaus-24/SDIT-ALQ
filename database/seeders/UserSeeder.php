@@ -20,19 +20,14 @@ class UserSeeder extends Seeder
         DB::beginTransaction();
         try {
             $permissions = [
-                'role-list',
-                'role-create',
-                'role-update',
+                'roles.list',
+                'roles.create',
+                'roles.update',
 
-                'permission-list',
-                'permission-create',
-                'permission-update',
-                'permission-delete',
-
-                'user-list',
-                'user-create',
-                'user-update',
-                'user-delete',
+                'user.list',
+                'user.create',
+                'user.edit',
+                'user.delete',
             ];
             foreach ($permissions as $permission) {
                 Permission::create(['name' => $permission]);

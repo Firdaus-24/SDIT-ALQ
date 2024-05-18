@@ -6,15 +6,32 @@ use Excel;
 use Exception;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Imports\StudentImport;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
-use Illuminate\Http\Response;
 
 class StudentController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware(['permission:siswa.list|siswa.create|siswa.edit|siswa.delete'], ['only' => ['index', 'show', 'dataTable', 'searchName']]);
+        $this->middleware(['permission:siswa.create'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:siswa.edit'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:siswa.delete'], ['only' => ['destroy']]);
+        $this->middleware(['permission:siswa.import'], ['only' => ['importFile', 'prosesImport']]);
+        $this->middleware(['permission:siswa.kenaikan-kelas'], ['only' => ['kenaikanKelas', 'prosesStudentKenaikan', 'getStudentKenaikan']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -51,8 +68,8 @@ class StudentController extends Controller
                 return $data->wali;
             })
             ->addColumn('actions', function ($data) {
-                $url = route('studentDetail', ['id' => $data->id]);
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='studentDelete({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
+                $url = route('siswa.show', $data->id);
+                $str = "<a href='javascript:void(0)' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='studentDelete({$data->id})' " . ($data->is_active == 1 ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 1 ? 'Off' : 'Active') . "</a>";
 
                 return "
                         <div class='flex flex-row '>
@@ -94,6 +111,7 @@ class StudentController extends Controller
         $student->kelas = $request->txtkelas;
         $student->wali = $request->txtwali;
         $student->is_lulus = "F";
+        $student->is_active = 1;
         $student->save();
 
         return back()->with('msg', 'data berhasil di simpan');
@@ -102,9 +120,9 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(student $student, Request $request)
+    public function show(student $student, Request $request, $id)
     {
-        $data = Student::find($request->id);
+        $data = Student::findOrFail($id);
         return view('student.studentDetail', ['data' => $data]);
     }
 
@@ -124,12 +142,25 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStudentRequest $request)
+    public function update(Request $request, Student $student, $id)
     {
-        $validate = $request->validated();
+        $validatedData = $request->validate([
+            'txtname' => 'required|max:100|min:3',
+            'txtnisn' => [
+                'required',
+                'max:10',
+                Rule::unique('students', 'nisn')->ignore($id, 'id'),
+            ],
+            'txtjk' => 'required',
+            'txttmptlahir' => 'required|max:100',
+            'txttgllahir' => 'required',
+            'txtagama' => 'required|max:10',
+            'txtkelas' => 'numeric|min:1|max:6',
+            'txtwali' => 'required|min:3|max:200',
+            'image' => 'image|file|max:5000',
+        ]);
 
-        $student = Student::findOrFail($request->id);
-        // $imagePath = 'public/storage/' . $student->images;
+        $student = Student::findOrFail($id);
 
         if ($request->file('image')) {
             if (Storage::exists(strval($student->images))) {
@@ -158,11 +189,11 @@ class StudentController extends Controller
     {
         $data = Student::where('id', $request->id)->first();
 
-        if ($data->is_active == 'T') {
-            $data->is_active = "F";
+        if ($data->is_active == 1) {
+            $data->is_active = 0;
             $data->save();
         } else {
-            $data->is_active = "T";
+            $data->is_active = 1;
             $data->save();
         }
         return Response()->json($data);
@@ -171,8 +202,8 @@ class StudentController extends Controller
     public function searchName($name)
     {
         return response()->json(
-            Student::where('is_active', 'T')
-                ->where('is_lulus', 'F')
+            Student::where('is_active', 1)
+                ->where('is_lulus', 1)
                 ->where('name', 'LIKE', '%' . $name . '%')
                 ->get()
         );
@@ -189,9 +220,14 @@ class StudentController extends Controller
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
         ]);
-        Excel::import(new StudentImport(), $request->file('file'));
 
-        return redirect()->back()->with('error', 'Gagal mengunggah file.');
+        try {
+            Excel::import(new StudentImport(), $request->file('file'));
+
+            return redirect()->back()->with('msg', 'Gagal mengunggah file.');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     // kenaikan kelas
@@ -218,21 +254,23 @@ class StudentController extends Controller
         $txtidstudents = $request->input('txtidstudent', []);
 
         try {
+            DB::beginTransaction();
             foreach ($txtidstudents as $txtidstudent) {
                 $student = Student::findOrFail($txtidstudent);
-
                 if ($request->kelas < 7) {
                     $student->update([
-                        'kelas' => $request->kelas
+                        'kelas' => (int)$request->kelas
                     ]);
                 } else if ($request->kelas == 7) {
                     $student->update([
-                        'is_lulus' => 'T'
+                        'is_lulus' => 1
                     ]);
                 }
             }
+            DB::commit();
             return redirect()->back()->with('msg', 'Kelas berhasil di perbaharui');
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response("User with id {$txtidstudent} not found", Response::HTTP_NOT_FOUND);
         }
     }

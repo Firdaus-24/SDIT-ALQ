@@ -2,15 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\JabatanImport;
+use Excel;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
+use App\Imports\JabatanImport;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
-use Excel;
 
 
 class JabatanController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware(['permission:jabatan.list|jabatan.create|jabatan.edit|jabatan.delete'], ['only' => ['index', 'show']]);
+        $this->middleware(['permission:jabatan.create'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:jabatan.edit'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:jabatan.delete'], ['only' => ['destroy']]);
+        $this->middleware(['permission:jabatan.import'], ['only' => ['importFile', 'prosesImport']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -37,7 +53,7 @@ class JabatanController extends Controller
                 return $data->updated_at;
             })
             ->addColumn('is_active', function ($data) {
-                if ($data->is_active == "T") {
+                if ($data->is_active == 1) {
                     $active = "Active";
                 } else {
                     $active = "Off";
@@ -45,7 +61,7 @@ class JabatanController extends Controller
                 return $active;
             })
             ->addColumn('actions', function ($data) {
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='p-2 text-xs text-white rounded lg:text-sm' onclick='deleteJabatan({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
+                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='p-2 text-xs text-white rounded lg:text-sm' onclick='deleteJabatan({$data->id})' " . ($data->is_active == 1 ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 1 ? 'Off' : 'Active') . "</a>";
 
                 return "
                         <div class='flex flex-row '>
@@ -71,9 +87,8 @@ class JabatanController extends Controller
 
         Jabatan::create([
             'name' => $request->txtnama,
-            'is_active' => 'T'
+            'is_active' => 1
         ]);
-
 
         return back()->with('msg', 'data berhasil di simpan');
     }
@@ -110,11 +125,11 @@ class JabatanController extends Controller
     {
         $data = Jabatan::where('id', $request->id)->first();
 
-        if ($data->is_active == 'T') {
-            $data->is_active = "F";
+        if ($data->is_active == 1) {
+            $data->is_active = 0;
             $data->save();
         } else {
-            $data->is_active = "T";
+            $data->is_active = 1;
             $data->save();
         }
         return Response()->json($data);
@@ -130,8 +145,16 @@ class JabatanController extends Controller
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
         ]);
-        Excel::import(new JabatanImport(), $request->file('file'));
 
-        return redirect()->back()->with('error', 'Gagal mengunggah file.');
+        try {
+            DB::beginTransaction();
+            Excel::import(new JabatanImport(), $request->file('file'));
+
+            DB::commit();
+            return redirect()->back()->with('msg', 'Data berhasil di upload');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 }

@@ -4,7 +4,7 @@
     <div class="container p-4 mx-auto mt-1">
         <h1 class="mb-3 text-2xl text-white lg:text-4xl text-bold"><span
                 class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
-                    href="{{ route('kesalahanDetail') }}">DETAIL KESALAHAN</a></span>->Form Detail Kesalahan</h1>
+                    href="{{ route('detailkesalahan-siswa.index') }}">DETAIL KESALAHAN</a></span>->Form Detail Kesalahan</h1>
         @if (session('msg'))
             <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
                 role="alert">
@@ -20,7 +20,7 @@
             </div>
         @endif
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
-            <form action="{{ route('kesalahanDetailAdd') }}" method="post"
+            <form action="{{ route('detailkesalahan-siswa.store') }}" method="post"
                 onsubmit="return confirm('Apakah anda sudah yakin?')">
                 @csrf
                 <input type="hidden" value="{{ old('txtidstudent') }}" name="txtidstudent" id="txtidstudent"
@@ -106,7 +106,7 @@
     </div>
     <script>
         const searchNameStudent = (name) => {
-            let url = "{{ route('list.studentName', ':name') }}";
+            let url = "{{ route('detailkesalahan-siswaByName.list', ':name') }}";
             url = url.replace(':name', name);
             if (name.length > 0) {
                 $.ajax({

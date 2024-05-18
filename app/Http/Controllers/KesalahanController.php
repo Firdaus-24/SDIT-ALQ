@@ -10,6 +10,19 @@ class KesalahanController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware(['permission:kesalahan-siswa.list|kesalahan-siswa.create|kesalahan-siswa.edit|kesalahan-siswa.delete'], ['only' => ['index', 'show', 'dataTable']]);
+        $this->middleware(['permission:kesalahan-siswa.create'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:kesalahan-siswa.edit'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:kesalahan-siswa.delete'], ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
      */
     public function index()
     {
@@ -35,7 +48,7 @@ class KesalahanController extends Controller
                 return $data->score;
             })
             ->addColumn('is_active', function ($data) {
-                if ($data->is_active == "T") {
+                if ($data->is_active == 1) {
                     $active = "Active";
                 } else {
                     $active = "Off";
@@ -43,11 +56,12 @@ class KesalahanController extends Controller
                 return $active;
             })
             ->addColumn('actions', function ($data) {
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete' class='text-xs lg:text-sm text-white rounded p-2' onclick='deleteKesalahan({$data->id})' " . ($data->is_active == 'T' ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 'T' ? 'Off' : 'Active') . "</a>";
+                $route = route('kesalahan-siswa.update', $data->id);
+                $str = "<a href='javascript:void(0)' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='deleteKesalahan({$data->id})' " . ($data->is_active == 1 ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 1 ? 'Off' : 'Active') . "</a>";
 
                 return "
                         <div class='flex flex-row '>
-                        <button id='openModal' class='text-xs lg:text-sm bg-sky-700 text-white rounded p-2' onclick='openModalKesalahan({$data->id}, \"{$data->name}\", {$data->score})'>
+                        <button id='openModal' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='openModalKesalahan({$data->id}, \"{$data->name}\", {$data->score}, \"$route\")'>
                             Edit
                             </button>
                            {$str}
@@ -66,7 +80,7 @@ class KesalahanController extends Controller
         Kesalahan::create([
             'name' => $request->txtname,
             'score' => $request->txtscore,
-            'is_active' => "T",
+            'is_active' => 1,
         ]);
 
         return back()->with('msg', 'data berhasil disimpan');
@@ -102,15 +116,15 @@ class KesalahanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kesalahan $kesalahan, Request $request)
+    public function destroy(Kesalahan $kesalahan, Request $request, $id)
     {
-        $data = Kesalahan::where('id', $request->id)->first();
+        $data = Kesalahan::where('id', $id)->first();
 
-        if ($data->is_active == 'T') {
-            $data->is_active = "F";
+        if ($data->is_active == 1) {
+            $data->is_active = 0;
             $data->save();
         } else {
-            $data->is_active = "T";
+            $data->is_active = 1;
             $data->save();
         }
         return Response()->json($data);

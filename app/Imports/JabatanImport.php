@@ -24,7 +24,7 @@ class JabatanImport implements ToCollection
                     Jabatan::create(
                         [
                             'name' => $data['name'],
-                            'is_active' => 'T'
+                            'is_active' => 1
                         ]
                     );
                 }

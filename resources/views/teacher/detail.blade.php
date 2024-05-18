@@ -4,18 +4,18 @@
     <div class="container p-4 mx-auto mt-1">
         <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white"><span
                 class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
-                    href="{{ route('teachers') }}">GURU</a></span>->Detail Guru</h1>
+                    href="{{ route('guru.index') }}">GURU</a></span>->Detail Guru</h1>
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
             <div class="flex flex-col items-center w-full my-3">
-                @if ($data->images)
+                @if ($data && $data->images)
                     <img class="block mb-3 rounded-lg" src="{{ asset('storage/' . $data->images) }}" alt="{{ $data->images }}"
                         width="150" height="400">
                 @else
-                    <p>No fhoto</p>
+                    <p>No Foto</p>
                 @endif
                 <button type="button"
                     class="float-right p-2 mb-3 text-xs text-white rounded-full bg-sky-700 lg:text-base lg:w-24"
-                    onclick="window.location.href='{{ route('teacherEdit', ['id' => $data->id]) }}'">Update</button>
+                    onclick="window.location.href='{{ route('guru.edit', $data->id) }}'">Update</button>
             </div>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div class="flex flex-col">

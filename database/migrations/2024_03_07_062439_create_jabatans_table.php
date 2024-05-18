@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('jabatans', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->unique();
-            $table->enum('is_active', ["T", "F"]);
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

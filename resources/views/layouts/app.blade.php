@@ -25,7 +25,7 @@
     <script src="{{ asset('assets/js/jquery.dataTable.min.js') }}"></script>
     <link href="{{ asset('assets/css/dataTable.dataTable.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/datatable.css') }}" rel="stylesheet" />
-
+    <link href='{{ asset('assets/images/sd-it-logo.png') }}' rel='website icon' type='png' />
 </head>
 
 <body class="font-sans">

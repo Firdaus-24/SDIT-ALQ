@@ -35,8 +35,9 @@
         @enderror
         <div class="w-full p-4 mb-3 bg-white rounded-lg shadow-md">
             <h2 class="mb-2 text-sm font-bold lg:text-lg">Form Master Prestasi</h2>
-            <form action="{{ route('prestasi-add') }}" method="POST" onsubmit="confirm('yakin untuk disimpan??')">
+            <form action="{{ route('prestasi-siswa.store') }}" method="POST" onsubmit="confirm('yakin untuk disimpan??')">
                 @csrf
+                @method('POST')
                 <div class="grid grid-cols-1 gap-2 lg:grid-cols-5">
                     <div class="flex flex-col col-span-2">
                         <label for="txtname" class="text-xs lg:text-sm">Nama</label>
@@ -85,9 +86,10 @@
 
             <!-- Form -->
             <h5 class="mb-3 font-bold text-center uppercase">Update Master Prestasi</h5>
-            <form class="w-full max-w-lg" action="{{ route('prestasi-update') }}" method="post"
+            <form class="w-full max-w-lg" action="#" method="post"
                 onsubmit="return confirm('Anda yakin untuk update data??')">
                 @csrf
+                @method('PUT')
                 <div class="flex flex-wrap mb-6 -mx-3">
                     <div class="w-full px-3">
                         {{-- name --}}
@@ -130,7 +132,7 @@
                 responsive: true,
                 searching: true,
                 ajax: {
-                    url: "{{ route('listprestasi') }}",
+                    url: "{{ route('prestasi-siswa.list') }}",
                 },
                 dom: 'lBfrtip', // Add the Buttons extension to the DataTable
                 columns: [{
@@ -170,8 +172,9 @@
 
         });
 
-        const openModalKesalahan = (id, name, score) => {
+        const openModalPrestasi = (id, name, score, action) => {
             $('#myModal').css("display", "flex");
+            $('#myModal form').attr("action", action);
             $('#update-id').val(id)
             $('#update-txtname').val(name)
             $('#update-txtscore').val(score)
@@ -180,18 +183,16 @@
             $('#myModal').css("display", "none");
         }
 
-        const deleteKesalahan = (id) => {
-            if (confirm("Anda yakin untuk menghapus data?") == true) {
+        const deletePrestasi = (id) => {
+            if (confirm("Anda yakin untuk menonaktifkan?") == true) {
                 $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
+                    url: `prestasi-siswa/${id}`,
+                    type: "DELETE",
                     data: {
-                        id
+                        "_token": "{{ csrf_token() }}",
+                        'method': 'put'
                     },
-                    url: `{{ url('prestasiDelete') }}`,
-                    dataType: 'json',
+                    cache: false,
                     success: function(res) {
                         let oTable = $('#tablePrestasi').dataTable();
                         oTable.fnDraw(false)

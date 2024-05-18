@@ -4,7 +4,7 @@
     <div class="container p-4 mx-auto mt-1">
         <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white"><span
                 class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
-                    href="{{ route('keterlambatan') }}">KETERLAMBATAN</a></span>->Form Keterlambatan</h1>
+                    href="{{ route('keterlambatanguru.index') }}">KETERLAMBATAN</a></span>->Form Keterlambatan</h1>
         @if (session('msg'))
             <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
                 role="alert">
@@ -34,7 +34,7 @@
             </div>
         @endif
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
-            <form action="{{ route('keterlambatanStore') }}" method="post" enctype="multipart/form-data"
+            <form action="{{ route('keterlambatanguru.store') }}" method="POST"
                 onsubmit="return confirm('Apa anda sudah yakin?')">
                 @csrf
                 <input type="hidden" value="{{ old('txtteacherid') }}" name="txtteacherid" id="txtteacherid"
@@ -89,7 +89,7 @@
     </div>
     <script>
         const searchNameTachers = (name) => {
-            let url = "{{ route('list.nameTeacher', ':name') }}";
+            let url = "{{ route('keterlambatanguruByName.list', ':name') }}";
             url = url.replace(':name', name);
             if (name.length > 0) {
                 $.ajax({
@@ -128,17 +128,6 @@
             $("#txtjabatan").val(jabid)
             $("#txtnamejabatan").val(jabname)
             $("#txtteacherid").val(teacherid)
-        }
-
-        const previewImage = (input) => {
-            if (input.files && input.files[0]) {
-                $('.img-preview').css('display', 'block')
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('.img-preview').attr("src", e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
         }
     </script>
 @endsection
