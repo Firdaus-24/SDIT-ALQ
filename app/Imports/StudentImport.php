@@ -28,7 +28,7 @@ class StudentImport implements ToCollection
                 $data['is_lulus'] = 'F';
                 $data['kelas'] = !empty($row[8]) ? $row[8] : 1;
                 $data['images'] = '';
-                $data['is_active'] = 'T';
+                $data['is_active'] = 1;
 
                 Student::create($data);
             }

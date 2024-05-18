@@ -6,9 +6,9 @@
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
             <span class="float-right">
                 <button type="button" class="p-2 mb-4 text-xs text-white bg-red-700 rounded-md lg:text-base"
-                    onclick="window.location.href = '{{ route('studentImport') }}'">Import</button>
+                    onclick="window.location.href = '{{ route('siswa.import') }}'">Import</button>
                 <button class="p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
-                    onclick="window.location.href = '{{ route('studentCreate') }}'">Tambah</button>
+                    onclick="window.location.href = '{{ route('siswa.create') }}'">Tambah</button>
             </span>
 
             <table class="text-xs display lg:text-base" style="width:100%" id="tableStudent">
@@ -39,16 +39,9 @@
                 searching: true,
                 // scrollY: '500px',
                 ajax: {
-                    url: "{{ route('list.student') }}",
+                    url: "{{ route('siswa.list') }}",
                 },
-                columns: [
-                    // {
-                    //     data: 'DT_RowIndex',
-                    //     name: 'DT_RowIndex',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
-                    {
+                columns: [{
                         data: 'name',
                         name: 'name'
                     },
@@ -97,11 +90,11 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    type: "POST",
+                    type: "DELETE",
                     data: {
                         id
                     },
-                    url: `{{ url('studentDelete') }}`,
+                    url: `{{ url('siswa/${id}') }}`,
                     dataType: 'json',
                     success: function(res) {
                         // console.log(res);

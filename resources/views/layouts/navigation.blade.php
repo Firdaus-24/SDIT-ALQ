@@ -20,7 +20,7 @@
             </li>
             {{-- teacher --}}
             <li class="w-full px-2 md:px-3">
-                <a href="{{ route('teachers') }}"
+                <a href="{{ route('guru.index') }}"
                     class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
                     <i class="flex-none w-8 fa fa-users"></i>
                     <span class="grow">Guru</span>
@@ -28,7 +28,7 @@
             </li>
             {{-- jabatan --}}
             <li class="w-full px-2 md:px-3">
-                <a href="{{ route('jabatan') }}"
+                <a href="{{ route('jabatan.index') }}"
                     class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
                     <i class="flex-none w-8 fa fa-tree"></i>
                     <span class="grow">Jabatan</span>
@@ -45,7 +45,7 @@
                 <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-student">
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                        <a href="{{ route('student') }}">Data siswa</a>
+                        <a href="{{ route('siswa.index') }}">Data siswa</a>
                     </li>
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
@@ -55,7 +55,7 @@
             </li>
             {{-- keterlambatan --}}
             <li class="w-full px-2 md:px-3">
-                <a href="{{ route('keterlambatan') }}"
+                <a href="{{ route('keterlambatanguru.index') }}"
                     class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
                     <i class="flex-none w-8 fa fa-clock"></i>
                     <span class="grow">Keterlambatan</span>
@@ -73,11 +73,11 @@
                 <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-kesalahan">
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                        <a href="{{ route('kesalahan') }}">Master</a>
+                        <a href="{{ route('kesalahan-siswa.index') }}">Master</a>
                     </li>
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                        <a href="{{ route('kesalahanDetail') }}">Detail</a>
+                        <a href="{{ route('detailkesalahan-siswa.index') }}">Detail</a>
                     </li>
                 </ul>
             </li>
@@ -93,11 +93,11 @@
                 <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-prestasi">
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                        <a href="{{ route('prestasi') }}">Master</a>
+                        <a href="{{ route('prestasi-siswa.index') }}">Master</a>
                     </li>
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                        <a href="{{ route('prestasiDetail') }}">Detail</a>
+                        <a href="{{ route('detailprestasi-siswa.index') }}">Detail</a>
                     </li>
                 </ul>
             </li>
@@ -120,7 +120,7 @@
                 <ul class="hidden w-full pl-8 mt-1 space-y-1 nav-list-menegement-users">
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">
-                        <a href="{{ route('user') }}">User</a>
+                        <a href="{{ route('user.index') }}">User</a>
                     </li>
                     <li
                         class="flex items-center justify-between px-0 text-white md:px-2 hover:bg-white hover:text-gray-800">

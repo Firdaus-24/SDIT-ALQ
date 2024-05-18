@@ -4,7 +4,7 @@
     <div class="container p-4 mx-auto mt-1">
         <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white"><span
                 class="text-gray-500 hover:text-gray-950 dark:hover:text-white"><a
-                    href="{{ route('user') }}">USER</a></span>->Form update user</h1>
+                    href="{{ route('user.index') }}">USER</a></span>->Form update user</h1>
         @if (session('msg'))
             <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
                 role="alert">
@@ -19,9 +19,9 @@
                 </div>
             </div>
         @endif
-        <form method="POST" action="{{ route('userUpdate', ['id' => $user->id]) }}"
-            class="w-full p-2 mx-auto rounded-lg md:w-1/2"
+        <form method="POST" action="{{ route('user.update', $user->id) }}" class="w-full p-2 mx-auto rounded-lg md:w-1/2"
             onsubmit="return confirm('anda yakin untuk mengupdate user ini?')">
+            @method('put')
             @csrf
             <!-- Name -->
             <div class="mt-3">

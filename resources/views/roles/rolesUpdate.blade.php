@@ -20,9 +20,10 @@
                     </div>
                 </div>
             @endif
-            <form action="{{ route('roles.update', ['id' => $role->id]) }}" method="post" class="flex justify-center"
+            <form action="{{ route('roles.update', $role->id) }}" method="post" class="flex justify-center"
                 onsubmit="return confirm('apa anda yakin??')">
                 <div class="flex flex-col justify-center mt-2 w-[30rem]">
+                    @method('PUT')
                     @csrf
                     <div class="flex flex-col my-3">
                         <label for="txtroles" class="text-xs lg:text-sm">Masukan Role</label>

@@ -3,37 +3,35 @@
 @section('container')
     <div class="container p-4 mx-auto mt-1">
         <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">KETERLAMBATAN GURU</h1>
-        <div class="hidden alert-keterlambatan-delete">
-
-        </div>
-        <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
-            <button class="float-right p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
-                onclick="window.location.href = '{{ route('keterlambatanAdd') }}'">Tambah</button>
-            <table class="text-xs display lg:text-base" style="width:100%" id="tableTeacher">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">No</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Name</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Jabatan</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Tanggal</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Keterangan</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">actions</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+    </div>
+    <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
+        <button class="float-right p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
+            onclick="window.location.href = '{{ route('keterlambatanguru.create') }}'">Tambah</button>
+        <table class="text-xs display lg:text-base" style="width:100%" id="keterlambatanGuru">
+            <thead>
+                <tr>
+                    <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">No</th>
+                    <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Name</th>
+                    <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Jabatan</th>
+                    <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Tanggal</th>
+                    <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Keterangan</th>
+                    <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
     </div>
     <script>
         $(function() {
-            $('#tableTeacher').DataTable({
+            $('#keterlambatanGuru').DataTable({
                 processing: true,
                 serverSide: true,
                 paging: true,
                 responsive: true,
                 searching: true,
                 ajax: {
-                    url: "{{ route('list.keterlambatan') }}",
+                    url: "{{ route('keterlambatanguru.list') }}",
                 },
                 // dom: 'Bfrtip', // Menambahkan tombol ekspor
                 // buttons: [{
@@ -75,7 +73,7 @@
             if (confirm("Apa anda yakin untuk menghapus?") == true) {
                 let token = $("meta[name='csrf-token']").attr("content");
                 $.ajax({
-                    url: `keterlambatan/delete/${id}`,
+                    url: `keterlambatanguru/${id}`,
                     type: "DELETE",
                     data: {
                         "_token": "{{ csrf_token() }}",
@@ -102,7 +100,7 @@
                         } else {
                             return false
                         }
-                        let oTable = $('#tableTeacher').dataTable();
+                        let oTable = $('#keterlambatanGuru').dataTable();
                         oTable.fnDraw(false)
                     }
                 })

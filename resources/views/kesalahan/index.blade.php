@@ -35,7 +35,7 @@
         @enderror
         <div class="w-full p-4 mb-3 bg-white rounded-lg shadow-md">
             <h2 class="mb-2 text-sm font-bold lg:text-lg">Form Kesalahan Siswa</h2>
-            <form action="{{ route('kesalahan-add') }}" method="POST">
+            <form action="{{ route('kesalahan-siswa.store') }}" method="POST">
                 @csrf
                 <div class="grid grid-cols-1 gap-2 lg:grid-cols-5">
                     <div class="flex flex-col col-span-2">
@@ -86,8 +86,9 @@
 
             <!-- Form -->
             <h5 class="mb-3 font-bold text-center uppercase">Update Master Kesalahan</h5>
-            <form class="w-full max-w-lg" action="{{ route('kesalahan-update') }}" method="post"
+            <form class="w-full max-w-lg" action="#" method="post"
                 onsubmit="return confirm('Anda yakin untuk update data??')">
+                @method('PUT')
                 @csrf
                 <div class="flex flex-wrap mb-6 -mx-3">
                     <div class="w-full px-3">
@@ -131,22 +132,8 @@
                 responsive: true,
                 searching: true,
                 ajax: {
-                    url: "{{ route('listkesalahan') }}",
+                    url: "{{ route('kesalahan-siswa.list') }}",
                 },
-                dom: 'lBfrtip', // Add the Buttons extension to the DataTable
-                // buttons: [{
-                //         extend: 'excelHtml5',
-                //         className: 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 ml-2 rounded '
-                //     },
-                //     {
-                //         extend: 'csvHtml5',
-                //         className: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'
-                //     },
-                //     {
-                //         extend: 'pdfHtml5',
-                //         className: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
-                //     },
-                // ],
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -184,8 +171,9 @@
 
         });
 
-        const openModalKesalahan = (id, name, score) => {
+        const openModalKesalahan = (id, name, score, action) => {
             $('#myModal').css("display", "flex");
+            $('#myModal form').attr("action", action);
             $('#update-id').val(id)
             $('#update-txtname').val(name)
             $('#update-txtscore').val(score)
@@ -197,15 +185,13 @@
         const deleteKesalahan = (id) => {
             if (confirm("Anda yakin untuk menonaktifkan?") == true) {
                 $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
+                    url: `kesalahan-siswa/${id}`,
+                    type: "DELETE",
                     data: {
-                        id
+                        "_token": "{{ csrf_token() }}",
+                        'method': 'put'
                     },
-                    url: `{{ url('kesalahanDelete') }}`,
-                    dataType: 'json',
+                    cache: false,
                     success: function(res) {
                         let oTable = $('#tableKesalahan').dataTable();
                         oTable.fnDraw(false)

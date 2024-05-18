@@ -6,9 +6,9 @@
         <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
             <span class="float-right">
                 <button type="button" class="p-2 mb-4 text-xs text-white bg-red-700 rounded-md lg:text-base"
-                    onclick="window.location.href = '{{ route('importFileTeacher') }}'">Import</button>
+                    onclick="window.location.href = '{{ route('guru.import') }}'">Import</button>
                 <button class="p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
-                    onclick="window.location.href = '{{ route('teachersAdd') }}'">Tambah</button>
+                    onclick="window.location.href = '{{ route('guru.create') }}'">Tambah</button>
 
             </span>
             <table class="text-xs display lg:text-base" style="width:100%" id="tableTeacher">
@@ -36,7 +36,7 @@
                 searching: true,
                 scrollY: '500px',
                 ajax: {
-                    url: "{{ route('listTeachers') }}",
+                    url: "{{ route('guru.list') }}",
                 },
                 // dom: 'lBfrtip', // Add the Buttons extension to the DataTable
                 // buttons: [{
@@ -92,11 +92,11 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    type: "POST",
+                    type: "DELETE",
                     data: {
                         id
                     },
-                    url: `{{ url('teacherDelete') }}`,
+                    url: `{{ url('guru/${id}') }}`,
                     dataType: 'json',
                     success: function(res) {
                         // console.log(res);

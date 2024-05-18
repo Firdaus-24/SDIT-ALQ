@@ -14,6 +14,7 @@ use App\Http\Controllers\PrestasiDetailController;
 use App\Http\Controllers\KesalahanDetailController;
 use App\Http\Controllers\KeterlambatanGurusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Models\Teachers;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,25 +35,16 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-Route::middleware('auth', 'verified', 'role:admin|superadmin')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
 
     // role controller
-    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
-    Route::get('/roles/add', [RolesController::class, 'create'])->name('roles.create');
-    Route::post('/roles/add', [RolesController::class, 'store'])->name('roles.store');
-    Route::get('/roles/json', [RolesController::class, 'dataTable'])->name('roles.list');
-    Route::get('/roles/{id}', [RolesController::class, 'edit'])->name('roles.edit');
-    Route::post('/roles/{id}', [RolesController::class, 'update'])->name('roles.update');
+    Route::resource('roles', RolesController::class);
+    Route::get('/roles-app/json', [RolesController::class, 'dataTable'])->name('roles.list');
 
 
     // users
-    Route::get('user', [UserController::class, 'index'])->name('user');
-    Route::get('user/json', [UserController::class, 'dataTable'])->name('userList');
-    Route::get('user/register', [UserController::class, 'create'])->name('userRegister');
-    Route::post('user/register', [UserController::class, 'store'])->name('userStore');
-    Route::get('user/{id}', [UserController::class, 'edit'])->name('userEdit');
-    Route::post('user/{id}', [UserController::class, 'update'])->name('userUpdate');
-    Route::post('user/{id}/active', [UserController::class, 'destroy'])->name('userDelete');
+    Route::resource('user', UserController::class);
+    Route::get('users/json', [UserController::class, 'dataTable'])->name('user.list');
 
     // profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -60,83 +52,52 @@ Route::middleware('auth', 'verified', 'role:admin|superadmin')->group(function (
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // jabatan
-    Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan');
-    Route::post('jabatan', [JabatanController::class, 'store'])->name('jabatan-add');
-    Route::post('updatejabatan', [JabatanController::class, 'update'])->name('jabatan-update');
-    Route::get('jabatan/json', [JabatanController::class, 'dataTable'])->name('listJabatan');
-    Route::post('jabatanDelete', [JabatanController::class, 'destroy'])->name('deleteJabatan');
-    Route::get('jabatan/import', [JabatanController::class, 'importFile'])->name('jabatanImport');
+    Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan.index');
+    Route::post('jabatan', [JabatanController::class, 'store'])->name('jabatan.create');
+    Route::post('updatejabatan', [JabatanController::class, 'update'])->name('jabatan.update');
+    Route::get('jabatan/json', [JabatanController::class, 'dataTable'])->name('jabatan.list');
+    Route::post('jabatanDelete', [JabatanController::class, 'destroy'])->name('jabatan.delete');
+    Route::get('jabatan/import', [JabatanController::class, 'importFile'])->name('jabatan.import');
     Route::post('jabatan/import', [JabatanController::class, 'prosesImport'])->name('jabatanImportProses');
 
     // teacher
-    Route::get('teachers', [TeachersController::class, 'index'])->name('teachers');
-    Route::get('teachers/add', [TeachersController::class, 'create'])->name('teachersAdd');
-    Route::post('teachers/add', [TeachersController::class, 'store'])->name('teachersStore');
-    Route::get('teachers/{id}', [TeachersController::class, 'edit'])->name('teacherEdit');
-    Route::post('teachers/{id}', [TeachersController::class, 'update'])->name('teacherUpdate');
-    Route::get('teacher/json', [TeachersController::class, 'dataTable'])->name('listTeachers');
-    Route::get('teacher/detail/{id}', [TeachersController::class, 'show'])->name('detailTeacher');
-    Route::post('teacherDelete', [TeachersController::class, 'destroy'])->name('deleteTeacher');
-    Route::get('teacher/import', [TeachersController::class, 'importFile'])->name('importFileTeacher');
-    Route::post('teacher/import', [TeachersController::class, 'prosesImport'])->name('prosesImportTeacher');
+    Route::resource('guru', TeachersController::class);
+    Route::get('gurus/json', [TeachersController::class, 'dataTable'])->name('guru.list');
+    Route::get('gurus/import', [TeachersController::class, 'importFile'])->name('guru.import');
+    Route::post('gurus/import', [TeachersController::class, 'prosesImport'])->name('guru.prosesImport');
 
-    // student
-    Route::get('student', [StudentController::class, 'index'])->name('student');
-    Route::get('student/add', [StudentController::class, 'create'])->name('studentCreate');
-    Route::post('student/add', [StudentController::class, 'store'])->name('studentStore');
-    Route::get('student/detail/{id}', [StudentController::class, 'show'])->name('studentDetail');
-    Route::get('student/edit/{id}', [StudentController::class, 'edit'])->name('studentEdit');
-    Route::post('student/edit/{id}', [StudentController::class, 'update'])->name('studentUpdate');
-    Route::post('studentDelete', [StudentController::class, 'destroy'])->name('studentDelete');
-    Route::get('student/json', [StudentController::class, 'dataTable'])->name('list.student');
+    // student  
+    Route::resource('siswa', StudentController::class);
+    Route::get('siswas/json', [StudentController::class, 'dataTable'])->name('siswa.list');
     Route::get('student/json/{name}', [StudentController::class, 'searchName'])->name('list.studentName');
-    Route::get('student/import', [StudentController::class, 'importFile'])->name('studentImport');
-    Route::post('student/import', [StudentController::class, 'prosesImport'])->name('prosesStudentImport');
+    Route::get('siswas/import', [StudentController::class, 'importFile'])->name('siswa.import');
+    Route::post('siswas/import', [StudentController::class, 'prosesImport'])->name('siswa.import');
     Route::get('kenaikan', [StudentController::class, 'kenaikanKelas'])->name('kenaikanKelas');
     Route::post('kenaikan/list', [StudentController::class, 'getStudentKenaikan'])->name('studentListKenaikan');
     Route::post('kenaikan', [StudentController::class, 'prosesStudentKenaikan'])->name('studentProsesKenaikan');
 
     // keterlambatan guru
-    Route::get('keterlambatan', [KeterlambatanGurusController::class, 'index'])->name('keterlambatan');
-    Route::get('keterlambatan/add', [KeterlambatanGurusController::class, 'create'])->name('keterlambatanAdd');
-    Route::post('keterlambatan/add', [KeterlambatanGurusController::class, 'store'])->name('keterlambatanStore');
-    Route::get('keterlambatan/json', [KeterlambatanGurusController::class, 'dataTable'])->name('list.keterlambatan');
-    Route::get('keterlambatan/{id}', [KeterlambatanGurusController::class, 'edit'])->name('keterlambatanEdit');
-    Route::post('keterlambatan/{id}', [KeterlambatanGurusController::class, 'update'])->name('keterlambatanUpdate');
-    Route::delete('keterlambatan/delete/{id}', [KeterlambatanGurusController::class, 'destroy'])->name('keterlambatanDelete');
-    Route::get('keterlambatan/teachers/{name}', [KeterlambatanGurusController::class, 'searchName'])->name('list.nameTeacher');
+    Route::resource('keterlambatanguru', KeterlambatanGurusController::class);
+    Route::get('keterlambatangurus/json', [KeterlambatanGurusController::class, 'dataTable'])->name('keterlambatanguru.list');
+    Route::get('keterlambatangurus/json/{name}', [KeterlambatanGurusController::class, 'searchName'])->name('keterlambatanguruByName.list');
 
     // kesalahan
-    Route::get('kesalahan', [KesalahanController::class, 'index'])->name('kesalahan');
-    Route::post('kesalahan', [KesalahanController::class, 'store'])->name('kesalahan-add');
-    Route::post('updatekesalahan', [KesalahanController::class, 'update'])->name('kesalahan-update');
-    Route::get('kesalahan/json', [KesalahanController::class, 'dataTable'])->name('listkesalahan');
-    Route::post('kesalahanDelete', [KesalahanController::class, 'destroy'])->name('deletekesalahan');
-
-    // prestasi
-    Route::get('prestasi', [PrestasiController::class, 'index'])->name('prestasi');
-    Route::post('prestasi', [PrestasiController::class, 'store'])->name('prestasi-add');
-    Route::post('updateprestasi', [PrestasiController::class, 'update'])->name('prestasi-update');
-    Route::get('prestasi/json', [PrestasiController::class, 'dataTable'])->name('listprestasi');
-    Route::post('prestasiDelete', [PrestasiController::class, 'destroy'])->name('deleteprestasi');
-
-    // prestasi detail
-    Route::get('prestasi-detail', [PrestasiDetailController::class, 'index'])->name('prestasiDetail');
-    Route::get('prestasi-detail/add', [PrestasiDetailController::class, 'create'])->name('prestasiDetailCreate');
-    Route::post('prestasi-detail/add', [PrestasiDetailController::class, 'store'])->name('prestasiDetailAdd');
-    Route::get('updateprestasi/update/{id}', [PrestasiDetailController::class, 'edit'])->name('prestasiDetailEdit');
-    Route::post('updateprestasi/update/{id}', [PrestasiDetailController::class, 'update'])->name('prestasiDetailUpdate');
-    Route::get('prestasi-detail/json', [PrestasiDetailController::class, 'dataTable'])->name('listprestasi-detail');
-    Route::delete('prestasiDetailDelete/{id}', [PrestasiDetailController::class, 'destroy'])->name('deletePrestasiDetail');
+    Route::resource('kesalahan-siswa', KesalahanController::class);
+    Route::get('kesalahan-siswas/json', [KesalahanController::class, 'dataTable'])->name('kesalahan-siswa.list');
 
     // kesalahan detail
-    Route::get('kesalahan-detail', [KesalahanDetailController::class, 'index'])->name('kesalahanDetail');
-    Route::get('kesalahan-detail/add', [KesalahanDetailController::class, 'create'])->name('kesalahanDetailCreate');
-    Route::post('kesalahan-detail/add', [KesalahanDetailController::class, 'store'])->name('kesalahanDetailAdd');
-    Route::get('updatekesalahan/update/{id}', [KesalahanDetailController::class, 'edit'])->name('kesalahanDetailEdit');
-    Route::post('updatekesalahan/update/{id}', [KesalahanDetailController::class, 'update'])->name('kesalahanDetailUpdate');
-    Route::get('kesalahan-detail/json', [KesalahanDetailController::class, 'dataTable'])->name('listkesalahan-detail');
-    Route::delete('kesalahanDetailDelete/{id}', [KesalahanDetailController::class, 'destroy'])->name('deletekesalahanDetail');
+    Route::resource('detailkesalahan-siswa', KesalahanDetailController::class);
+    Route::get('detailkesalahan-siswas/json', [KesalahanDetailController::class, 'dataTable'])->name('detailkesalahan-siswa.list');
+    Route::get('detailkesalahan-siswas/json/{name}', [KesalahanDetailController::class, 'searchName'])->name('detailkesalahan-siswaByName.list');
+
+    // prestasi
+    Route::resource('prestasi-siswa', PrestasiController::class);
+    Route::get('prestasi-siswas/json', [PrestasiController::class, 'dataTable'])->name('prestasi-siswa.list');
+
+    // prestasi detail
+    Route::resource('detailprestasi-siswa', PrestasiDetailController::class);
+    Route::get('detailprestasi-siswas/json', [PrestasiDetailController::class, 'dataTable'])->name('detailprestasi-siswa.list');
+    Route::get('detailprestasi-siswas/json/{name}', [PrestasiDetailController::class, 'searchName'])->name('detailprestasi-siswaByName.list');
 });
 
 

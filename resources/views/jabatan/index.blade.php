@@ -36,7 +36,7 @@
         <div class="w-full p-4 mb-3 bg-white rounded-lg shadow-md">
             <h2 class="mb-2 text-sm font-bold lg:text-lg">Form Jabatan</h2>
             <div class="flex flex-col mb-3">
-                <form action="{{ route('jabatan-add') }}" method="POST">
+                <form action="{{ route('jabatan.create') }}" method="POST">
                     @csrf
                     <label for="nama" class="text-xs lg:text-sm">Nama</label>
                     <div class="flex">
@@ -45,7 +45,7 @@
                         <button type="submit"
                             class="w-1/6 ml-2 text-[12px] text-white rounded bg-sky-700 lg:text-sm">Save</button>
                         <button type="button" class="w-1/6 ml-2 text-[12px] text-white rounded bg-red-700 lg:text-sm"
-                            onclick="window.location.href = '{{ route('jabatanImport') }}'">Import</button>
+                            onclick="window.location.href = '{{ route('jabatan.import') }}'">Import</button>
                     </div>
                 </form>
             </div>
@@ -79,7 +79,7 @@
 
             <!-- Form -->
             <h5 class="mb-3 font-bold text-center uppercase">Update jabatan</h5>
-            <form class="w-full max-w-lg" action="{{ route('jabatan-update') }}" method="post"
+            <form class="w-full max-w-lg" action="{{ route('jabatan.update') }}" method="post"
                 onsubmit="return confirm('Apa anda yakin??')">
                 @csrf
                 <div class="flex flex-wrap mb-6 -mx-3">
@@ -116,7 +116,7 @@
                 searching: true,
                 // scrollY: '410px',
                 ajax: {
-                    url: "{{ route('listJabatan') }}",
+                    url: "{{ route('jabatan.list') }}",
                 },
                 dom: 'lBfrtip', // Add the Buttons extension to the DataTable
                 buttons: [{
@@ -175,7 +175,7 @@
         }
 
         const deleteJabatan = (id) => {
-            if (confirm("Are you sure to deleted?") == true) {
+            if (confirm("Anda yakin untuk menghapusnya?") == true) {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

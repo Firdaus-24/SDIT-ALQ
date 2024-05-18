@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique()->require();
             $table->integer('score');
-            $table->enum('is_active', ["T", "F"]);
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

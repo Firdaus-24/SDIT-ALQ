@@ -12,6 +12,19 @@ class KeterlambatanGurusController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware(['permission:keterlambatanguru.list|keterlambatanguru.create|keterlambatanguru.edit|keterlambatanguru.delete'], ['only' => ['index', 'show', 'dataTable']]);
+        $this->middleware(['permission:keterlambatanguru.create'], ['only' => ['create', 'store']]);
+        $this->middleware(['permission:keterlambatanguru.edit'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:keterlambatanguru.delete'], ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
      */
     public function index()
     {
@@ -39,7 +52,7 @@ class KeterlambatanGurusController extends Controller
                 return $data->keterangan;
             })
             ->addColumn('actions', function ($data) {
-                $url = route('keterlambatanEdit', ['id' => $data->id]);
+                $url = route('keterlambatanguru.edit', $data->id);
                 $str = "<a href='#' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='keterlambatanDelete(\"{$data->id}\")' style='background-color:red' >Delete</a>";
 
                 return "
@@ -73,7 +86,7 @@ class KeterlambatanGurusController extends Controller
      */
     public function store(KeterlambatanGurus $keterlambatanGurus, Request $request)
     {
-        $teacher = Teachers::find($request->txtteacherid);
+        $teacher = Teachers::findOrFail($request->txtteacherid);
         try {
             //code...
             KeterlambatanGurus::create([
@@ -101,12 +114,12 @@ class KeterlambatanGurusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, KeterlambatanGurus $keterlambatanGurus)
+    public function update(Request $request, KeterlambatanGurus $keterlambatanGurus, $id)
     {
-        $teacher = Teachers::find($request->txtteacherid);
+        $teacher = Teachers::findOrFail($request->txtteacherid);
         try {
             //code...
-            $keterlambatanGurus = KeterlambatanGurus::find($request->id);
+            $keterlambatanGurus = KeterlambatanGurus::findOrFail($id);
 
             $keterlambatanGurus->teacher_id = $request->txtteacherid;
             $keterlambatanGurus->jab_id = $request->txtjabatan;

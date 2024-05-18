@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class UpdateTeacherRequest extends FormRequest
 {
@@ -23,12 +24,11 @@ class UpdateTeacherRequest extends FormRequest
      */
     public function rules(): array
     {
+        Log::info('ID received in UpdateTeacherRequest: ' . $this->route('id'));
         return [
             'txtcode' => [
                 'max:10',
-                'unique:teachers,code,' . $this->id,
-                // Rule::unique('teachers', 'code')->ignore($this->txtcode, 'code'),
-                // 'code',
+                Rule::unique('teachers', 'code')->ignore($this->route('id')),
             ],
             'txtname' => 'required|max:100|min:3',
             'txtalamat' => 'required|max:200|min:3',
@@ -44,9 +44,9 @@ class UpdateTeacherRequest extends FormRequest
             'txtnohp' => 'required|max:13|min:11',
             'txtemail' => [
                 'required',
-                'unique:teachers,email,' . $this->id
-                // Rule::unique('teachers', 'email')->ignore($this->txtemail, 'email'),
-                // 'email'
+                'email',
+                Rule::unique('teachers', 'email')->ignore($this->route('id')),
+
             ],
             'image' => 'image|file|max:5000',
         ];
