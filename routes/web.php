@@ -7,13 +7,14 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PrestasiController;
-use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KesalahanController;
 use App\Http\Controllers\PrestasiDetailController;
 use App\Http\Controllers\KesalahanDetailController;
 use App\Http\Controllers\KeterlambatanGurusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\KelasController;
 use App\Models\Teachers;
 
 /*
@@ -52,26 +53,23 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // jabatan
-    Route::get('jabatan', [JabatanController::class, 'index'])->name('jabatan.index');
-    Route::post('jabatan', [JabatanController::class, 'store'])->name('jabatan.create');
-    Route::post('updatejabatan', [JabatanController::class, 'update'])->name('jabatan.update');
-    Route::get('jabatan/json', [JabatanController::class, 'dataTable'])->name('jabatan.list');
-    Route::post('jabatanDelete', [JabatanController::class, 'destroy'])->name('jabatan.delete');
-    Route::get('jabatan/import', [JabatanController::class, 'importFile'])->name('jabatan.import');
-    Route::post('jabatan/import', [JabatanController::class, 'prosesImport'])->name('jabatanImportProses');
+    Route::resource('jabatan', JabatanController::class);
+    Route::get('jabatan/json/list', [JabatanController::class, 'dataTable'])->name('jabatan.list');
+    Route::post('jabatan/import/data', [JabatanController::class, 'prosesImport'])->name('jabatan.import');
+    Route::post('jabatan/import/data', [JabatanController::class, 'prosesImport'])->name('jabatanImportProses');
 
     // teacher
-    Route::resource('guru', TeachersController::class);
-    Route::get('gurus/json', [TeachersController::class, 'dataTable'])->name('guru.list');
-    Route::get('gurus/import', [TeachersController::class, 'importFile'])->name('guru.import');
-    Route::post('gurus/import', [TeachersController::class, 'prosesImport'])->name('guru.prosesImport');
+    Route::resource('guru', GuruController::class);
+    Route::get('gurus/json', [GuruController::class, 'dataTable'])->name('guru.list');
+    Route::get('gurus/import', [GuruController::class, 'importFile'])->name('guru.import');
+    Route::post('gurus/import', [GuruController::class, 'prosesImport'])->name('guru.prosesImport');
 
     // student  
     Route::resource('siswa', StudentController::class);
     Route::get('siswas/json', [StudentController::class, 'dataTable'])->name('siswa.list');
     Route::get('student/json/{name}', [StudentController::class, 'searchName'])->name('list.studentName');
     Route::get('siswas/import', [StudentController::class, 'importFile'])->name('siswa.import');
-    Route::post('siswas/import', [StudentController::class, 'prosesImport'])->name('siswa.import');
+    Route::post('siswas/import', [StudentController::class, 'prosesImport'])->name('siswa.pimport');
     Route::get('kenaikan', [StudentController::class, 'kenaikanKelas'])->name('kenaikanKelas');
     Route::post('kenaikan/list', [StudentController::class, 'getStudentKenaikan'])->name('studentListKenaikan');
     Route::post('kenaikan', [StudentController::class, 'prosesStudentKenaikan'])->name('studentProsesKenaikan');
@@ -98,6 +96,11 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('detailprestasi-siswa', PrestasiDetailController::class);
     Route::get('detailprestasi-siswas/json', [PrestasiDetailController::class, 'dataTable'])->name('detailprestasi-siswa.list');
     Route::get('detailprestasi-siswas/json/{name}', [PrestasiDetailController::class, 'searchName'])->name('detailprestasi-siswaByName.list');
+
+    // kelas 
+    Route::resource('kelas', KelasController::class);
+    Route::get('kelas/json/list', [KelasController::class, 'dataTable'])->name('kelas.list');
+    Route::post('kelas/import/data', [KelasController::class, 'prosesImport'])->name('kelas.import');
 });
 
 

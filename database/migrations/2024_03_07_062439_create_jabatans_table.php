@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('jabatans', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
+            $table->string('nama', 100)->unique();
             $table->boolean('is_active');
             $table->timestamps();
         });

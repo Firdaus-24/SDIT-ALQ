@@ -59,6 +59,12 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'keterlambatanguru.edit', 'guard_name' => 'web'],
             ['name' => 'keterlambatanguru.delete', 'guard_name' => 'web'],
             ['name' => 'keterlambatanguru.list', 'guard_name' => 'web'],
+
+            ['name' => 'kelas.create', 'guard_name' => 'web'],
+            ['name' => 'kelas.edit', 'guard_name' => 'web'],
+            ['name' => 'kelas.delete', 'guard_name' => 'web'],
+            ['name' => 'kelas.list', 'guard_name' => 'web'],
+            ['name' => 'kelas.import', 'guard_name' => 'web'],
         ];
 
         DB::beginTransaction();
@@ -74,7 +80,7 @@ class RolePermissionSeeder extends Seeder
 
                 if (is_null($data)) {
                     Permission::create(['name' => $permission['name']]);
-                    $roleSuperAdmin = Role::findByName('admin');
+                    $roleSuperAdmin = Role::findByName('superadmin');
                     $roleSuperAdmin->givePermissionTo($permission['name']);
                 }
             }

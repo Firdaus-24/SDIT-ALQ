@@ -14,9 +14,16 @@ export default {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
-        },
-        letterSpacing: {
-            widest: ".25em",
+            colors: {
+                "custom-blue": "#1B84FF",
+                "custom-blue-hover": "#1669CC",
+            },
+            letterSpacing: {
+                widest: ".25em",
+            },
+            container: {
+                padding: "1rem", // Menambahkan padding 2 (0.5rem) pada container
+            },
         },
     },
 

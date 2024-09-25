@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreTeachersRequest;
-use App\Http\Requests\UpdateTeacherRequest;
 use App\Imports\TeacherImport;
 use Excel;
 use Illuminate\Validation\Rule;
