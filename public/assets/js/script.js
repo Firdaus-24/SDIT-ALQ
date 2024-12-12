@@ -47,6 +47,12 @@ function closeModal(modalId) {
     const form = $modal.find("form")[0];
     if (form) {
         form.reset();
+
+        // Reset image preview
+        $("#imagePreview").attr(
+            "src",
+            "plugins/assets/media/avatars/blank.png"
+        );
     }
 }
 
@@ -84,7 +90,6 @@ function successEvent(modalId = null, dataTable = null) {
     }
     SUCCESS_ALERT();
     if (dataTable) reloadTable(dataTable);
-    options.enabledButton();
 }
 
 function validation(err) {
@@ -98,71 +103,74 @@ function validation(err) {
     }
 }
 
-const POST_DATA = (options) => {
-    $.ajax({
-        url: options.url,
-        type: "POST",
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        data: options.data,
-        contentType: false, // Important for file uploads
-        processData: false, // Important for file uploads
-        cache: false,
-        beforeSend: () => {
-            LOADING_ALERT("Sedang menyimpan data");
-        },
-        success: (res) => {
-            console.log(res);
-            if (modal) successEvent(options.modal, options.dataTable);
-            if (options.dataTableId) {
-                $(`${options.dataTableId}`).DataTable().ajax.reload();
-                options.dataTableId = null;
-            }
-        },
-        error: (err) => {
-            const resErr = err?.responseJSON;
-            validation(resErr);
-            if (resErr.message) {
-                ERROR_ALERT(resErr.message);
-            }
-            options.enabledButton();
-            if (options.file) $(`input[type=file]`).prop("disabled", false);
-        },
-    });
-};
+// const POST_DATA = (options) => {
+//     $.ajax({
+//         url: options.url,
+//         type: "POST",
+//         headers: {
+//             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+//         },
+//         data: options.data,
+//         contentType: false, // Important for file uploads
+//         processData: false, // Important for file uploads
+//         cache: false,
+//         beforeSend: () => {
+//             LOADING_ALERT("Sedang menyimpan data");
+//         },
+//         success: (res) => {
+//             if (modal) successEvent(options.modal, options.dataTable);
+//             if (options.dataTableId) {
+//                 $(`${options.dataTableId}`).DataTable().ajax.reload();
+//                 options.dataTableId = null;
+//             }
+//         },
+//         error: (err) => {
+//             const resErr = err?.responseJSON;
+//             validation(resErr);
+//             if (resErr.message) {
+//                 ERROR_ALERT(resErr.message);
+//             }
+//             options.enabledButton();
+//             if (options.file) $(`input[type=file]`).prop("disabled", false);
+//         },
+//     });
+// };
 
-const PATCH_DATA = (options) => {
-    $.ajax({
-        url: options.url + "/" + options.id,
-        type: "PATCH",
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        data: options.data,
-        beforeSend: () => {
-            LOADING_ALERT("Sedang merubah data");
-        },
-        success: (data) => {
-            if (modal && !options.isNotModal)
-                successEvent(options.modal, options.dataTable);
-            if (options.isNotModal) {
-                SUCCESS_ALERT("Berhasil update data");
-                reloadTable(options.dataTable);
-            }
-        },
-        error: (err) => {
-            const resErr = err?.responseJSON;
-            validation(resErr);
-            if (resErr?.message && !options.isNotModal) {
-                ERROR_ALERT(resErr?.message);
-                options.enabledButton();
-            } else {
-                ERROR_ALERT("Gagal update data");
-            }
-        },
-    });
-};
+// const PATCH_DATA = (options) => {
+//     console.log([...options.data.entries()]);
+//     $.ajax({
+//         url: options.url + "/" + options.id,
+//         type: "PATCH",
+//         headers: {
+//             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+//         },
+//         data: options.data,
+//         contentType: false, // Important for file uploads
+//         processData: false, // Important for file uploads
+//         cache: false,
+//         beforeSend: () => {
+//             LOADING_ALERT("Sedang merubah data");
+//         },
+//         success: (data) => {
+//             if (modal && !options.isNotModal)
+//                 successEvent(options.modal, options.dataTable);
+//             if (options.isNotModal) {
+//                 SUCCESS_ALERT("Berhasil update data");
+//                 reloadTable(options.dataTable);
+//             }
+//         },
+//         error: (err) => {
+//             const resErr = err?.responseJSON;
+//             validation(resErr);
+//             if (resErr?.message && !options.isNotModal) {
+//                 ERROR_ALERT(resErr?.message);
+//                 options.enabledButton();
+//             } else {
+//                 ERROR_ALERT("Gagal update data");
+//             }
+//         },
+//     });
+// };
 
 const DELETE_DATA = (options) => {
     Swal.fire({
@@ -176,7 +184,7 @@ const DELETE_DATA = (options) => {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: options.id ? options.url + "/" + options.id : options.url,
+                url: options.url,
                 type: "POST",
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -192,12 +200,6 @@ const DELETE_DATA = (options) => {
                 success: () => {
                     setTimeout(() => {
                         SUCCESS_ALERT("Berhasil aktifasi");
-                        // if (options.dataTableId) {
-                        //     $(`${options.dataTableId}`)
-                        //         .DataTable()
-                        //         .ajax.reload();
-                        //     options.dataTableId = null;
-                        // }
                     }, 100);
                     reloadTable(options.dataTable);
                 },
@@ -212,6 +214,57 @@ const DELETE_DATA = (options) => {
         } else if (result.isDenied) {
             options.id = null;
         }
+    });
+};
+
+const handleFormSubmit = ({
+    formSelector,
+    dataTableSelector,
+    modalSelector,
+    baseUrl,
+    methodOverride = false,
+}) => {
+    $("#" + formSelector).on("submit", function (e) {
+        e.preventDefault();
+
+        const form = $(this)[0];
+        const formData = new FormData(form);
+
+        const id = $("#id").val();
+        const url = id ? `${baseUrl}/${id}` : baseUrl;
+        const method = id && methodOverride ? "PUT" : "POST";
+
+        if (method === "PUT") {
+            formData.append("_method", "PUT");
+        }
+
+        $.ajax({
+            url: url,
+            type: "post",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            data: formData,
+            contentType: false, // Jangan ubah Content-Type
+            processData: false, // Jangan proses data menjadi string
+            beforeSend: function () {
+                LOADING_ALERT("Sedang menyimpan data");
+            },
+            success: function (response) {
+                $("#" + formSelector)[0].reset();
+                $("#id").val("");
+                if (typeof successEvent === "function") {
+                    successEvent(modalSelector, dataTableSelector);
+                }
+                if (dataTableSelector) {
+                    $(dataTableSelector).DataTable().ajax.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseJSON);
+                alert(xhr.responseJSON.message || "An error occurred.");
+            },
+        });
     });
 };
 
@@ -241,7 +294,6 @@ function UPLOAD_FILE(options) {
         },
         error: function (xhr, status, error) {
             const resErr = err?.responseJSON;
-            validation(resErr);
             if (resErr?.message && !options.isNotModal) {
                 ERROR_ALERT(resErr?.message);
                 options.enabledButton();

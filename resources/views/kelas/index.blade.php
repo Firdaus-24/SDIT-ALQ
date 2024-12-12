@@ -23,77 +23,74 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div data-datatable="true" data-datatable-page-size="5" data-datatable-state-save="true"
-                        id="contentTableKelas">
-                        <div class="p-4 scrollable-x-auto">
-                            <table class="table table-auto table-border" data-datatable-table="true" id="tableKelas">
-                                <thead>
-                                    <tr>
-                                        <th class="w-[30px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    No
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                    <div class="p-4 scrollable-x-auto">
+                        <table class="table table-auto table-border" data-datatable-table="true" id="tableKelas">
+                            <thead>
+                                <tr>
+                                    <th class="w-[30px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                No
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Nama
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                            <span class="sort-icon">
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Created at
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Nama
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Updated at
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                            <span class="sort-icon">
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Active
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Created at
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Actions
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                            <span class="sort-icon">
                                             </span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- Pagination Container -->
-                        <div class="flex items-center gap-4 mt-4">
-                            <span data-datatable-info="true" class="text-sm text-gray-600"></span>
-                            <div class="flex items-center gap-4 pagination" data-datatable-pagination="true"></div>
-                        </div>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Updated at
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Active
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Actions
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination Container -->
+                    <div class="flex items-center gap-4 mt-4">
+                        <span data-datatable-info="true" class="text-sm text-gray-600"></span>
+                        <div class="flex items-center gap-4 pagination" data-datatable-pagination="true"></div>
                     </div>
                 </div>
             </div>
@@ -112,6 +109,8 @@
                     <span class="text-danger">
                         *
                     </span>
+                    <x-text-input name="id" id="id" type="hidden" class="w-full" value=""
+                        autocomplete="off" maxlength="100"></x-text-input>
                     <x-text-input name="txtnama" id="txtnama" type="text" class="w-full" value="{{ old('nama') }}"
                         autocomplete="off" maxlength="100" required></x-text-input>
                 </div>
@@ -141,25 +140,16 @@
         <script>
             let modal = 'modalKelas';
             let formMain = 'kelas-form';
-            let urlPost = "{!! route('kelas.store') !!}"
             let dataTableList;
             let formUpload = $('#form-import-kelas')
             let options = {
-                modal: modal,
+                url: null,
+                form: null,
                 id: null,
-                url: urlPost,
-                data: null,
-                dataTable: null,
-                formMain: formMain,
-                disabledButton: () => {
-                    $('#save').addClass('disabled');
-                    $('.loading').removeClass('hidden');
-                },
-                enabledButton: () => {
-                    $('#save').removeClass('disabled');
-                    $('.loading').addClass('hidden');
-                }
+                datatable: null,
+                dataTitle: "Kelas",
             }
+
             let optionsImport = {
                 modal: 'modalImportKelas',
                 url: "{!! route('kelas.import') !!}",
@@ -178,16 +168,18 @@
             $(document).ready(function() {
                 // data table
                 dataTableList = $('#tableKelas').DataTable({
+                    dom: '<"top"f>rt<"bottom"ip><"clear">',
+                    language: {
+                        search: "Cari",
+                    },
                     processing: true,
                     serverSide: true,
                     paging: true,
                     responsive: true,
                     searching: true,
-                    // scrollY: '410px',
                     ajax: {
                         url: "{!! route('kelas.list') !!}",
                     },
-                    dom: '<"top"f>rt<"bottom"ip><"clear">',
                     buttons: [{
                             extend: 'excelHtml5',
                             className: 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 ml-2 rounded '
@@ -204,12 +196,13 @@
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
-                            orderable: false,
+                            orderable: true,
                             searchable: false
                         },
                         {
                             data: 'nama',
-                            name: 'nama'
+                            name: 'nama',
+                            orderable: true,
                         },
                         {
                             data: 'created_at',
@@ -220,68 +213,50 @@
                             name: 'updated_at',
                         },
                         {
-                            data: 'is_active',
-                            name: 'is_active',
+                            data: 'status',
+                            name: 'status',
                             orderable: false,
-                            searchable: false
+                            searchable: false,
+                            className: 'text-center'
                         },
                         {
                             name: 'actions',
                             data: 'actions',
                             orderable: false,
-                            searchable: false
+                            searchable: false,
+                            className: 'text-center'
                         }
                     ]
                 });
 
-                // form tambah dan update
-                dataTableList.ajax.reload();
-                Array.prototype.filter.call($(`#${options.formMain}`), function(form) {
-                    form.addEventListener('submit', async function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        } else {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            options.disabledButton();
-                            let formData = $(`#${options.formMain}`).serialize();
-                            if (options.id == null) saveData(formData);
-                            if (options.id) updateData(formData);
-                        }
-                    });
+
+                $('.dataTables_filter').addClass('mb-4');
+                // handle form submit
+                handleFormSubmit({
+                    formSelector: formMain,
+                    dataTableSelector: dataTableList,
+                    modalSelector: modal,
+                    baseUrl: '/kelas',
+                    methodOverride: true,
                 });
+
 
                 $(document).on('click', '.btn-edit', function() {
                     openModal(modal)
                     let rowData = dataTableList.row($(this).closest('tr')).data();
-                    options.id = rowData.id;
+                    $("#id").val(rowData.id);
                     $("#txtnama").val(rowData.nama);
                 });
 
                 $(document).on('click', '#btn-delete', function() {
                     let rowData = dataTableList.row($(this).parents('tr')).data()
-                    options.dataTitle = rowData.nama;
-                    deleteData(rowData.id);
+                    options.url = `/kelas/${rowData.id}`;
+                    options.id = rowData.id;
+                    options.dataTable = dataTableList;
+
+                    DELETE_DATA(options)
                 })
 
-                const saveData = (formData) => {
-                    options.data = formData;
-                    options.dataTable = dataTableList;
-                    POST_DATA(options);
-                }
-
-                const updateData = (formData) => {
-                    options.data = formData;
-                    options.dataTable = dataTableList;
-                    PATCH_DATA(options);
-                }
-
-                const deleteData = (id) => {
-                    options.id = id;
-                    options.dataTable = dataTableList;
-                    DELETE_DATA(options);
-                }
 
                 formUpload.on('submit', function(e) {
                     e.preventDefault();

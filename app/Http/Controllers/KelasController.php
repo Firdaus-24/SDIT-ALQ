@@ -72,10 +72,10 @@ class KelasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(string $id,Request $request)
+    public function update(Request $request)
     {
         try {
-            $data = Kelas::findOrFail($id);
+            $data = Kelas::findOrFail($request->id);
 
             // cek jika nama nya sama
             $data->nama = $request->txtnama;
@@ -101,24 +101,24 @@ class KelasController extends Controller
                     'message' => 'Invalid ID provided.',
                 ], 400);
             }
-    
+
             DB::beginTransaction();
-            
+
             // Temukan entri berdasarkan ID
             $data = Kelas::findOrFail($id);
-            
+
             // Toggle status is_active
             $data->is_active = $data->is_active == 1 ? 0 : 1;
             $data->save();
-            
+
             DB::commit();
-            
+
             return response()->json([
                 'status' => true,
                 'message' => 'Status updated successfully.',
             ], 200);
         } catch (\Throwable $th) {
-            DB::rollBack();            
+            DB::rollBack();
             return response()->json([
                 'status' => false,
                 'message' => 'An error occurred while updating the status.',
@@ -129,7 +129,7 @@ class KelasController extends Controller
     public function dataTable()
     {
         try {
-            $data = Kelas::all();
+            $data = Kelas::query()->get();
             $datatables = DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('nama', function ($data) {
@@ -141,35 +141,36 @@ class KelasController extends Controller
                 ->addColumn('updated_at', function ($data) {
                     return $data->updated_at ? $data->updated_at->format('Y-m-d H:i:s') : '-';
                 })
-                ->addColumn('is_active', function ($data) {
-                    return $data->is_active == 1 ? "Active" : "Off";
+                ->addColumn('status', function ($data) {
+                    $active = ($data->is_active == 1) ? '<span class="badge badge-sm badge-outline badge-success">Active</span>' : '<span class="badge badge-sm badge-outline badge-danger">Deleted</span>';
+                    return $active;
                 })
                 ->addColumn('actions', function ($data) {
                     $editButton = '';
                     $deleteButton = '';
-                    
+
                     if (auth()->user()->hasPermissionTo('kelas.edit')) {
                         $editButton = '<button type="button" class="p-2 btn btn-clear btn-info btn-edit" data-id="' . e($data->id) . '">
                                         <i class="ki-filled ki-pencil"></i>
                                         </button>';
                     }
-    
+
                     if (auth()->user()->hasPermissionTo('kelas.delete')) {
-                        $deleteButton = '<a href="javascript:void(0)" type="button" id="btn-delete"' 
+                        $deleteButton = '<a href="javascript:void(0)" type="button" id="btn-delete"'
                             . ($data->is_active == 1 ? 'class="btn btn-clear btn-danger"' : 'class="btn btn-clear btn-warning"') . '>'
                             . ($data->is_active == 1 ? '<i class="ki-filled ki-trash"></i>' : '<i class="ki-filled ki-arrows-circle"></i>') .
                             '</a>';
                     }
-        
+
                     return '<div class="flex flex-row">' . $editButton . $deleteButton . '</div>';
                 })
-                ->rawColumns(['actions']);
-        
+                ->rawColumns(['actions', 'status']);
+
             return $datatables->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-    }    
+    }
 
     public function prosesImport(Request $request)
     {

@@ -41,17 +41,16 @@
                     </span>
                 </div>
                 <div class="menu-item">
-                    <a href="{{ route('kelas.index') }}">
-                        <div class="menu-link flex items-center grow cursor-pointer border border-transparent gap-[10px] pl-[10px] pr-[10px] py-[6px]"
-                            tabindex="0">
-                            <span class="menu-icon items-start text-gray-500 dark:text-gray-400 w-[20px]">
-                                <i class="ki-filled ki-technology-3"></i>
-                            </span>
-                            <span
-                                class="menu-title text-sm font-semibold text-gray-700 menu-item-active:text-primary menu-link-hover:!text-primary">
-                                Kelas
-                            </span>
-                        </div>
+                    <a href="{{ route('kelas.index') }}"
+                        class="menu-link flex items-center grow cursor-pointer border border-transparent gap-[10px] pl-[10px] pr-[10px] py-[6px]"
+                        tabindex="0">
+                        <span class="menu-icon items-start text-gray-500 dark:text-gray-400 w-[20px]">
+                            <i class="ki-filled ki-technology-3"></i>
+                        </span>
+                        <span
+                            class="menu-title text-sm font-semibold text-gray-700 menu-item-active:text-primary menu-link-hover:!text-primary">
+                            Kelas
+                        </span>
                     </a>
                 </div>
                 <div class="menu-item" data-menu-item-toggle="accordion" data-menu-item-trigger="click">

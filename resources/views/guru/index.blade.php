@@ -30,18 +30,10 @@
                     <div data-datatable="true" data-datatable-page-size="5" data-datatable-state-save="true"
                         id="contentTableGuru">
                         <div class="p-4 overflow-x-auto scrollable-x-auto">
-                            <table class="table w-full table-auto table-border" data-datatable-table="true" id="dtableGuru">
+                            <table class="table w-full mt-3 table-auto table-border" data-datatable-table="true"
+                                id="dtableGuru">
                                 <thead>
                                     <tr>
-                                        <th class="w-[30px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    No
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
-                                            </span>
-                                        </th>
                                         <th class="w-[200px]">
                                             <span class="sort">
                                                 <span class="sort-label">
@@ -81,7 +73,7 @@
                                         <th class="w-[200px]">
                                             <span class="sort">
                                                 <span class="sort-label">
-                                                    Active
+                                                    Status
                                                 </span>
                                                 <span class="sort-icon">
                                                 </span>
@@ -109,44 +101,20 @@
     </div>
     <!-- end: container -->
 
-
     <!-- start:modal -->
     <x-modal id="modalGuru" modalTitle="Form Guru" modalSize="xlarge">
         <form action="" id="guru-form" enctype="multipart/form-data">
             <div class="w-full mt-3">
-                <div class="flex items-center justify-center">
-                    <div class="image-input size-16" data-image-input="true" id="image-input">
-                        <input name="image" type="file" accept=".png, .jpg, .jpeg" id="image" />
-                        <input name="avatar_remove" type="hidden" />
-                        <div class="btn btn-icon btn-icon-xs btn-light shadow-default absolute z-1 size-5 -top-0.5 -right-0.5 rounded-full"
-                            data-image-input-remove="" data-tooltip="#image_input_tooltip" data-tooltip-trigger="hover">
-                            <i class="ki-outline ki-cross">
-                            </i>
-                        </div>
-                        <span class="tooltip" id="image_input_tooltip">
-                            Click to remove or revert
-                        </span>
-                        <div class="border-2 rounded-full image-input-placeholder border-success image-input-empty:border-gray-300"
-                            style="background-image:url({{ asset('assets/images/illustrations/blank.png') }})">
-                            <div class="rounded-full image-input-preview">
-                            </div>
-                            <div
-                                class="absolute bottom-0 left-0 right-0 flex items-center justify-center h-5 cursor-pointer bg-dark-clarity">
-                                <svg class="fill-light opacity-80" height="12" viewbox="0 0 14 12" width="14"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M11.6665 2.64585H11.2232C11.0873 2.64749 10.9538 2.61053 10.8382 2.53928C10.7225 2.46803 10.6295 2.36541 10.5698 2.24335L10.0448 1.19918C9.91266 0.931853 9.70808 0.707007 9.45438 0.550249C9.20068 0.393491 8.90806 0.311121 8.60984 0.312517H5.38984C5.09162 0.311121 4.799 0.393491 4.5453 0.550249C4.2916 0.707007 4.08701 0.931853 3.95484 1.19918L3.42984 2.24335C3.37021 2.36541 3.27716 2.46803 3.1615 2.53928C3.04584 2.61053 2.91234 2.64749 2.7765 2.64585H2.33317C1.90772 2.64585 1.49969 2.81486 1.19885 3.1157C0.898014 3.41654 0.729004 3.82457 0.729004 4.25002V10.0834C0.729004 10.5088 0.898014 10.9168 1.19885 11.2177C1.49969 11.5185 1.90772 11.6875 2.33317 11.6875H11.6665C12.092 11.6875 12.5 11.5185 12.8008 11.2177C13.1017 10.9168 13.2707 10.5088 13.2707 10.0834V4.25002C13.2707 3.82457 13.1017 3.41654 12.8008 3.1157C12.5 2.81486 12.092 2.64585 11.6665 2.64585ZM6.99984 9.64585C6.39413 9.64585 5.80203 9.46624 5.2984 9.12973C4.79478 8.79321 4.40225 8.31492 4.17046 7.75532C3.93866 7.19572 3.87802 6.57995 3.99618 5.98589C4.11435 5.39182 4.40602 4.84613 4.83432 4.41784C5.26262 3.98954 5.80831 3.69786 6.40237 3.5797C6.99644 3.46153 7.61221 3.52218 8.1718 3.75397C8.7314 3.98576 9.2097 4.37829 9.54621 4.88192C9.88272 5.38554 10.0623 5.97765 10.0623 6.58335C10.0608 7.3951 9.73765 8.17317 9.16365 8.74716C8.58965 9.32116 7.81159 9.64431 6.99984 9.64585Z"
-                                        fill="">
-                                    </path>
-                                    <path
-                                        d="M7 8.77087C8.20812 8.77087 9.1875 7.7915 9.1875 6.58337C9.1875 5.37525 8.20812 4.39587 7 4.39587C5.79188 4.39587 4.8125 5.37525 4.8125 6.58337C4.8125 7.7915 5.79188 8.77087 7 8.77087Z"
-                                        fill="">
-                                    </path>
-                                </svg>
-                            </div>
-                        </div>
+                <div class="flex flex-col items-center justify-center">
+                    <div class="relative w-20 h-20">
+                        <img id="imagePreview" src="{{ asset('plugins/assets/media/avatars/blank.png') }}" alt="Preview"
+                            class="object-cover w-full h-full border border-gray-300 rounded-full shadow-sm">
+                        <input type="file"id="imageInput" name="image" accept="image/*"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                     </div>
+                    <p class="mt-2 mb-3 text-sm text-gray-500">Hanya format image .jpg, .png dan .jpeg</p>
                 </div>
+
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="flex flex-col">
                         <div class="flex flex-row">
@@ -237,7 +205,7 @@
                                 *
                             </span>
                         </div>
-                        <x-text-input name="txttahunlulus" id="txttahunlulus" type="date" class="w-full"
+                        <x-text-input name="txttahunlulus" id="txttahunlulus" type="text" class="w-full"
                             value="{{ old('txttahunlulus') }}"></x-text-input>
                     </div>
                     <div class="flex flex-col">
@@ -345,22 +313,20 @@
 
             $(document).ready(function() {
                 dataTableList = $('#dtableGuru').DataTable({
+                    dom: '<"custom-search"f>t<"bottom"ip>',
+                    language: {
+                        search: "Cari",
+                    },
                     processing: true,
                     serverSide: true,
                     responsive: true,
-                    autoWidth: false, // Disable automatic width calculation
+                    autoWidth: false,
                     searching: true,
                     ajax: {
                         url: "{{ route('guru.list') }}",
                     },
                     dom: 'lBfrtip',
                     columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
                             data: 'nama',
                             name: 'nama'
                         },
@@ -377,25 +343,22 @@
                             name: 'email'
                         },
                         {
-                            data: 'active',
-                            name: 'active'
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            className: 'text-center'
                         },
                         {
                             data: 'actions',
                             name: 'actions',
-                            orderable: false
+                            orderable: false,
+                            className: 'text-center'
                         }
                     ]
                 });
 
-                $("#image").on('change', function() {
-                    let file = this.files[0]; // Mengambil file pertama yang dipilih
-                    if (file) {
-                        console.log(file.name); // Menampilkan nama file
-                    } else {
-                        console.log("No file selected.");
-                    }
-                });
+                $('.dataTables_filter').addClass('mb-4');
+
                 // form tambah dan update
                 dataTableList.ajax.reload();
                 Array.prototype.filter.call($(`#${options.formMain}`), function(form) {
@@ -408,55 +371,55 @@
                             event.stopPropagation();
                             options.disabledButton();
                             let formData = new FormData($(`#${options.formMain}`)[0]);
-                            if (fileFoto) {
-                                formData.append('image',
-                                fileFoto); // 'image' adalah nama field yang sesuai dengan input file
-                            }
-                            for (let [key, value] of formData.entries()) {
-                                console.log(key, value);
-                            } // Debug isi FormData
-                            return false
+
                             if (options.id == null) saveData(formData);
                             if (options.id) updateData(formData);
                         }
                     });
                 });
 
-                // $(`#${options.formMain}`).on('submit', async function(event) {
-                //     event.preventDefault();
-                //     event.stopPropagation();
-                //     let fileFoto = document.getElementById('image').files[0];
-                //     let form = $(this)[0]; // Mengambil elemen form
-                //     if (form.checkValidity() === false) {
-                //         form.classList.add('was-validated'); // Tambahkan class jika form tidak valid
-                //     } else {
-                //         options.disabledButton(); 
-
-                //         let formData = new FormData(form); 
-                //         if (fileFoto) {
-                //             formData.append('image', fileFoto); 
-                //         }
-
-                //         // Debug isi FormData
-                //         for (let [key, value] of formData.entries()) {
-                //             console.log(key, value);
-                //         }
-
-                //         // Pilih aksi berdasarkan options.id
-                //         if (options.id == null) {
-                //             saveData(formData); // Fungsi untuk menyimpan data baru
-                //         } else {
-                //             updateData(formData); // Fungsi untuk mengupdate data
-                //         }
-                //     }
-                // });
-
-
                 $(document).on('click', '.btn-edit', function() {
                     openModal(modal)
                     let rowData = dataTableList.row($(this).closest('tr')).data();
+                    let foto = rowData.images ? "storage/" + rowData.images :
+                        "plugins/assets/media/avatars/blank.png"
+                    let nama = rowData.nama
+                    let jabatan = rowData.jab_id
+                    let jenisKelamin = rowData.jenis_kelamin
+                    let templatLahir = rowData.tempat_lahir
+                    let tanggalLahir = rowData.tanggal_lahir
+                    let jurusan = rowData.jurusan
+                    let tahunLulus = rowData.tahun_lulus
+                    let nuptk = rowData.nuptk
+                    let noHp = rowData.contact
+                    let email = rowData.email
+                    let kelas = rowData.kelas_id
+
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(nama, 'text/html');
+
+                    // Cari elemen <p> dan ambil teksnya
+                    let text = nama ? doc.querySelector('p').textContent.trim() :
+                        'plugins/assets/media/avatars/blank.png';
+
                     options.id = rowData.id;
-                    $("#txtnama").val(rowData.nama);
+                    $("#imagePreview").attr("src", foto);
+                    $("#txtnama").val(text);
+                    $("#txtjabatan").val(jabatan);
+                    $("#txtjk").val(
+                        jenisKelamin);
+                    $("#txtjk").val(jenisKelamin);
+                    $("#txttempat").val(
+                        templatLahir);
+                    $("#txttgllahir").val(tanggalLahir);
+                    $("#txtjurusan").val(
+                        jurusan);
+                    $("#txttahunlulus").val(tahunLulus);
+                    $("#txtnuptk").val(nuptk);
+                    $(
+                        "#txtnohp").val(noHp);
+                    $("#txtemail").val(email);
+                    $("#txtkelas").val(kelas);
                 });
 
                 $(document).on('click', '#btn-delete', function() {
@@ -482,6 +445,17 @@
                     options.dataTable = dataTableList;
                     DELETE_DATA(options);
                 }
+
+                $('#imageInput').on('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#imagePreview').attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
 
             });
 
