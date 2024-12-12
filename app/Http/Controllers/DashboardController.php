@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\Student;
-use App\Models\Teachers;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $teacher = Teachers::where('is_active', '=', 'T')->count();
-        $teacherOff = Teachers::where('is_active', '=', 'F')->count();
+        $teacher = Guru::where('is_active', '=', 'T')->count();
+        $teacherOff = Guru::where('is_active', '=', 'F')->count();
         $student = Student::where('is_active', '=', 'T')->count();
         $studentLaki = Student::where('is_active', '=', 'T')->where('jenis_kelamin', '=', 'P')->count();
         $studentPerempuan = Student::where('is_active', '=', 'T')->where('jenis_kelamin', '=', 'W')->count();

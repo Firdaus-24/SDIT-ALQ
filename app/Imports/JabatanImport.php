@@ -15,15 +15,15 @@ class JabatanImport implements ToCollection
     {
         $index = 1;
         foreach ($collection as $row) {
-            $fileExisting = Jabatan::where('name', $row[1])->first();
+            $fileExisting = Jabatan::where('nama', $row[1])->first();
 
             if (!$fileExisting) {
                 if ($index > 1) {
-                    $data['name'] = !empty($row[1]) ? $row[1] : '';
+                    $data['nama'] = !empty($row[1]) ? $row[1] : '';
 
                     Jabatan::create(
                         [
-                            'name' => $data['name'],
+                            'nama' => $data['nama'],
                             'is_active' => 1
                         ]
                     );

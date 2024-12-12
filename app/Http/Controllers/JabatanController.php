@@ -7,7 +7,10 @@ use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use App\Imports\JabatanImport;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
+
 
 
 class JabatanController extends Controller
@@ -30,9 +33,19 @@ class JabatanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('jabatan.index', ['data' => Jabatan::all()]);
+        return view('jabatan.index');
+    }
+    public function show(Request $request)
+    {
+    }
+    public function create(Request $request)
+    {
+    }
+
+    public function edit($id)
+    {
     }
 
     /**
@@ -40,41 +53,48 @@ class JabatanController extends Controller
      */
     public function dataTable()
     {
-        $data = Jabatan::all();
-        $datatables = DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('name', function ($data) {
-                return $data->name;
-            })
-            ->addColumn('created_at', function ($data) {
-                return $data->created_at;
-            })
-            ->addColumn('updated_at', function ($data) {
-                return $data->updated_at;
-            })
-            ->addColumn('is_active', function ($data) {
-                if ($data->is_active == 1) {
-                    $active = "Active";
-                } else {
-                    $active = "Off";
-                }
-                return $active;
-            })
-            ->addColumn('actions', function ($data) {
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-jabatan' class='p-2 text-xs text-white rounded lg:text-sm' onclick='deleteJabatan({$data->id})' " . ($data->is_active == 1 ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 1 ? 'Off' : 'Active') . "</a>";
-
-                return "
-                        <div class='flex flex-row '>
-                        <button id='openModal' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='openModal({$data->id}, \"{$data->name}\")'>
-                            Edit
-                            </button>
-                           {$str}
-                        </div>
-                        ";
-            })->rawColumns(['actions']);
-
-        return $datatables->make(true);
-    }
+        try {
+            $data = Jabatan::all();
+            $datatables = DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('name', function ($data) {
+                    return $data->nama;
+                })
+                ->addColumn('created_at', function ($data) {
+                    return $data->created_at ? $data->created_at->format('Y-m-d H:i:s') : '-';
+                })
+                ->addColumn('updated_at', function ($data) {
+                    return $data->updated_at ? $data->updated_at->format('Y-m-d H:i:s') : '-';
+                })
+                ->addColumn('is_active', function ($data) {
+                    return $data->is_active == 1 ? "Active" : "Off";
+                })
+                ->addColumn('actions', function ($data) {
+                    $editButton = '';
+                    $deleteButton = '';
+                    
+                    if (auth()->user()->hasPermissionTo('jabatan.edit')) {
+                        $editButton = '<button type="button" class="p-2 btn btn-clear btn-info btn-edit" data-id="' . e($data->id) . '">
+                                        <i class="ki-filled ki-pencil"></i>
+                                        </button>';
+                    }
+    
+                    if (auth()->user()->hasPermissionTo('jabatan.delete')) {
+                        $deleteButton = '<a href="javascript:void(0)" type="button" id="btn-delete"' 
+                            . ($data->is_active == 1 ? 'class="btn btn-clear btn-danger"' : 'class="btn btn-clear btn-warning"') . '>'
+                            . ($data->is_active == 1 ? '<i class="ki-filled ki-trash"></i>' : '<i class="ki-filled ki-arrows-circle"></i>') .
+                            '</a>';
+                    }
+        
+                    return '<div class="flex flex-row">' . $editButton . $deleteButton . '</div>';
+                })
+                ->rawColumns(['actions']);
+        
+            return $datatables->make(true);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }    
 
     /**
      * Store a newly created resource in storage.
@@ -82,11 +102,11 @@ class JabatanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'txtnama' => 'required|max:100|min:2|unique:jabatans,name'
+            'txtnama' => 'required|max:100|min:2|unique:jabatans,nama'
         ]);
 
         Jabatan::create([
-            'name' => $request->txtnama,
+            'nama' => $request->txtnama,
             'is_active' => 1
         ]);
 
@@ -96,23 +116,18 @@ class JabatanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Jabatan $jabatan)
+    public function update(string $id, Request $request)
     {
-        $request->validate([
-            'txtid' => 'required',
-            'txtnama' => 'required|max:100|min:2|unique:jabatans,name,'
-        ]);
-
         try {
-            $data = Jabatan::findOrFail($request->txtid);
+            $data = Jabatan::findOrFail($id);
 
             // cek jika nama nya sama
-            $data->name = $request->txtnama;
+            $data->nama = $request->txtnama;
             $data->updated_at = now();
 
             $data->save();
 
-            return back()->with('msg', 'data berhasil di update');
+            return response()->json(['msg' => 'data berhasil dirubah'], 200);
         } catch (\Throwable $th) {
             $th = "error euy";
         }
@@ -121,19 +136,40 @@ class JabatanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Jabatan $jabatan, Request $request)
+    public function destroy(string $id)
     {
-        $data = Jabatan::where('id', $request->id)->first();
-
-        if ($data->is_active == 1) {
-            $data->is_active = 0;
+        try {
+            if (empty($id)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid ID provided.',
+                ], 400);
+            }
+    
+            DB::beginTransaction();
+            
+            // Temukan entri berdasarkan ID
+            $data = Jabatan::findOrFail($id);
+            
+            // Toggle status is_active
+            $data->is_active = $data->is_active == 1 ? 0 : 1;
             $data->save();
-        } else {
-            $data->is_active = 1;
-            $data->save();
+            
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Status updated successfully.',
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();            
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred while updating the status.',
+            ], 500);
         }
-        return Response()->json($data);
     }
+    
 
     public function importFile()
     {
@@ -151,10 +187,10 @@ class JabatanController extends Controller
             Excel::import(new JabatanImport(), $request->file('file'));
 
             DB::commit();
-            return redirect()->back()->with('msg', 'Data berhasil di upload');
+            return response()->json(['msg' => 'Data berhasil diuplad'], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
+            return response()->json(['msg' => $th->getMessage()], 500);
         }
     }
 }
