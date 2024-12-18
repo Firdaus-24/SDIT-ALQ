@@ -145,7 +145,7 @@ class KelasController extends Controller
                     $active = ($data->is_active == 1) ? '<span class="badge badge-sm badge-outline badge-success">Active</span>' : '<span class="badge badge-sm badge-outline badge-danger">Deleted</span>';
                     return $active;
                 })
-                ->addColumn('actions', function ($data) {
+                ->addColumn('aksi', function ($data) {
                     $editButton = '';
                     $deleteButton = '';
 
@@ -162,9 +162,9 @@ class KelasController extends Controller
                             '</a>';
                     }
 
-                    return '<div class="flex flex-row">' . $editButton . $deleteButton . '</div>';
+                    return '<div class="flex flex-row justify-center items-center">' . $editButton . $deleteButton . '</div>';
                 })
-                ->rawColumns(['actions', 'status']);
+                ->rawColumns(['aksi', 'status']);
 
             return $datatables->make(true);
         } catch (\Exception $e) {

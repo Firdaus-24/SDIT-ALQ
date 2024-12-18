@@ -66,7 +66,7 @@
                                     <th class="w-[200px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Active
+                                                Status
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -75,7 +75,7 @@
                                     <th class="w-[200px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Actions
+                                                Aksi
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -193,6 +193,10 @@
                             className: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
                         },
                     ],
+                    "columnDefs": [{
+                        "className": "dt-center",
+                        "targets": "_all"
+                    }],
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -220,8 +224,8 @@
                             className: 'text-center'
                         },
                         {
-                            name: 'actions',
-                            data: 'actions',
+                            name: 'aksi',
+                            data: 'aksi',
                             orderable: false,
                             searchable: false,
                             className: 'text-center'
