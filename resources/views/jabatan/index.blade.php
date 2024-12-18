@@ -5,7 +5,7 @@
     <div class="container">
         <div class="flex flex-wrap items-center lg:items-end justify-items-start gap-5 pb-7.5">
             <h1 class="text-xl font-semibold leading-none text-gray-900">
-                Jabatan
+                Master Jabatan
             </h1>
         </div>
         <div class="grid">
@@ -27,72 +27,69 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div data-datatable="true" data-datatable-page-size="5" data-datatable-state-save="true"
-                        id="contentTableJabatan">
-                        <div class="p-4 scrollable-x-auto">
-                            <table class="table table-auto table-border" data-datatable-table="true" id="tableJabatan">
-                                <thead>
-                                    <tr>
-                                        <th class="w-[30px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    No
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                    <div class="p-4 scrollable-x-auto">
+                        <table class="table table-auto table-border" data-datatable-table="true" id="tableJabatan">
+                            <thead>
+                                <tr>
+                                    <th class="w-[30px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                No
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Nama
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                            <span class="sort-icon">
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Created at
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Nama
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Updated at
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                            <span class="sort-icon">
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Active
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Created at
                                             </span>
-                                        </th>
-                                        <th class="w-[200px]">
-                                            <span class="sort">
-                                                <span class="sort-label">
-                                                    Actions
-                                                </span>
-                                                <span class="sort-icon">
-                                                </span>
+                                            <span class="sort-icon">
                                             </span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Updated at
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Status
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Aksi
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -111,6 +108,8 @@
                     <span class="text-danger">
                         *
                     </span>
+                    <x-text-input name="id" id="id" type="hidden" class="w-full" autocomplete="off"
+                        maxlength="100" required></x-text-input>
                     <x-text-input name="txtnama" id="txtnama" type="text" class="w-full" value="{{ old('nama') }}"
                         autocomplete="off" maxlength="100" required></x-text-input>
                 </div>
@@ -144,20 +143,11 @@
             let dataTableList;
             let formUpload = $('#form-import-jabatan')
             let options = {
-                modal: modal,
+                url: null,
+                form: null,
                 id: null,
-                url: urlPost,
-                data: null,
-                dataTable: null,
-                formMain: formMain,
-                disabledButton: () => {
-                    $('#save').addClass('disabled');
-                    $('.loading').removeClass('hidden');
-                },
-                enabledButton: () => {
-                    $('#save').removeClass('disabled');
-                    $('.loading').addClass('hidden');
-                }
+                datatable: null,
+                dataTitle: "Jabatan",
             }
             let optionsImport = {
                 modal: 'modalImportJabatan',
@@ -177,12 +167,15 @@
             $(document).ready(function() {
                 // data table
                 dataTableList = $('#tableJabatan').DataTable({
+                    dom: '<"top"f>rt<"bottom"ip><"clear">',
+                    language: {
+                        search: "Cari",
+                    },
                     processing: true,
                     serverSide: true,
                     paging: true,
                     responsive: true,
                     searching: true,
-                    // scrollY: '410px',
                     ajax: {
                         url: "{!! route('jabatan.list') !!}",
                     },
@@ -219,68 +212,45 @@
                             name: 'updated_at',
                         },
                         {
-                            data: 'is_active',
-                            name: 'is_active',
+                            data: 'status',
+                            name: 'status',
                             orderable: false,
-                            searchable: false
+                            searchable: false,
+                            className: 'text-center'
                         },
                         {
-                            name: 'actions',
-                            data: 'actions',
+                            name: 'Aksi',
+                            data: 'Aksi',
                             orderable: false,
-                            searchable: false
+                            searchable: false,
                         }
                     ]
                 });
-
+                $('.dataTables_filter').addClass('mb-4');
                 // form tambah dan update
-                dataTableList.ajax.reload();
-                Array.prototype.filter.call($(`#${options.formMain}`), function(form) {
-                    form.addEventListener('submit', async function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        } else {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            options.disabledButton();
-                            let formData = $(`#${options.formMain}`).serialize();
-                            if (options.id == null) saveData(formData);
-                            if (options.id) updateData(formData);
-                        }
-                    });
+                handleFormSubmit({
+                    formSelector: formMain,
+                    dataTableSelector: dataTableList,
+                    modalSelector: modal,
+                    baseUrl: '/jabatan',
+                    methodOverride: true,
                 });
 
                 $(document).on('click', '.btn-edit', function() {
                     openModal(modal)
                     let rowData = dataTableList.row($(this).closest('tr')).data();
-                    options.id = rowData.id;
+                    $("#id").val(rowData.id);
                     $("#txtnama").val(rowData.name);
                 });
 
                 $(document).on('click', '#btn-delete', function() {
                     let rowData = dataTableList.row($(this).parents('tr')).data()
-                    options.dataTitle = rowData.name;
-                    deleteData(rowData.id);
+                    options.url = `/jabatan/${rowData.id}`;
+                    options.id = rowData.id;
+                    options.dataTable = dataTableList;
+
+                    DELETE_DATA(options)
                 })
-
-                const saveData = (formData) => {
-                    options.data = formData;
-                    options.dataTable = dataTableList;
-                    POST_DATA(options);
-                }
-
-                const updateData = (formData) => {
-                    options.data = formData;
-                    options.dataTable = dataTableList;
-                    PATCH_DATA(options);
-                }
-
-                const deleteData = (id) => {
-                    options.id = id;
-                    options.dataTable = dataTableList;
-                    DELETE_DATA(options);
-                }
 
                 formUpload.on('submit', function(e) {
                     e.preventDefault();

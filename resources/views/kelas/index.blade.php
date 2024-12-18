@@ -66,7 +66,7 @@
                                     <th class="w-[200px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Active
+                                                Status
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -75,7 +75,7 @@
                                     <th class="w-[200px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Actions
+                                                Aksi
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -220,8 +220,8 @@
                             className: 'text-center'
                         },
                         {
-                            name: 'actions',
-                            data: 'actions',
+                            name: 'aksi',
+                            data: 'aksi',
                             orderable: false,
                             searchable: false,
                             className: 'text-center'
