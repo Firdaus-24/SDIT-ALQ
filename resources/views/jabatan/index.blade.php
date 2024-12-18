@@ -193,6 +193,10 @@
                             className: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
                         },
                     ],
+                    "columnDefs": [{
+                        "className": "dt-center",
+                        "targets": "_all"
+                    }],
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
