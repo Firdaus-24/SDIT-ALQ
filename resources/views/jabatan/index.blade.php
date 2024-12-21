@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- begin: container -->
-    <div class="container">
+    <div class="container-fixed">
         <div class="flex flex-wrap items-center lg:items-end justify-items-start gap-5 pb-7.5">
             <h1 class="text-xl font-semibold leading-none text-gray-900">
                 Master Jabatan
@@ -195,7 +195,7 @@
                     ],
                     "columnDefs": [{
                         "className": "dt-center",
-                        "targets": "_all"
+                        "targets": 0
                     }],
                     columns: [{
                             data: 'DT_RowIndex',
