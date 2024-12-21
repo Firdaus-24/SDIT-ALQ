@@ -43,7 +43,9 @@
             @include('include.backend.partials.header')
             {{-- end header --}}
             {{-- content --}}
-            @yield('container')
+            <main class="pt-5 grow content" id="content" role="content">
+                @yield('container')
+            </main>
             {{-- end content --}}
         </div>
     </div>
