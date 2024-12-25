@@ -45,25 +45,6 @@ class UserSeeder extends Seeder
             ]);
 
             $superadmin->assignRole('superadmin');
-
-            // $admin = User::create([
-            //     'name' => 'admin',
-            //     'uuid' => Str::uuid(),
-            //     'email' => 'admin@test.com',
-            //     'password' => bcrypt('12345678')
-            // ]);
-
-            // $admin->assignRole('admin');
-
-
-            // $user = User::create([
-            //     'name' => 'ujang',
-            //     'uuid' => Str::uuid(),
-            //     'email' => 'ujang@test.com',
-            //     'password' => bcrypt('12345678')
-            // ]);
-
-            // $user->assignRole('user');
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

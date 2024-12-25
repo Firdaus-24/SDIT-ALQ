@@ -103,84 +103,18 @@ function validation(err) {
     }
 }
 
-// const POST_DATA = (options) => {
-//     $.ajax({
-//         url: options.url,
-//         type: "POST",
-//         headers: {
-//             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-//         },
-//         data: options.data,
-//         contentType: false, // Important for file uploads
-//         processData: false, // Important for file uploads
-//         cache: false,
-//         beforeSend: () => {
-//             LOADING_ALERT("Sedang menyimpan data");
-//         },
-//         success: (res) => {
-//             if (modal) successEvent(options.modal, options.dataTable);
-//             if (options.dataTableId) {
-//                 $(`${options.dataTableId}`).DataTable().ajax.reload();
-//                 options.dataTableId = null;
-//             }
-//         },
-//         error: (err) => {
-//             const resErr = err?.responseJSON;
-//             validation(resErr);
-//             if (resErr.message) {
-//                 ERROR_ALERT(resErr.message);
-//             }
-//             options.enabledButton();
-//             if (options.file) $(`input[type=file]`).prop("disabled", false);
-//         },
-//     });
-// };
-
-// const PATCH_DATA = (options) => {
-//     console.log([...options.data.entries()]);
-//     $.ajax({
-//         url: options.url + "/" + options.id,
-//         type: "PATCH",
-//         headers: {
-//             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-//         },
-//         data: options.data,
-//         contentType: false, // Important for file uploads
-//         processData: false, // Important for file uploads
-//         cache: false,
-//         beforeSend: () => {
-//             LOADING_ALERT("Sedang merubah data");
-//         },
-//         success: (data) => {
-//             if (modal && !options.isNotModal)
-//                 successEvent(options.modal, options.dataTable);
-//             if (options.isNotModal) {
-//                 SUCCESS_ALERT("Berhasil update data");
-//                 reloadTable(options.dataTable);
-//             }
-//         },
-//         error: (err) => {
-//             const resErr = err?.responseJSON;
-//             validation(resErr);
-//             if (resErr?.message && !options.isNotModal) {
-//                 ERROR_ALERT(resErr?.message);
-//                 options.enabledButton();
-//             } else {
-//                 ERROR_ALERT("Gagal update data");
-//             }
-//         },
-//     });
-// };
-
 const DELETE_DATA = (options) => {
     Swal.fire({
         title: "Anda yakin ingin merubah aktifasi data?",
         html: `data <span class="fw-bold">${options.dataTitle} </span>akan merubah aktifasi`,
         icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
         confirmButtonText: "Confirm",
+        customClass: {
+            confirmButton: "btn btn-primary active", // Tambahkan kelas Bootstrap di sini
+            cancelButton: "btn btn-danger active", // Opsional: Ubah warna tombol cancel
+        },
+        buttonsStyling: false,
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -262,7 +196,7 @@ const handleFormSubmit = ({
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseJSON);
-                alert(xhr.responseJSON.message || "An error occurred.");
+                ERROR_ALERT(xhr.responseJSON.message || "An error occurred.");
             },
         });
     });
@@ -303,3 +237,39 @@ function UPLOAD_FILE(options) {
         },
     });
 }
+
+const openModalDetail = (...args) => {
+    openModal(args[0]);
+    // manghitung umur
+    let hariIni = new Date();
+    let tanggalLahirDate = new Date(args[1].tanggal_lahir);
+
+    let umur = hariIni.getFullYear() - tanggalLahirDate.getFullYear();
+    let bulan = hariIni.getMonth() - tanggalLahirDate.getMonth();
+    let hari = hariIni.getDate() - tanggalLahirDate.getDate();
+
+    // Jika bulan atau hari belum tercapai dalam tahun ini, kurangi umur
+    if (bulan < 0 || (bulan === 0 && hari < 0)) {
+        umur--;
+    }
+    $("#modal-profile-images").attr(
+        "src",
+        args[1].images
+            ? `${window.location.origin}/storage/${args[1].images}`
+            : "assets/images/illustrations/blank.png"
+    );
+    $("#modal-profile-nama").html(args[1].nama);
+    $("#modal-profile-email").html(args[1].email);
+    $("#modal-profile-jk").html(
+        args[1].jenis_kelamin == "L" ? "Laki-laki" : "Perempuan"
+    );
+    $("#modal-profile-umur").html(umur);
+    $("#modal-profile-jabatan").html(args[1].jabatan.nama);
+    $("#modal-profile-tempatlahir").html(args[1].tempat_lahir);
+    $("#modal-profile-tgllahir").html(args[1].tanggal_lahir);
+    $("#modal-profile-jurusan").html(args[1].jurusan);
+    $("#modal-profile-tahun").html(args[1].tahun_lulus);
+    $("#modal-profile-contact").html(args[1].noHP);
+    $("#modal-profile-nuptk").html(args[1].nuptk);
+    $("#modal-profile-status").html(args[1].is_active == 1 ? "Aktif" : "Off");
+};

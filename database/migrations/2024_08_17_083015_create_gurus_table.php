@@ -12,20 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gurus', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('images')->nullable();
             $table->string('nama');
-            $table->foreignId('jab_id');
-            $table->enum('jenis_kelamin',['P', 'L']);
-            $table->string('tempat_lahir');
-            $table->date('tanggal_lahir');
-            $table->string('jurusan');
-            $table->string('tahun_lulus');
+            $table->foreignId('jab_id')->nullable();
+            $table->enum('jenis_kelamin', ['P', 'L'])->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('jurusan')->nullable();
+            $table->string('tahun_lulus')->nullable();
             $table->integer('nuptk')->nullable();
-            $table->string('noHP');
+            $table->string('noHP')->nullable();
             $table->string('email')->unique();
             $table->foreignId('kelas_id')->nullable();
-            $table->enum('is_active', ['T', 'F']);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

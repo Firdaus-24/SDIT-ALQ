@@ -22,6 +22,11 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'guru.list', 'guard_name' => 'web'],
             ['name' => 'guru.import', 'guard_name' => 'web'],
 
+            ['name' => 'kelas.create', 'guard_name' => 'web'],
+            ['name' => 'kelas.edit', 'guard_name' => 'web'],
+            ['name' => 'kelas.delete', 'guard_name' => 'web'],
+            ['name' => 'kelas.list', 'guard_name' => 'web'],
+
             ['name' => 'jabatan.create', 'guard_name' => 'web'],
             ['name' => 'jabatan.edit', 'guard_name' => 'web'],
             ['name' => 'jabatan.delete', 'guard_name' => 'web'],
@@ -71,6 +76,7 @@ class RolePermissionSeeder extends Seeder
         try {
             Role::create(['name' => 'admin']);
             Role::create(['name' => 'superadmin']);
+            Role::create(['name' => 'guru']);
             Role::create(['name' => 'user']);
 
             foreach ($createPermissions as $permission) {

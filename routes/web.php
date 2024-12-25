@@ -58,7 +58,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('jabatan/import/data', [JabatanController::class, 'prosesImport'])->name('jabatan.import');
     Route::post('jabatan/import/data', [JabatanController::class, 'prosesImport'])->name('jabatanImportProses');
 
-    // teacher
+    // guru
     Route::resource('guru', GuruController::class);
     Route::get('gurus/json', [GuruController::class, 'dataTable'])->name('guru.list');
     Route::get('gurus/import', [GuruController::class, 'importFile'])->name('guru.import');
