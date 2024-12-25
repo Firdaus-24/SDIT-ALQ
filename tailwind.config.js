@@ -21,9 +21,6 @@ export default {
             letterSpacing: {
                 widest: ".25em",
             },
-            container: {
-                padding: "1rem", // Menambahkan padding 2 (0.5rem) pada container
-            },
         },
     },
 
