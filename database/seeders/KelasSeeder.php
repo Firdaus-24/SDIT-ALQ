@@ -16,27 +16,39 @@ class KelasSeeder extends Seeder
         Kelas::insert([
             [
                 'nama' => 'Kelas 1 Makkah',
-                'is_active' => 1
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'nama' => 'Kelas 2 Makkah',
-                'is_active' => 1
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'nama' => 'Kelas 3 Makkah',
-                'is_active' => 1
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'nama' => 'Kelas 4 Makkah',
-                'is_active' => 1
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'nama' => 'Kelas 5 Makkah',
-                'is_active' => 1
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'nama' => 'Kelas 6 Makkah',
-                'is_active' => 1
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }

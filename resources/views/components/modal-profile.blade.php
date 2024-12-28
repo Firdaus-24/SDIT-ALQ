@@ -11,9 +11,7 @@
                     </i>
                 </button>
                 <div class="flex justify-center mb-5">
-                    <img class="rounded-full border-3 border-success max-h-[100px] overflow-hidden"
-                        id="modal-profile-images" src="{{ $images ?? asset('assets/images/illustrations/blank.png') }}"
-                        alt="avatar" />
+                    <x-img-rounded id="modal-profile-images"></x-img-rounded>
                 </div>
                 <div class="grid items-center w-full gap-3 lg:grid-cols-3">
                     <div>

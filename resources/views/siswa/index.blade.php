@@ -5,43 +5,33 @@
     <div class="container-fixed">
         <div class="flex flex-wrap items-center lg:items-end justify-items-start gap-5 pb-7.5">
             <h1 class="text-xl font-semibold leading-none text-gray-900">
-                Master Guru
+                Master Siswa
             </h1>
         </div>
         <div class="grid">
             <div class="min-w-full card card-grid">
                 <div class="flex-wrap py-5 card-header">
                     <h3 class="card-title">
-                        Guru
+                        Siswa
                     </h3>
                     <div class="flex justify-end">
-                        <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalGuru">
+                        <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalSiswa">
                             <i class="ki-outline ki-plus-squared">
                             </i>
                             Tambah
                         </x-primary-button>
-                        <x-danger-button type="button" data-modal-toggle="#modalImportGuru">
+                        {{-- <x-danger-button type="button" data-modal-toggle="#modalImportSiswa">
                             <i class="ki-filled ki-file-down"></i>
                             Import
-                        </x-danger-button>
+                        </x-danger-button> --}}
                     </div>
                 </div>
-                <div class="w-full card-body">
-                    <div class="p-4 overflow-x-auto scrollable-x-auto">
-                        <table class="table w-full mt-3 table-auto table-border" data-datatable-table="true"
-                            id="dtableGuru">
+                <div class="card-body">
+                    <div class="p-4 scrollable-x-auto">
+                        <table class="table table-auto table-border" data-datatable-table="true" id="tableSiswa">
                             <thead>
                                 <tr>
-                                    <th class="w-[10px]">
-                                        <span class="sort">
-                                            <span class="sort-label">
-                                                No
-                                            </span>
-                                            <span class="sort-icon">
-                                            </span>
-                                        </span>
-                                    </th>
-                                    <th class="w-[300px]">
+                                    <th class="w-[400]">
                                         <span class="sort">
                                             <span class="sort-label">
                                                 Nama
@@ -50,16 +40,16 @@
                                             </span>
                                         </span>
                                     </th>
-                                    <th class="w-[200px]">
+                                    <th class="w-[100px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Jabatan
+                                                NISN
                                             </span>
                                             <span class="sort-icon">
                                             </span>
                                         </span>
                                     </th>
-                                    <th class="w-[10px]">
+                                    <th class="w-[50px]">
                                         <span class="sort">
                                             <span class="sort-label">
                                                 JK
@@ -68,10 +58,28 @@
                                             </span>
                                         </span>
                                     </th>
-                                    <th class="w-[200px]">
+                                    <th class="w-[100px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Contact
+                                                Tempat Lahir
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[100px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Tanggal Lahir
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[100px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Agama
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -80,7 +88,7 @@
                                     <th class="w-[200px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Email
+                                                Kelas
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -89,7 +97,7 @@
                                     <th class="w-[200px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Status
+                                                Wali
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -98,7 +106,7 @@
                                     <th class="w-[200px]">
                                         <span class="sort">
                                             <span class="sort-label">
-                                                Actions
+                                                Aksi
                                             </span>
                                             <span class="sort-icon">
                                             </span>
@@ -117,8 +125,8 @@
     <!-- end: container -->
 
     <!-- start:modal -->
-    <x-modal id="modalGuru" modalTitle="Form Guru" modalSize="xlarge">
-        <form action="" id="guru-form" enctype="multipart/form-data">
+    <x-modal id="modalSiswa" modalTitle="Form Siswa" modalSize="xlarge">
+        <form action="" id="siswa-form" enctype="multipart/form-data">
             <div class="w-full mt-3">
                 <div class="flex flex-col items-center justify-center">
                     <div class="relative w-20 h-20">
@@ -143,24 +151,25 @@
                         <x-text-input name="txtnama" id="txtnama" type="text" class="w-full"
                             value="{{ old('txtnama') }}" autocomplete="off" maxlength="100" required></x-text-input>
                         <x-text-input name="id" id="id" type="hidden" class="w-full" autocomplete="off"
-                            maxlength="100"></x-text-input>
+                            maxlength="255"></x-text-input>
                     </div>
                     <div class="flex flex-col">
                         <div class="flex flex-row">
                             <x-input-label>
-                                Jabatan
+                                NIS
                             </x-input-label>
-                            <span class="text-danger">
-                                *
-                            </span>
                         </div>
-                        <x-select name="txtjabatan" id="txtjabatan" required=true>
-                            <option value="">Pilih</option>
-                            @foreach ($jabatans as $j)
-                                <option value="{{ $j->id }}" {{ old('txtjabatan') == $j->id ? 'selected' : '' }}>
-                                    {{ $j->nama }}</option>
-                            @endforeach
-                        </x-select>
+                        <x-text-input name="txtnis" id="txtnis" type="text" class="w-full"
+                            value="{{ old('txtnis') }}" autocomplete="off" maxlength="100"></x-text-input>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex flex-row">
+                            <x-input-label>
+                                NISN
+                            </x-input-label>
+                        </div>
+                        <x-text-input name="txtnisn" id="txtnisn" type="text" class="w-full"
+                            value="{{ old('txtnisn') }}" autocomplete="off" maxlength="100"></x-text-input>
                     </div>
                     <div class="flex flex-col">
                         <div class="flex flex-row">
@@ -182,86 +191,41 @@
                             <x-input-label>
                                 Tempat Lahir
                             </x-input-label>
-                            <span class="text-danger">
-                                *
-                            </span>
                         </div>
                         <x-text-input name="txttempat" id="txttempat" type="text" class="w-full"
-                            value="{{ old('txttempat') }}" autocomplete="off" maxlength="200" required></x-text-input>
+                            value="{{ old('txttempat') }}" autocomplete="off" maxlength="100"></x-text-input>
                     </div>
                     <div class="flex flex-col">
                         <div class="flex flex-row">
                             <x-input-label>
                                 Tanggal Lahir
                             </x-input-label>
-                            <span class="text-danger">
-                                *
-                            </span>
                         </div>
                         <x-text-input name="txttgllahir" id="txttgllahir" type="date" class="w-full"
-                            value="{{ old('txttgllahir') }}" required></x-text-input>
+                            value="{{ old('txttgllahir') }}"></x-text-input>
                     </div>
                     <div class="flex flex-col">
                         <div class="flex flex-row">
                             <x-input-label>
-                                Jurusan Kuliah
-                            </x-input-label>
-                            <span class="text-danger">
-                                *
-                            </span>
-                        </div>
-                        <x-text-input name="txtjurusan" id="txtjurusan" type="text" class="w-full"
-                            value="{{ old('txtjurusan') }}" autocomplete="off" maxlength="200" required></x-text-input>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex flex-row">
-                            <x-input-label>
-                                Tahun Lulus
-                            </x-input-label>
-                            <span class="text-danger">
-                                *
-                            </span>
-                        </div>
-                        <x-text-input name="txttahunlulus" id="txttahunlulus" type="text" class="w-full"
-                            value="{{ old('txttahunlulus') }}"></x-text-input>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex flex-row">
-                            <x-input-label>
-                                NUPTK
+                                Rombel
                             </x-input-label>
                         </div>
-                        <x-text-input name="txtnuptk" id="txtnuptk" type="number" class="w-full"
-                            value="{{ old('txtnuptk') }}" autocomplete="off" maxlength="200"></x-text-input>
+                        <x-text-input name="txtrombel" id="txtrombel" type="text" class="w-full"
+                            value="{{ old('txtrombel') }}" autocomplete="off" maxlength="200"></x-text-input>
                     </div>
                     <div class="flex flex-col">
                         <div class="flex flex-row">
                             <x-input-label>
-                                No HP
+                                Agama
                             </x-input-label>
-                            <span class="text-danger">
-                                *
-                            </span>
                         </div>
-                        <x-text-input name="txtnohp" id="txtnohp" type="text" class="w-full"
-                            value="{{ old('txtnohp') }}" autocomplete="off" maxlength="20" required></x-text-input>
+                        <x-text-input name="txtagama" id="txtagama" type="text" class="w-full" maxlength="20"
+                            value="{{ old('txtagama') }}"></x-text-input>
                     </div>
                     <div class="flex flex-col">
                         <div class="flex flex-row">
                             <x-input-label>
-                                Email
-                            </x-input-label>
-                            <span class="text-danger">
-                                *
-                            </span>
-                        </div>
-                        <x-text-input name="txtemail" id="txtemail" type="text" class="w-full"
-                            value="{{ old('txtemail') }}" autocomplete="off" maxlength="20" required></x-text-input>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex flex-row">
-                            <x-input-label>
-                                Guru Kelas
+                                Kelas
                             </x-input-label>
                         </div>
                         <x-select name="txtkelas" id="txtkelas">
@@ -272,6 +236,16 @@
                             @endforeach
                         </x-select>
                     </div>
+                    <div class="flex flex-col">
+                        <div class="flex flex-row">
+                            <x-input-label>
+                                Nama Wali
+                            </x-input-label>
+                        </div>
+                        <x-text-input name="txtwali" id="txtwali" type="text" class="w-full"
+                            value="{{ old('txtwali') }}" autocomplete="off" maxlength="255"></x-text-input>
+                    </div>
+
                 </div>
             </div>
             <hr class="mt-4">
@@ -290,32 +264,33 @@
     </x-modal>
     <!-- end:modal -->
 
+    <!-- start:modal import -->
+    {{-- <x-modal-import-excel id="modalImportSiswa" modalTitle="Form Import Siswa"
+        form-id="form-import-siswa"></x-modal-import-excel> --}}
+    <!-- end:modal import -->
+
     <!-- start:modal profile -->
-    <x-modal-profile></x-modal-profile>
+    <x-modal-detail-siswa></x-modal-detail-siswa>
     <!-- end:end modal -->
 
-    <!-- start:modal import -->
-    <x-modal-import-excel id="modalImportGuru" modalTitle="Form Import Guru"
-        form-id="form-import-guru"></x-modal-import-excel>
-    <!-- end:modal import -->
     @push('js')
         <script>
-            let modal = 'modalGuru';
-            let formMain = 'guru-form';
-            let urlPost = "{!! route('guru.store') !!}"
+            let modal = 'modalSiswa';
+            let formMain = 'siswa-form';
+            let urlPost = "{!! route('siswa.store') !!}"
             let dataTableList;
-            let formUpload = $('#form-import-guru')
+            let formUpload = $('#form-import-siswa')
             let options = {
                 url: null,
                 form: null,
                 id: null,
                 datatable: null,
-                dataTitle: "Guru",
+                dataTitle: "Siswa",
             }
             let optionsImport = {
-                modal: 'modalImportGuru',
-                url: "{!! route('guru.prosesImport') !!}",
-                formFile: "form-import-guru",
+                modal: 'modalImportSiswa',
+                url: "{!! route('jabatanImportProses') !!}",
+                formFile: "form-import-jabatan",
                 dataTable: null,
                 disabledButton: () => {
                     $('#upload').addClass('disabled');
@@ -328,76 +303,70 @@
             }
 
             $(document).ready(function() {
-                dataTableList = $('#dtableGuru').DataTable({
-                    dom: '<"custom-search"f>t<"bottom"ip>',
+                // data table
+                dataTableList = $('#tableSiswa').DataTable({
+                    dom: '<"top"f>rt<"bottom"ip><"clear">',
                     language: {
                         search: "Cari",
                     },
                     processing: true,
                     serverSide: true,
+                    paging: true,
                     responsive: true,
-                    autoWidth: false,
                     searching: true,
                     ajax: {
-                        url: "{{ route('guru.list') }}",
+                        url: "{!! route('siswa.list') !!}",
                     },
                     dom: 'lBfrtip',
-                    "columnDefs": [{
-                        "className": "dt-center",
-                        "targets": 0
-                    }],
                     columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
                             data: 'nama',
                             name: 'nama'
                         },
                         {
-                            data: 'jabatan',
-                            name: 'jabatan'
+                            data: 'nisn',
+                            name: 'nisn'
                         },
                         {
                             data: 'jenis_kelamin',
-                            name: 'jenis_kelamin',
-                            orderable: false,
-                            className: 'text-center'
-                        },
-                        {
-                            data: 'contact',
-                            name: 'contact',
+                            name: 'jk',
                             orderable: false
                         },
                         {
-                            data: 'email',
-                            name: 'email'
+                            data: 'tempat_lahir',
+                            name: 'tempat lahir'
                         },
                         {
-                            data: 'status',
-                            name: 'status',
-                            orderable: false,
-                            className: 'text-center'
+                            data: 'tanggal_lahir',
+                            name: 'tanggal lahir'
+                        },
+                        {
+                            data: 'agama',
+                            name: 'agama',
+                            orderable: false
+                        },
+                        {
+                            data: 'kelas',
+                            name: 'kelas'
+                        },
+                        {
+                            data: 'wali',
+                            name: 'wali',
+                            orderable: false
                         },
                         {
                             data: 'actions',
                             name: 'actions',
-                            orderable: false,
-                            className: 'text-center'
+                            orderable: false
                         }
                     ]
                 });
-
                 $('.dataTables_filter').addClass('mb-4');
-
                 // form tambah dan update
                 handleFormSubmit({
                     formSelector: formMain,
                     dataTableSelector: dataTableList,
                     modalSelector: modal,
-                    baseUrl: '/guru',
+                    baseUrl: '/siswa',
                     methodOverride: true,
                 });
 
@@ -406,52 +375,33 @@
                     let rowData = dataTableList.row($(this).closest('tr')).data();
                     let foto = rowData.images ? "storage/" + rowData.images :
                         "plugins/assets/media/avatars/blank.png"
+
                     let id = rowData.id
                     let nama = rowData.nama
-                    let jabatan = rowData.jab_id
-                    let jenisKelamin = rowData.jenis_kelamin
-                    let templatLahir = rowData.tempat_lahir
-                    let tanggalLahir = rowData.tanggal_lahir
-                    let jurusan = rowData.jurusan
-                    let tahunLulus = rowData.tahun_lulus
-                    let nuptk = rowData.nuptk
-                    let noHp = rowData.contact
-                    let email = rowData.email
-                    let kelas = rowData.kelas_id
-
                     let parser = new DOMParser();
                     let doc = parser.parseFromString(nama, 'text/html');
 
-                    // Cari elemen <p> dan ambil teksnya
-                    let text = nama ? doc.querySelector('p').textContent.trim() :
+                    let textNama = nama ? doc.querySelector('p').textContent.trim() :
                         '-';
 
-                    options.id = rowData.id;
+                    options.id = id;
                     $("#imagePreview").attr("src", foto);
-                    $("#id").val(id);
-                    $("#txtnama").val(text);
-                    $("#txtjabatan").val(jabatan);
-                    $("#txtjk").val(
-                        jenisKelamin);
-                    $("#txtjk").val(jenisKelamin);
-                    $("#txttempat").val(
-                        templatLahir);
-                    $("#txttgllahir").val(tanggalLahir);
-                    $("#txtjurusan").val(
-                        jurusan);
-                    $("#txttahunlulus").val(tahunLulus);
-                    $("#txtnuptk").val(nuptk);
-                    $(
-                        "#txtnohp").val(noHp);
-                    $("#txtemail").val(email);
-                    $("#txtkelas").val(kelas);
+                    $("#id").val(rowData.id);
+                    $("#txtnama").val(textNama);
+                    $("#txtnis").val(rowData.nis);
+                    $("#txtnisn").val(rowData.nisn);
+                    $("#txtjk").val(rowData.jenis_kelamin);
+                    $("#txttempat").val(rowData.tempat_lahir);
+                    $("#txttgllahir").val(rowData.tanggal_lahir);
+                    $("#txtrombel").val(rowData.rombel);
+                    $("#txtagama").val(rowData.agama);
+                    $("#txtkelas").val(rowData.kelas_id);
+                    $("#txtwali").val(rowData.wali);
                 });
 
                 $(document).on('click', '#btn-delete', function() {
                     let rowData = dataTableList.row($(this).parents('tr')).data()
-                    console.log(rowData.id);
-
-                    options.url = `/guru/${rowData.id}`;
+                    options.url = `/siswa/${rowData.id}`;
                     options.id = rowData.id;
                     options.dataTable = dataTableList;
 
@@ -469,12 +419,13 @@
                     }
                 });
 
-
                 formUpload.on('submit', function(e) {
                     e.preventDefault();
                     optionsImport.dataTable = dataTableList;
                     UPLOAD_FILE(optionsImport)
                 });
+
+
             });
         </script>
     @endpush
