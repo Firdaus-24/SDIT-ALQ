@@ -15,11 +15,13 @@
                         Kelas
                     </h3>
                     <div class="flex justify-end">
-                        <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalKelas">
-                            <i class="ki-outline ki-plus-squared">
-                            </i>
-                            Tambah
-                        </x-primary-button>
+                        @if (auth()->user()->hasPermissionTo('kelas.create'))
+                            <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalKelas">
+                                <i class="ki-outline ki-plus-squared">
+                                </i>
+                                Tambah
+                            </x-primary-button>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body">
