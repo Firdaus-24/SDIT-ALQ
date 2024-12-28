@@ -15,15 +15,19 @@
                         Jabatan
                     </h3>
                     <div class="flex justify-end">
-                        <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalJabatan">
-                            <i class="ki-outline ki-plus-squared">
-                            </i>
-                            Tambah
-                        </x-primary-button>
-                        <x-danger-button type="button" data-modal-toggle="#modalImportJabatan">
-                            <i class="ki-filled ki-file-down"></i>
-                            Import
-                        </x-danger-button>
+                        @if (auth()->user()->hasPermissionTo('jabatan.create'))
+                            <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalJabatan">
+                                <i class="ki-outline ki-plus-squared">
+                                </i>
+                                Tambah
+                            </x-primary-button>
+                        @endif
+                        @if (auth()->user()->hasPermissionTo('jabatan.import'))
+                            <x-danger-button type="button" data-modal-toggle="#modalImportJabatan">
+                                <i class="ki-filled ki-file-down"></i>
+                                Import
+                            </x-danger-button>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body">

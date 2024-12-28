@@ -15,15 +15,19 @@
                         Guru
                     </h3>
                     <div class="flex justify-end">
-                        <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalGuru">
-                            <i class="ki-outline ki-plus-squared">
-                            </i>
-                            Tambah
-                        </x-primary-button>
-                        <x-danger-button type="button" data-modal-toggle="#modalImportGuru">
-                            <i class="ki-filled ki-file-down"></i>
-                            Import
-                        </x-danger-button>
+                        @if (auth()->user()->hasPermissionTo('guru.create'))
+                            <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalGuru">
+                                <i class="ki-outline ki-plus-squared">
+                                </i>
+                                Tambah
+                            </x-primary-button>
+                        @endif
+                        @if (auth()->user()->hasPermissionTo('guru.import'))
+                            <x-danger-button type="button" data-modal-toggle="#modalImportGuru">
+                                <i class="ki-filled ki-file-down"></i>
+                                Import
+                            </x-danger-button>
+                        @endif
                     </div>
                 </div>
                 <div class="w-full card-body">

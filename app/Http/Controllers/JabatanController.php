@@ -23,11 +23,11 @@ class JabatanController extends Controller
      */
     function __construct()
     {
-        $this->middleware(['permission:jabatan.list|jabatan.create|jabatan.edit|jabatan.delete'], ['only' => ['index', 'show']]);
+        $this->middleware(['permission:jabatan.list'], ['only' => ['index', 'show', 'dataTable']]);
         $this->middleware(['permission:jabatan.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:jabatan.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['permission:jabatan.delete'], ['only' => ['destroy']]);
-        $this->middleware(['permission:jabatan.import'], ['only' => ['importFile', 'prosesImport']]);
+        $this->middleware(['permission:jabatan.import'], ['only' => ['prosesImport']]);
     }
 
     /**
@@ -65,13 +65,13 @@ class JabatanController extends Controller
                     return $active;
                 })
                 ->addColumn('Aksi', function ($data) {
-                    $editButton = '';
-                    $deleteButton = '';
+                    $buttons = [];
 
                     if (auth()->user()->hasPermissionTo('jabatan.edit')) {
                         $editButton = '<button type="button" class="p-2 btn btn-clear btn-info btn-edit" data-id="' . e($data->id) . '">
                                         <i class="ki-filled ki-pencil"></i>
                                         </button>';
+                        $buttons[] = $editButton;
                     }
 
                     if (auth()->user()->hasPermissionTo('jabatan.delete')) {
@@ -79,9 +79,10 @@ class JabatanController extends Controller
                             . ($data->is_active == 1 ? 'class="btn btn-clear btn-danger"' : 'class="btn btn-clear btn-warning"') . '>'
                             . ($data->is_active == 1 ? '<i class="ki-filled ki-trash"></i>' : '<i class="ki-filled ki-arrows-circle"></i>') .
                             '</a>';
+                        $buttons[] = $deleteButton;
                     }
 
-                    return '<div class="w-full flex flex-row justify-center items-center">' . $editButton . $deleteButton . '</div>';
+                    return '<div class="flex flex-row items-center justify-center w-full">' . implode(' ', $buttons) . '</div>';
                 })
                 ->rawColumns(['Aksi', 'status']);
 
@@ -163,12 +164,6 @@ class JabatanController extends Controller
                 'message' => 'An error occurred while updating the status.',
             ], 500);
         }
-    }
-
-
-    public function importFile()
-    {
-        return view('jabatan.jabatanImport');
     }
 
     public function prosesImport(Request $request)

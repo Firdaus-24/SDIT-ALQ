@@ -13,11 +13,10 @@ class KelasController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['permission:kelas.list|kelas.create|kelas.edit|kelas.delete'], ['only' => ['index', 'show']]);
+        $this->middleware(['permission:kelas.list'], ['only' => ['index', 'show', 'dataTable']]);
         $this->middleware(['permission:kelas.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:kelas.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['permission:kelas.delete'], ['only' => ['destroy']]);
-        $this->middleware(['permission:kelas.import'], ['only' => ['importFile', 'prosesImport']]);
     }
 
     /**
@@ -85,7 +84,10 @@ class KelasController extends Controller
 
             return response()->json(['msg' => 'data berhasil dirubah'], 200);
         } catch (\Throwable $th) {
-            $th = "error euy";
+            return response()->json([
+                'status' => false,
+                'message' => $th,
+            ], 500);
         }
     }
 
@@ -146,13 +148,13 @@ class KelasController extends Controller
                     return $active;
                 })
                 ->addColumn('aksi', function ($data) {
-                    $editButton = '';
-                    $deleteButton = '';
+                    $buttons = [];
 
                     if (auth()->user()->hasPermissionTo('kelas.edit')) {
                         $editButton = '<button type="button" class="p-2 btn btn-clear btn-info btn-edit" data-id="' . e($data->id) . '">
                                         <i class="ki-filled ki-pencil"></i>
                                         </button>';
+                        $buttons[] = $editButton;
                     }
 
                     if (auth()->user()->hasPermissionTo('kelas.delete')) {
@@ -160,33 +162,16 @@ class KelasController extends Controller
                             . ($data->is_active == 1 ? 'class="btn btn-clear btn-danger"' : 'class="btn btn-clear btn-warning"') . '>'
                             . ($data->is_active == 1 ? '<i class="ki-filled ki-trash"></i>' : '<i class="ki-filled ki-arrows-circle"></i>') .
                             '</a>';
+                        $buttons[] = $deleteButton;
                     }
 
-                    return '<div class="flex flex-row justify-center items-center">' . $editButton . $deleteButton . '</div>';
+                    return '<div class="flex flex-row items-center justify-center">' . implode(' ', $buttons) . '</div>';
                 })
                 ->rawColumns(['aksi', 'status']);
 
             return $datatables->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    public function prosesImport(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|mimes:xlsx,xls',
-        ]);
-
-        try {
-            DB::beginTransaction();
-            Excel::import(new KelasImport(), $request->file('file'));
-
-            DB::commit();
-            return response()->json(['msg' => 'Data berhasil diuplad'], 200);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return response()->json(['msg' => $th->getMessage()], 500);
         }
     }
 }

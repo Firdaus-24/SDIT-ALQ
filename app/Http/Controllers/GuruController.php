@@ -20,11 +20,11 @@ class GuruController extends Controller
      */
     function __construct()
     {
-        $this->middleware(['permission:guru.list|guru.create|guru.edit|guru.delete'], ['only' => ['index', 'show', 'dataTable']]);
+        $this->middleware(['permission:guru.list'], ['only' => ['index', 'show', 'dataTable']]);
         $this->middleware(['permission:guru.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:guru.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['permission:guru.delete'], ['only' => ['destroy']]);
-        $this->middleware(['permission:guru.import'], ['only' => ['importFile', 'prosesImport']]);
+        $this->middleware(['permission:guru.import'], ['only' => ['prosesImport']]);
     }
     /**
      * Display a listing of the resource.
@@ -226,14 +226,19 @@ class GuruController extends Controller
                 return $active;
             })
             ->addColumn('actions', function ($data) {
-                $editButton = '';
-                $deleteButton = '';
-                $detail = '<button data-modal-toggle="modal_profile" class="btn btn-clear btn-success" onclick="openModalDetail(\'modal_profile\', ' . e(json_encode($data))  . ' )"><i class="ki-filled ki-user-square"></i></button>';
+                $buttons = [];
+
+                $detailButton  = '<button data-modal-toggle="modal_profile" class="btn btn-clear btn-success" onclick="openModalDetail(\'modal_profile\', ' . e(json_encode($data))  . ' )"><i class="ki-filled ki-user-square"></i></button>';
+                $buttons[] = $detailButton;
 
                 if (auth()->user()->hasPermissionTo('guru.edit')) {
-                    $editButton = '<button type="button" class="p-2 btn btn-clear btn-info btn-edit" data-id="' . e($data->id) . '">
-                                    <i class="ki-filled ki-pencil"></i>
-                                    </button>';
+                    $editButton = '<button 
+                            type="button" 
+                            class="p-2 btn btn-clear btn-info btn-edit" 
+                            data-id="' . e($data->id) . '">
+                            <i class="ki-filled ki-pencil"></i>
+                        </button>';
+                    $buttons[] = $editButton;
                 }
 
                 if (auth()->user()->hasPermissionTo('guru.delete')) {
@@ -241,9 +246,10 @@ class GuruController extends Controller
                         . ($data->is_active == 1 ? 'class="btn btn-clear btn-danger"' : 'class="btn btn-clear btn-warning"') . '>'
                         . ($data->is_active == 1 ? '<i class="ki-filled ki-trash"></i>' : '<i class="ki-filled ki-arrows-circle"></i>') .
                         '</a>';
+                    $buttons[] = $deleteButton;
                 }
 
-                return '<div class="flex flex-row items-center justify-center">' . $detail . $editButton . $deleteButton . '</div>';
+                return '<div class="flex flex-row items-center justify-center">' . implode(' ', $buttons) . '</div>';
             })
             ->rawColumns(['nama', 'status', 'actions']);
         return $dataTable->make(true);

@@ -15,11 +15,13 @@
                         Siswa
                     </h3>
                     <div class="flex justify-end">
-                        <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalSiswa">
-                            <i class="ki-outline ki-plus-squared">
-                            </i>
-                            Tambah
-                        </x-primary-button>
+                        @if (auth()->user()->hasPermissionTo('siswa.create'))
+                            <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalSiswa">
+                                <i class="ki-outline ki-plus-squared">
+                                </i>
+                                Tambah
+                            </x-primary-button>
+                        @endif
                         {{-- <x-danger-button type="button" data-modal-toggle="#modalImportSiswa">
                             <i class="ki-filled ki-file-down"></i>
                             Import

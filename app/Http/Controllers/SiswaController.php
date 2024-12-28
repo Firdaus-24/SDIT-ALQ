@@ -17,11 +17,11 @@ class SiswaController extends Controller
      */
     function __construct()
     {
-        $this->middleware(['permission:siswa.list|siswa.create|siswa.edit|siswa.delete'], ['only' => ['index', 'show', 'dataTable', 'searchName']]);
+        $this->middleware(['permission:siswa.list'], ['only' => ['index', 'show', 'dataTable']]);
         $this->middleware(['permission:siswa.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:siswa.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['permission:siswa.delete'], ['only' => ['destroy']]);
-        $this->middleware(['permission:siswa.import'], ['only' => ['importFile', 'prosesImport']]);
+        // $this->middleware(['permission:siswa.import'], ['only' => ['importFile', 'prosesImport']]);
         $this->middleware(['permission:siswa.kenaikan-kelas'], ['only' => ['kenaikanKelas', 'prosesStudentKenaikan', 'getStudentKenaikan']]);
     }
 
@@ -65,24 +65,39 @@ class SiswaController extends Controller
                 return $data->wali;
             })
             ->addColumn('actions', function ($data) {
-                $editButton = '';
-                $deleteButton = '';
-                $detail = '<button data-modal-toggle="modal_profile" class="btn btn-clear btn-success" onclick="openModalDetailSiswa(\'modal_detail_siswa\', ' . e(json_encode($data))  . ' )"><i class="ki-filled ki-user-square"></i></button>';
+                $buttons = [];
 
+                // Tombol detail
+                $detailButton = '<button 
+                        data-modal-toggle="modal_profile" 
+                        class="btn btn-clear btn-success" 
+                        onclick="openModalDetailSiswa(\'modal_detail_siswa\', ' . e(json_encode($data)) . ')">
+                        <i class="ki-filled ki-user-square"></i>
+                    </button>';
+                $buttons[] = $detailButton;
+
+                // Tombol edit (jika ada izin)
                 if (auth()->user()->hasPermissionTo('siswa.edit')) {
-                    $editButton = '<button type="button" class="p-2 btn btn-clear btn-info btn-edit" data-id="' . e($data->id) . '">
-                                    <i class="ki-filled ki-pencil"></i>
-                                    </button>';
+                    $editButton = '<button 
+                            type="button" 
+                            class="p-2 btn btn-clear btn-info btn-edit" 
+                            data-id="' . e($data->id) . '">
+                            <i class="ki-filled ki-pencil"></i>
+                        </button>';
+                    $buttons[] = $editButton;
                 }
 
+                // Tombol delete (jika ada izin)
                 if (auth()->user()->hasPermissionTo('siswa.delete')) {
                     $deleteButton = '<a href="javascript:void(0)" type="button" id="btn-delete"'
                         . ($data->is_active == 1 ? 'class="btn btn-clear btn-danger"' : 'class="btn btn-clear btn-warning"') . '>'
                         . ($data->is_active == 1 ? '<i class="ki-filled ki-trash"></i>' : '<i class="ki-filled ki-arrows-circle"></i>') .
                         '</a>';
+                    $buttons[] = $deleteButton;
                 }
 
-                return '<div class="flex flex-row items-center justify-center">' . $detail . $editButton . $deleteButton . '</div>';
+                // Gabungkan semua tombol
+                return '<div class="flex flex-row items-center justify-center gap-2">' . implode(' ', $buttons) . '</div>';
             })->rawColumns(['actions', 'nama']);;
         return $dataTable->make(true);
     }
