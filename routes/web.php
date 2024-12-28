@@ -15,6 +15,7 @@ use App\Http\Controllers\KeterlambatanGurusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\SiswaController;
 use App\Models\Teachers;
 
 /*
@@ -64,9 +65,9 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('gurus/import', [GuruController::class, 'importFile'])->name('guru.import');
     Route::post('gurus/import', [GuruController::class, 'prosesImport'])->name('guru.prosesImport');
 
-    // student  
-    Route::resource('siswa', StudentController::class);
-    Route::get('siswas/json', [StudentController::class, 'dataTable'])->name('siswa.list');
+    // siswa  
+    Route::resource('siswa', SiswaController::class);
+    Route::get('siswas/json', [SiswaController::class, 'dataTable'])->name('siswa.list');
     Route::get('student/json/{name}', [StudentController::class, 'searchName'])->name('list.studentName');
     Route::get('siswas/import', [StudentController::class, 'importFile'])->name('siswa.import');
     Route::post('siswas/import', [StudentController::class, 'prosesImport'])->name('siswa.pimport');

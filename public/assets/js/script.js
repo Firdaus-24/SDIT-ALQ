@@ -273,3 +273,30 @@ const openModalDetail = (...args) => {
     $("#modal-profile-nuptk").html(args[1].nuptk);
     $("#modal-profile-status").html(args[1].is_active == 1 ? "Aktif" : "Off");
 };
+
+const openModalDetailSiswa = (...args) => {
+    openModal(args[0]);
+    $("#modal-profile-images").attr(
+        "src",
+        args[1].images
+            ? `${window.location.origin}/storage/${args[1].images}`
+            : "assets/images/illustrations/blank.png"
+    );
+    $("#modal-profile-nama").html(args[1].nama);
+    $("#modal-detail-siswa-nis").html(args[1].nis);
+    $("#modal-detail-siswa-nisn").html(args[1].nisn);
+    $("#modal-detail-siswa-jk").html(
+        args[1].jenis_kelamin == "L" ? "Laki-laki" : "Perempuan"
+    );
+    $("#modal-detail-siswa-tempat-lahir").html(args[1].tempat_lahir);
+    $("#modal-detail-siswa-tanggal-lahir").html(args[1].tanggal_lahir);
+    $("#modal-detail-siswa-rombel").html(args[1].rombel);
+    $("#modal-detail-siswa-agama").html(args[1].agama);
+    $("#modal-detail-siswa-kelas").html(args[1].kelas.nama);
+    $("#modal-detail-siswa-wali").html(args[1].wali);
+    $("#modal-detail-siswa-status").html(
+        args[1].is_active == 1
+            ? '<span class="badge badge-outline badge-success">Aktif</span>'
+            : '<span class="badge badge-outline badge-danger">Non Aktif</span>'
+    );
+};
