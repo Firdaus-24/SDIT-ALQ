@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
+use Symfony\Component\HttpFoundation\Response;
 
 class SiswaController extends Controller
 {
@@ -254,6 +256,62 @@ class SiswaController extends Controller
             DB::rollback();
             Log::error($th->getMessage());
             return  back()->with('msg', 'Terjadi kesalahan saat menghapus data.');
+        }
+    }
+
+    public function kenaikanKelas(Siswa $siswa)
+    {
+        $kelas = Kelas::where('is_active', 1)->get();
+        return view('siswa.kenaikan', compact('kelas'));
+    }
+
+    public function getStudentKenaikan(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Siswa::where('kelas_id', $request->kelas)->get();
+            $kelas = Kelas::where('is_active', 1)->orderBy('nama')->get();
+            $returnHTML = view('siswa.list-kenaikan', compact('data', 'kelas'))->render();
+            return response()->json(array('success' => true, 'html' => $returnHTML));
+        } else {
+            return response()->json([
+                'error' => 'Page not found!!'
+            ], 404);
+        }
+    }
+
+    public function prosesStudentKenaikan(Request $request)
+    {
+        $txtidstudents = $request->input('txtidstudent', []);
+        if (empty($txtidstudents)) {
+            return response()->json([
+                'message' => 'Data siswa tidak boleh kosong'
+            ], 400);
+        }
+        if (empty($request->kelas)) {
+            return response()->json([
+                'message' => 'Kelas tidak boleh kosong'
+            ], 400);
+        }
+        try {
+            DB::beginTransaction();
+            foreach ($txtidstudents as $txtidstudent) {
+                $student = Siswa::findOrFail($txtidstudent);
+                if ($request->kelas != 'lulus') {
+                    $student->update([
+                        'kelas_id' => $request->kelas
+                    ]);
+                } else {
+                    $student->update([
+                        'kelas_id' => null,
+                        'is_lulus' => 1
+                    ]);
+                }
+            }
+            DB::commit();
+            return redirect()->back()->with('msg', 'Kelas berhasil di perbaharui');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response("User with id {$txtidstudent} not found", Response::HTTP_NOT_FOUND);
         }
     }
 }
