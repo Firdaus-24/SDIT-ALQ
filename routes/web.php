@@ -68,12 +68,9 @@ Route::middleware('auth', 'verified')->group(function () {
     // siswa  
     Route::resource('siswa', SiswaController::class);
     Route::get('siswas/json', [SiswaController::class, 'dataTable'])->name('siswa.list');
-    Route::get('student/json/{name}', [StudentController::class, 'searchName'])->name('list.studentName');
-    Route::get('siswas/import', [StudentController::class, 'importFile'])->name('siswa.import');
-    Route::post('siswas/import', [StudentController::class, 'prosesImport'])->name('siswa.pimport');
-    Route::get('kenaikan', [StudentController::class, 'kenaikanKelas'])->name('kenaikanKelas');
-    Route::post('kenaikan/list', [StudentController::class, 'getStudentKenaikan'])->name('studentListKenaikan');
-    Route::post('kenaikan', [StudentController::class, 'prosesStudentKenaikan'])->name('studentProsesKenaikan');
+    Route::get('kenaikan', [SiswaController::class, 'kenaikanKelas'])->name('siswa.kenaikan');
+    Route::post('kenaikan/list', [SiswaController::class, 'getStudentKenaikan'])->name('siswa.kenaikan.list');
+    Route::post('kenaikan', [SiswaController::class, 'prosesStudentKenaikan'])->name('siswa.kenaikan');
 
     // keterlambatan guru
     Route::resource('keterlambatanguru', KeterlambatanGurusController::class);
