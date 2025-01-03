@@ -155,7 +155,7 @@
             }
             let optionsImport = {
                 modal: 'modalImportJabatan',
-                url: "{!! route('jabatanImportProses') !!}",
+                url: "{!! route('jabatan.import') !!}",
                 formFile: "form-import-jabatan",
                 dataTable: null,
                 disabledButton: () => {
