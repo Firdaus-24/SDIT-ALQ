@@ -38,6 +38,7 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'siswa.delete', 'guard_name' => 'web'],
             ['name' => 'siswa.list', 'guard_name' => 'web'],
             ['name' => 'siswa.import', 'guard_name' => 'web'],
+            ['name' => 'siswa.datatable', 'guard_name' => 'web'],
             ['name' => 'siswa.kenaikan-kelas', 'guard_name' => 'web'],
 
             ['name' => 'kesalahan-siswa.create', 'guard_name' => 'web'],

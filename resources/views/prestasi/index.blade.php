@@ -1,204 +1,252 @@
-@extends('layouts.app')
-
+@extends('layouts.backend.dashboard.app')
 
 @section('container')
-    <!-- Content -->
-    <div class="container p-4 mx-auto mt-1">
-        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">MASTER PRESTASI SISWA</h1>
-        @if (session('msg'))
-            <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
-                role="alert">
-                <div class="flex">
-                    <div class="py-1 mx-3">
-                        <i class="fa fa-exclamation"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold lg:text-base">Success</p>
-                        <p class="text-xs lg:text-sm">{{ session('msg') }}</p>
-                    </div>
-                </div>
-            </div>
-        @endif
-        @error('txtnama')
-            <div class="px-4 py-3 mb-3 text-red-900 bg-red-100 border-t-4 border-red-500 rounded-lg rounded-b shadow-md"
-                role="alert">
-                <div class="flex">
-                    <div class="py-1 mx-3">
-                        <i class="fa fa-exclamation"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold lg:text-base">Error</p>
-                        <p class="text-xs lg:text-sm">{{ $message }}</p>
-                    </div>
-                </div>
-            </div>
-        @enderror
-        <div class="w-full p-4 mb-3 bg-white rounded-lg shadow-md">
-            <h2 class="mb-2 text-sm font-bold lg:text-lg">Form Master Prestasi</h2>
-            <form action="{{ route('prestasi-siswa.store') }}" method="POST" onsubmit="confirm('yakin untuk disimpan??')">
-                @csrf
-                @method('POST')
-                <div class="grid grid-cols-1 gap-2 lg:grid-cols-5">
-                    <div class="flex flex-col col-span-2">
-                        <label for="txtname" class="text-xs lg:text-sm">Nama</label>
-                        <input type="text" class="text-xs rounded lg:text-sm" name="txtname" id="txtname"
-                            value="{{ old('txtname') }}" required autocomplete="off" maxlength="200">
-                    </div>
-                    <div class="flex flex-col col-span-2">
-                        <label for="txtscore" class="text-xs lg:text-sm">Score</label>
-                        <input type="number" class="text-xs rounded lg:text-sm" name="txtscore" id="txtscore"
-                            value="{{ old('txtscore') }}" required autocomplete="off">
-                    </div>
-                    <div class="flex items-end">
-                        <button
-                            class="content-center h-10 min-w-full text-xs text-white rounded bg-sky-700 lg:text-sm">Save</button>
-                    </div>
-                </div>
-            </form>
+    <div class="container-fixed">
+        <div class="flex flex-wrap items-center lg:items-end justify-items-start gap-5 pb-7.5">
+            <h1 class="text-xl font-semibold leading-none text-gray-900">
+                Master Prestasi Siswa
+            </h1>
         </div>
-        <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
-            <table class="text-xs display lg:text-base" style="width:100%" id="tablePrestasi">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">No</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Name</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Score</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Create at</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Update at</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Is active</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">actions</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        <div class="grid">
+            <div class="min-w-full card card-grid">
+                <div class="flex-wrap py-5 card-header">
+                    <h3 class="card-title">
+                        Prestasi Siswa
+                    </h3>
+                    <div class="flex justify-end">
+                        @if (auth()->user()->hasPermissionTo('prestasi-siswa.create'))
+                            <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalPrestasi">
+                                <i class="ki-outline ki-plus-squared">
+                                </i>
+                                Tambah
+                            </x-primary-button>
+                        @endif
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="p-4 scrollable-x-auto">
+                        <table class="table table-auto table-border" data-datatable-table="true" id="tablePrestasi">
+                            <thead>
+                                <tr>
+                                    <th class="w-[30px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                No
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Nama
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Skor
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Created at
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Updated at
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Status
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Aksi
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination Container -->
+                    <div class="flex items-center gap-4 mt-4">
+                        <span data-datatable-info="true" class="text-sm text-gray-600"></span>
+                        <div class="flex items-center gap-4 pagination" data-datatable-pagination="true"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Modal -->
-    <div id="myModal" class="fixed top-0 left-0 flex items-center justify-center hidden w-full h-full">
-        <!-- Overlay hitam untuk latar belakang modal -->
-        <div class="absolute w-full h-full bg-gray-900 opacity-50"></div>
-
-        <!-- Konten Modal -->
-        <div class="z-50 w-2/3 p-6 bg-white rounded-lg lg:w-1/3">
-            <!-- Tombol untuk menutup modal -->
-            <button id="closeModal" class="absolute top-0 right-0 m-4 text-2xl" onclick="closeModal()">&times;</button>
-
-            <!-- Form -->
-            <h5 class="mb-3 font-bold text-center uppercase">Update Master Prestasi</h5>
-            <form class="w-full max-w-lg" action="#" method="post"
-                onsubmit="return confirm('Anda yakin untuk update data??')">
-                @csrf
-                @method('PUT')
-                <div class="flex flex-wrap mb-6 -mx-3">
-                    <div class="w-full px-3">
-                        {{-- name --}}
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase lg:text-sm"
-                            for="updateTxtname">
-                            Nama
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 mb-3 text-xs leading-tight text-gray-700 bg-gray-200 border rounded appearance-none lg:text-sm focus:outline-none focus:bg-white"
-                            id="update-id" type="hidden" name="txtid" autocomplete="off" required>
-                        <input
-                            class="block w-full px-4 py-3 mb-3 text-xs leading-tight text-gray-700 bg-gray-200 border rounded appearance-none lg:text-sm focus:outline-none focus:bg-white"
-                            id="update-txtname" type="text" name="updateTxtname" autocomplete="off" autofocus required>
-                        {{-- score --}}
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase lg:text-sm"
-                            for="updateTxtscore">
-                            Score
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 mb-3 text-xs leading-tight text-gray-700 bg-gray-200 border rounded appearance-none lg:text-sm focus:outline-none focus:bg-white"
-                            id="update-txtscore" type="number" name="updateTxtscore" autocomplete="off" autofocus required>
-                    </div>
+    <x-modal id="modalPrestasi" modalTitle="Form Master Prestasi" modalSize="medium">
+        <form action="" id="prestasi-form">
+            <div class="w-full mt-3">
+                <div class="flex items-baseline flex-wrap lg:flex-nowrap gap-2.5 mb-3">
+                    <x-input-label>
+                        Nama
+                    </x-input-label>
+                    <span class="text-danger">
+                        *
+                    </span>
+                    <x-text-input name="id" id="id" type="hidden" class="w-full" value=""
+                        autocomplete="off" maxlength="100"></x-text-input>
+                    <x-text-input name="txtnama" id="txtnama" type="text" class="w-full" value="{{ old('name') }}"
+                        autocomplete="off" maxlength="100" required></x-text-input>
                 </div>
-                <div class="flex items-center justify-between">
-                    <button
-                        class="px-4 py-2 text-xs font-bold text-white bg-blue-500 rounded hover:bg-blue-700 lg:text-sm focus:outline-none focus:shadow-outline"
-                        type="submit">
-                        Kirim
-                    </button>
+                <div class="flex items-baseline flex-wrap lg:flex-nowrap gap-2.5">
+                    <x-input-label>
+                        Score
+                    </x-input-label>
+                    <span class="text-danger">
+                        *
+                    </span>
+                    <x-text-input name="txtscore" id="txtscore" type="number" class="w-full" value="{{ old('name') }}"
+                        autocomplete="off" maxlength="100" required></x-text-input>
                 </div>
-            </form>
-        </div>
-    </div>
-    <script>
-        $(function() {
-            $('#tablePrestasi').DataTable({
-                processing: true,
-                serverSide: true,
-                paging: true,
-                responsive: true,
-                searching: true,
-                ajax: {
-                    url: "{{ route('prestasi-siswa.list') }}",
-                },
-                dom: 'lBfrtip', // Add the Buttons extension to the DataTable
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'score',
-                        name: 'score'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'updated_at',
-                        name: 'updated_at'
-                    },
-                    {
-                        data: 'is_active',
-                        name: 'is_active'
-                    },
-                    {
-                        data: 'actions',
-                        name: 'actions',
-                        orderable: false
-                    }
-                ]
-            });
+            </div>
+            <hr class="mt-4">
+            <div class="grid mt-4 justify-items-center">
+                <div class="flex gap-4">
+                    <x-secondary-button data-modal-dismiss="true">
+                        Cancel
+                    </x-secondary-button>
+                    <x-primary-button>
+                        <x-spinner></x-spinner>
+                        Save
+                    </x-primary-button>
+                </div>
+            </div>
+        </form>
+    </x-modal>
 
-
-        });
-
-        const openModalPrestasi = (id, name, score, action) => {
-            $('#myModal').css("display", "flex");
-            $('#myModal form').attr("action", action);
-            $('#update-id').val(id)
-            $('#update-txtname').val(name)
-            $('#update-txtscore').val(score)
-        }
-        const closeModal = () => {
-            $('#myModal').css("display", "none");
-        }
-
-        const deletePrestasi = (id) => {
-            if (confirm("Anda yakin untuk menonaktifkan?") == true) {
-                $.ajax({
-                    url: `prestasi-siswa/${id}`,
-                    type: "DELETE",
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        'method': 'put'
-                    },
-                    cache: false,
-                    success: function(res) {
-                        let oTable = $('#tablePrestasi').dataTable();
-                        oTable.fnDraw(false)
-                    }
-                })
+    @push('js')
+        <script>
+            let modal = 'modalPrestasi';
+            let formMain = 'prestasi-form';
+            let dataTableList;
+            let options = {
+                url: null,
+                form: null,
+                id: null,
+                datatable: null,
+                dataTitle: "prestasi siswa",
             }
-        }
-    </script>
+
+            $(function() {
+                dataTableList = $('#tablePrestasi').DataTable({
+                    dom: '<"top"f>rt<"bottom"ip><"clear">',
+                    language: {
+                        search: "Cari",
+                    },
+                    processing: true,
+                    serverSide: true,
+                    paging: true,
+                    responsive: true,
+                    searching: true,
+                    ajax: {
+                        url: "{!! route('prestasi.list') !!}",
+                    },
+                    "columnDefs": [{
+                        "targets": 0,
+                        "className": "text-center",
+                    }],
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'nama',
+                            name: 'nama'
+                        },
+                        {
+                            data: 'score',
+                            name: 'score',
+                            orderable: false
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
+                            data: 'updated_at',
+                            name: 'updated_at'
+                        },
+                        {
+                            data: 'is_active',
+                            name: 'is_active',
+                            className: 'text-center',
+                            orderable: false
+                        },
+                        {
+                            data: 'actions',
+                            name: 'actions',
+                            orderable: false
+                        }
+                    ]
+                });
+                $('.dataTables_filter').addClass('mb-4');
+
+
+                handleFormSubmit({
+                    formSelector: formMain,
+                    dataTableSelector: dataTableList,
+                    modalSelector: modal,
+                    baseUrl: '/prestasi-siswa',
+                    methodOverride: true,
+                });
+
+
+
+                $(document).on('click', '.btn-edit', function() {
+                    openModal(modal)
+                    let rowData = dataTableList.row($(this).closest('tr')).data();
+                    $("#id").val(rowData.id);
+                    $("#txtnama").val(rowData.nama);
+                    $("#txtscore").val(rowData.score);
+                });
+
+                $(document).on('click', '#btn-delete', function() {
+                    let rowData = dataTableList.row($(this).parents('tr')).data()
+                    options.url = `/prestasi-siswa/${rowData.id}`;
+                    options.id = rowData.id;
+                    options.dataTable = dataTableList;
+
+                    DELETE_DATA(options)
+                })
+
+            });
+        </script>
+    @endpush
 @endsection

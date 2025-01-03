@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prestasis', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique()->require();
+            $table->uuid('id')->primary();
+            $table->string('nama')->unique()->require();
             $table->integer('score');
             $table->boolean('is_active');
             $table->timestamps();

@@ -5,7 +5,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KesalahanController;
@@ -92,7 +91,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // prestasi
     Route::resource('prestasi-siswa', PrestasiController::class);
-    Route::get('prestasi-siswas/json', [PrestasiController::class, 'dataTable'])->name('prestasi-siswa.list');
+    Route::get('prestasi/json', [PrestasiController::class, 'dataTable'])->name('prestasi.list');
 
     // prestasi detail
     Route::resource('detailprestasi-siswa', PrestasiDetailController::class);

@@ -18,7 +18,7 @@ class PrestasiDetailController extends Controller
      */
     function __construct()
     {
-        $this->middleware(['permission:detailprestasi-siswa.list|detailprestasi-siswa.create|detailprestasi-siswa.edit|detailprestasi-siswa.delete'], ['only' => ['index', 'show', 'dataTable']]);
+        $this->middleware(['permission:detailprestasi-siswa.list'], ['only' => ['index', 'show', 'dataTable']]);
         $this->middleware(['permission:detailprestasi-siswa.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:detailprestasi-siswa.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['permission:detailprestasi-siswa.delete'], ['only' => ['destroy']]);
