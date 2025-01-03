@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kesalahans', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique()->required();
+            $table->uuid('id')->primary();
+            $table->string('nama')->unique()->required();
             $table->integer('score');
             $table->boolean('is_active');
             $table->timestamps();
