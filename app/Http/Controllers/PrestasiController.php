@@ -61,7 +61,7 @@ class PrestasiController extends Controller
                     $buttons[] = $editButton;
                 }
 
-                if (auth()->user()->hasPermissionTo('kelas.delete')) {
+                if (auth()->user()->hasPermissionTo('prestasi-siswa.delete')) {
                     $deleteButton = '<a href="javascript:void(0)" type="button" id="btn-delete"'
                         . ($data->is_active == 1 ? 'class="btn btn-clear btn-danger"' : 'class="btn btn-clear btn-warning"') . '>'
                         . ($data->is_active == 1 ? '<i class="ki-filled ki-trash"></i>' : '<i class="ki-filled ki-arrows-circle"></i>') .
@@ -70,18 +70,6 @@ class PrestasiController extends Controller
                 }
 
                 return '<div class="flex flex-row items-center justify-center">' . implode(' ', $buttons) . '</div>';
-
-                $route = route('prestasi-siswa.update', $data->id);
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete' class='p-2 text-xs text-white rounded lg:text-sm' onclick='deletePrestasi({$data->id})' " . ($data->is_active == 1 ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 1 ? 'Off' : 'Active') . "</a>";
-
-                return "
-                    <div class='flex flex-row '>
-                        <button id='openModal' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='openModalPrestasi({$data->id}, \"{$data->name}\", {$data->score}, \"$route\")'>
-                            Edit
-                        </button>
-                        {$str}
-                     </div>
-                     ";
             })->rawColumns(['actions', 'is_active']);
 
         return $datatables->make(true);
