@@ -265,7 +265,7 @@ class SiswaController extends Controller
         return view('siswa.kenaikan', compact('kelas'));
     }
 
-    public function getStudentKenaikan(Request $request)
+    public function getSiswaKenaikan(Request $request)
     {
         if ($request->ajax()) {
             $data = Siswa::where('kelas_id', $request->kelas)->get();
@@ -279,7 +279,7 @@ class SiswaController extends Controller
         }
     }
 
-    public function prosesStudentKenaikan(Request $request)
+    public function prosesKenaikanSiswa(Request $request)
     {
         $txtidstudents = $request->input('txtidstudent', []);
         if (empty($txtidstudents)) {

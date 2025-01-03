@@ -254,10 +254,7 @@ class GuruController extends Controller
             ->rawColumns(['nama', 'status', 'actions']);
         return $dataTable->make(true);
     }
-    public function importFile()
-    {
-        return view('guru.guruImport');
-    }
+
     public function prosesImport(Request $request)
     {
         $request->validate([

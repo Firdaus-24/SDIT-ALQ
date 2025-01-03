@@ -289,21 +289,6 @@
                 datatable: null,
                 dataTitle: "Siswa",
             }
-            let optionsImport = {
-                modal: 'modalImportSiswa',
-                url: "{!! route('jabatanImportProses') !!}",
-                formFile: "form-import-jabatan",
-                dataTable: null,
-                disabledButton: () => {
-                    $('#upload').addClass('disabled');
-                    $('.loading').removeClass('hidden');
-                },
-                enabledButton: () => {
-                    $('#upload').removeClass('disabled');
-                    $('.loading').addClass('hidden');
-                }
-            }
-
             $(document).ready(function() {
                 // data table
                 dataTableList = $('#tableSiswa').DataTable({
@@ -317,7 +302,7 @@
                     responsive: true,
                     searching: true,
                     ajax: {
-                        url: "{!! route('siswa.list') !!}",
+                        url: "{!! route('siswa.datatable') !!}",
                     },
                     dom: 'lBfrtip',
                     columns: [{

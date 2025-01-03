@@ -36,7 +36,7 @@
                 const form = $(this)[0];
                 const formData = new FormData(form);
 
-                const url = "{{ route('siswa.kenaikan') }}";
+                const url = "{{ route('siswa.proses-kenaikan') }}";
                 $.ajax({
                     url: url,
                     type: "post",
@@ -67,7 +67,7 @@
                     data: {
                         kelas
                     },
-                    url: `{{ url('kenaikan/list') }}`,
+                    url: `{!! route('siswa.kenaikan.list') !!}`,
                     dataType: 'json',
                     success: function(res) {
                         $(".content-kenaikan-kelas").html(res.html);

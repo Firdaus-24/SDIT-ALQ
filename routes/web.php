@@ -55,22 +55,26 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // jabatan
     Route::resource('jabatan', JabatanController::class);
-    Route::get('jabatan/json/list', [JabatanController::class, 'dataTable'])->name('jabatan.list');
-    Route::post('jabatan/import/data', [JabatanController::class, 'prosesImport'])->name('jabatan.import');
-    Route::post('jabatan/import/data', [JabatanController::class, 'prosesImport'])->name('jabatanImportProses');
+    Route::prefix('jabatan')->group(function () {
+        Route::get('json/list', [JabatanController::class, 'dataTable'])->name('jabatan.list');
+        Route::post('import/data', [JabatanController::class, 'prosesImport'])->name('jabatan.import');
+    });
 
     // guru
     Route::resource('guru', GuruController::class);
-    Route::get('gurus/json', [GuruController::class, 'dataTable'])->name('guru.list');
-    Route::get('gurus/import', [GuruController::class, 'importFile'])->name('guru.import');
-    Route::post('gurus/import', [GuruController::class, 'prosesImport'])->name('guru.prosesImport');
+    Route::prefix('guru')->group(function () {
+        Route::get('json/list', [GuruController::class, 'dataTable'])->name('guru.list');
+        Route::post('import', [GuruController::class, 'prosesImport'])->name('guru.prosesImport');
+    });
 
     // siswa  
     Route::resource('siswa', SiswaController::class);
-    Route::get('siswas/json', [SiswaController::class, 'dataTable'])->name('siswa.list');
-    Route::get('kenaikan', [SiswaController::class, 'kenaikanKelas'])->name('siswa.kenaikan');
-    Route::post('kenaikan/list', [SiswaController::class, 'getStudentKenaikan'])->name('siswa.kenaikan.list');
-    Route::post('kenaikan', [SiswaController::class, 'prosesStudentKenaikan'])->name('siswa.kenaikan');
+    Route::prefix('siswas')->group(function () {
+        Route::get('json', [SiswaController::class, 'dataTable'])->name('siswa.datatable');
+        Route::get('kenaikan', [SiswaController::class, 'kenaikanKelas'])->name('siswa.kenaikan');
+        Route::post('kenaikan/list', [SiswaController::class, 'getSiswaKenaikan'])->name('siswa.kenaikan.list');
+        Route::post('kenaikan', [SiswaController::class, 'prosesKenaikanSiswa'])->name('siswa.proses-kenaikan');
+    });
 
     // keterlambatan guru
     Route::resource('keterlambatanguru', KeterlambatanGurusController::class);
@@ -97,8 +101,10 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // kelas 
     Route::resource('kelas', KelasController::class);
-    Route::get('kelas/json/list', [KelasController::class, 'dataTable'])->name('kelas.list');
-    Route::post('kelas/import/data', [KelasController::class, 'prosesImport'])->name('kelas.import');
+    Route::prefix('kelas')->group(function () {
+        Route::get('json/list', [KelasController::class, 'dataTable'])->name('kelas.list');
+        Route::post('import', [KelasController::class, 'prosesImport'])->name('kelas.import');
+    });
 });
 
 
