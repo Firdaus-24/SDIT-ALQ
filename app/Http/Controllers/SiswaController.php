@@ -19,7 +19,7 @@ class SiswaController extends Controller
      */
     function __construct()
     {
-        $this->middleware(['permission:siswa.list'], ['only' => ['index', 'show', 'dataTable']]);
+        $this->middleware(['permission:siswa.list|siswa.datatable'], ['only' => ['index', 'show', 'dataTable']]);
         $this->middleware(['permission:siswa.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:siswa.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['permission:siswa.delete'], ['only' => ['destroy']]);

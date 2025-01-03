@@ -141,6 +141,17 @@
                                     Kenaikan Siswa
                                 </span>
                             </a>
+                            <a href="{{ route('prestasi-siswa.index') }}"
+                                class="menu-link border border-transparent gap-[14px] pl-[10px] pr-[10px] py-[8px] grow cursor-pointer"
+                                tabindex="0">
+                                <span
+                                    class="menu-bullet flex w-[6px] relative before:absolute before:top-0 before:size-[6px] before:rounded-full before:-translate-x-1/2 before:-translate-y-1/2 menu-item-active:before:bg-primary menu-item-hover:before:bg-primary">
+                                </span>
+                                <span
+                                    class="menu-title text-2sm font-medium mr-1 text-gray-700 menu-item-active:text-primary menu-item-active:font-semibold menu-link-hover:!text-primary">
+                                    Prestasi Siswa
+                                </span>
+                            </a>
                         </div>
                     </div>
                 </div>
