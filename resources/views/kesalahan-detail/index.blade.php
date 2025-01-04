@@ -15,7 +15,7 @@
                         Pelanggaran Siswa
                     </h3>
                     <div class="flex justify-end">
-                        @if (auth()->user()->hasPermissionTo('kelas.create'))
+                        @if (auth()->user()->hasPermissionTo('detailkesalahan-siswa.create'))
                             <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalKesalahanSiswa">
                                 <i class="ki-outline ki-plus-squared">
                                 </i>
@@ -367,8 +367,8 @@
                                                         <input type='radio' onclick="getNameStudent('${data.id}', '${data.nama}', '${kelas}')">
                                                     </td>
                                                     <td class="px-6 py-4 border border-gray-300">${data.nama}</td>
-                                                    <td class="px-6 py-4 border border-gray-300">${nisn}</td>
                                                     <td class="px-6 py-4 border border-gray-300">${kelas}</td>
+                                                    <td class="px-6 py-4 border border-gray-300">${nisn}</td>
                                                 </tr>`;
                                     });
 
