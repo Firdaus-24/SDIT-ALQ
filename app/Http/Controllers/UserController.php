@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +24,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['permission:user.list|user.create|user.edit|user.delete'], ['only' => ['index', 'dataTable']]);
+        $this->middleware(['permission:user.list'], ['only' => ['index', 'dataTable']]);
         $this->middleware(['permission:user.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:user.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['permission:user.delete'], ['only' => ['destroy']]);
@@ -30,16 +32,32 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('users.index');
+        $roles = Role::all();
+        return view('users.index', compact('roles'));
     }
 
     public function dataTable()
     {
-        $data = User::with('roles')->get();
+        $data = User::with('roles', 'guru')->get();
         $dataTable = DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('name', function ($data) {
-                return $data->name;
+            ->addColumn('nama', function ($data) {
+                if ($data->guru_id) {
+                    $imagePath = $data->images ? 'storage/' . $data->images : 'plugins/assets/media/avatars/blank.png';
+                } else {
+                    $imagePath = 'plugins/assets/media/avatars/blank.png';
+                }
+                $imageUrl = asset($imagePath);
+                return '
+                    <div class="flex items-center gap-2.5">
+                        <img alt="User Image" class="object-cover rounded-full h-9 w-9" src="' . $imageUrl . '" />
+                        <div class="flex flex-col gap-0.5">
+                            <p class="text-sm text-gray-500 ">
+                                ' . e($data->name) . '
+                            </p>
+                        </div>
+                    </div>
+                ';
             })
             ->addColumn('email', function ($data) {
                 return $data->email;
@@ -50,79 +68,93 @@ class UserController extends Controller
             ->addColumn('role', function ($user) {
                 return $user->roles->pluck('name')->join(', ');
             })
-            ->addColumn('actions', function ($data) {
-                $url = route('user.edit', $data->id);
-                $str = "<a href='javascript:void(0)' type='button' id='btn-delete-users' class='p-2 text-xs text-white rounded lg:text-sm' onclick='userDelete({$data->id})' " . ($data->is_active == 1 ? 'style=background-color:red' : 'style=background-color:#FFDF00;') . ">" . ($data->is_active == 1 ? 'Off' : 'Active') . "</a>";
+            ->addColumn('aksi', function ($data) {
+                $buttons = [];
+                // Tombol edit (jika ada izin)
+                if (auth()->user()->hasPermissionTo('user.edit')) {
+                    $editButton = '<button 
+                            type="button" 
+                            class="p-2 btn btn-clear btn-info btn-edit" 
+                            data-id="' . e($data->id) . '">
+                            <i class="ki-filled ki-pencil"></i>
+                        </button>';
+                    $buttons[] = $editButton;
+                }
 
-                return "
-                        <div class='flex flex-row'>
-                        <button id='btn-teacher' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='window.location.href=\"{$url}\"'>
-                            Update
-                            </button>
-                           {$str}
-                        </div>
-                        ";
-            })->rawColumns(['actions']);
+                // Tombol delete (jika ada izin)
+                if (auth()->user()->hasPermissionTo('user.delete')) {
+                    $deleteButton = '<a href="javascript:void(0)" type="button" id="btn-delete" class="btn btn-clear btn-danger"><i class="ki-filled ki-trash"></i></a>';
+                    $buttons[] = $deleteButton;
+                }
+
+                // Gabungkan semua tombol
+                return '<div class="flex flex-row items-center justify-center gap-2">' . implode(' ', $buttons) . '</div>';
+            })->rawColumns(['aksi', 'nama']);
         return $dataTable->make(true);
     }
 
-    public function create(): View
+    public function create()
     {
-        $roles = Role::all();
-        return view('users.userAdd', compact('roles'));
+        //
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'nama' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed',  Rules\Password::defaults()],
+            'role' => ['required', 'string', 'exists:roles,name'],
         ]);
 
         try {
+            // Cek apakah email sudah terdaftar di data guru
+            $guru = Guru::where('email', $request->email)->first();
 
-            $user = User::create([
-                'name' => $request->name,
-                'uuid' => Str::uuid(),
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'is_active' => 1
-            ]);
+            // Gunakan data dari Guru jika tersedia, atau gunakan input dari request
+            $nama = $guru ? $guru->nama : $request->nama;
+            $email = $guru ? $guru->email : $request->email;
+            $guru_id = $guru ? $guru->id : null;
 
-            // event(new Registered($user));
-            $user->assignRole($request->role);
+            // Gunakan transaksi database untuk memastikan semua proses berhasil
+            DB::transaction(function () use ($request, $nama, $email, $guru_id) {
+                $user = User::create([
+                    'name' => $nama,
+                    'email' => $email,
+                    'password' => Hash::make($request->password),
+                    'guru_id' => $guru_id,
+                ]);
 
-            return redirect()->back()->with('msg', 'user berhasil di tambahkan');
+                // Assign role ke user
+                $user->assignRole($request->role);
+            });
+
+            return redirect()->back()->with('msg', 'User berhasil ditambahkan');
         } catch (\Throwable $th) {
-            return redirect()->back()->with('msg', $th->getMessage());
+            return redirect()->back()->with('msg', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
 
     public function edit($id)
     {
-        $user = User::with('roles')->findOrFail($id);
-        try {
-            $roleNames = $user->roles->pluck('name');
-
-            $roles = Role::all();
-            return view('users.userUpdate', compact('user', 'roleNames', 'roles'));
-        } catch (\Throwable $th) {
-            //throw $th;
-            return back()->with('msg', $th->getMessage());
-        }
+        //
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'nama' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($id)],
-            'role' => ['required', 'string'], // Menambahkan validasi untuk role
-            'status' => ['required', 'boolean']
+            'role' => ['required', 'string', 'exists:roles,name'], // Menambahkan validasi untuk role
         ]);
 
         $user = User::findOrFail($id);
+        $guru = Guru::where('email', $request->email)->first();
+
+        // Gunakan data dari Guru jika tersedia, atau gunakan input dari request
+        $nama = $guru ? $guru->nama : $request->nama;
+        $email = $guru ? $guru->email : $request->email;
+        $guru_id = $guru ? $guru->id : null;
         // Validasi password jika ada
         if ($request->filled('password')) {
             $request->validate([
@@ -130,16 +162,16 @@ class UserController extends Controller
             ]);
 
             $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
+                'name' => $nama,
+                'email' => $email,
                 'password' => Hash::make($request->password),
-                'is_active' => $request->filled('status') ? $request->status : $user->is_active
+                'guru_id' => $guru_id,
             ]);
         } else {
             $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'is_active' => $request->filled('status') ? $request->status : $user->is_active
+                'name' => $nama,
+                'email' => $email,
+                'guru_id' => $guru_id,
             ]);
         }
 
@@ -150,43 +182,14 @@ class UserController extends Controller
         return redirect()->back()->with('msg', 'user berhasil di update');
     }
 
-    // public function destroy(User $user, Request $request, $id)
-    // {
-    //     // Log::info('Entering destroy method');
-
-    //     $data = User::findOrFail($id);
-
-    //     if ($data->is_active == 1) {
-    //         $data->is_active = 0;
-    //         $data->save();
-    //     } else {
-    //         $data->is_active = 1;
-    //         $data->save();
-    //     }
-    //     return Response()->json($data);
-    // }
     public function destroy($id)
     {
-        // \Log::info('Entering destroy method');
+        User::where('id', $id)->delete();
 
-        try {
-            $data = User::findOrFail($id);
-
-            // \Log::info('User found:', ['id' => $data->id, 'is_active' => $data->is_active]);
-
-            if ($data->is_active == 1) {
-                $data->is_active = 0;
-            } else {
-                $data->is_active = 1;
-            }
-            $data->save();
-
-            // \Log::info('User status updated:', ['id' => $data->id, 'is_active' => $data->is_active]);
-
-            return response()->json(['success' => true, 'data' => $data]);
-        } catch (\Exception $e) {
-            // \Log::error('Error in destroy method:', ['error' => $e->getMessage()]);
-            return response()->json(['success' => false, 'message' => 'Failed to delete user.'], 500);
-        }
+        //return response
+        return response()->json([
+            'success' => true,
+            'msg' => 'Data berhasil di hapus',
+        ]);
     }
 }

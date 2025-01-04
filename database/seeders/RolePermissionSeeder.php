@@ -75,7 +75,6 @@ class RolePermissionSeeder extends Seeder
 
         DB::beginTransaction();
         try {
-            Role::create(['name' => 'admin']);
             Role::create(['name' => 'superadmin']);
             Role::create(['name' => 'guru']);
             Role::create(['name' => 'user']);
