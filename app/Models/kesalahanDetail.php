@@ -12,9 +12,9 @@ class kesalahanDetail extends Model
 
     protected $guarded = [];
 
-    public function student()
+    public function siswa()
     {
-        return $this->belongsTo(Student::class, 'student_id', 'id');
+        return $this->belongsTo(Siswa::class, 'siswa_id', 'id');
     }
     public function kesalahan()
     {

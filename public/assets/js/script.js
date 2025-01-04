@@ -282,7 +282,7 @@ const openModalDetailSiswa = (...args) => {
             ? `${window.location.origin}/storage/${args[1].images}`
             : "assets/images/illustrations/blank.png"
     );
-    $("#modal-profile-nama").html(args[1].nama);
+    $("#modal-profile-nama").html(args[1].nama ?? "-");
     $("#modal-detail-siswa-nis").html(args[1].nis);
     $("#modal-detail-siswa-nisn").html(args[1].nisn);
     $("#modal-detail-siswa-jk").html(
@@ -292,7 +292,11 @@ const openModalDetailSiswa = (...args) => {
     $("#modal-detail-siswa-tanggal-lahir").html(args[1].tanggal_lahir);
     $("#modal-detail-siswa-rombel").html(args[1].rombel);
     $("#modal-detail-siswa-agama").html(args[1].agama);
-    $("#modal-detail-siswa-kelas").html(args[1].kelas.nama);
+    $("#modal-detail-siswa-kelas").html(
+        args[1] && args[1].kelas && args[1].kelas.nama
+            ? args[1].kelas.nama
+            : "Data tidak tersedia"
+    );
     $("#modal-detail-siswa-wali").html(args[1].wali);
     $("#modal-detail-siswa-status").html(
         args[1].is_active == 1
