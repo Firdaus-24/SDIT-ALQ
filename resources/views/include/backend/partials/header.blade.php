@@ -461,7 +461,7 @@
                 <div class="dropdown-content light:border-gray-300 w-full max-w-[460px]">
                     <div class="flex items-center justify-between gap-2.5 text-sm text-gray-900 font-semibold px-5 py-2.5"
                         id="notifications_header">
-                        Notifications
+                        Notifikasi
                         <button class="btn btn-sm btn-icon btn-light btn-clear shrink-0" data-dropdown-dismiss="true">
                             <i class="ki-filled ki-cross">
                             </i>
@@ -486,17 +486,6 @@
                                     </i>
                                 </button>
                                 <div class="menu-dropdown menu-default w-full max-w-[175px]" data-menu-dismiss="true">
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="#">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-document">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                View
-                                            </span>
-                                        </a>
-                                    </div>
                                     <div class="menu-item" data-menu-item-offset="-15px, 0"
                                         data-menu-item-placement="right-start" data-menu-item-toggle="dropdown"
                                         data-menu-item-trigger="click|lg:hover">
@@ -515,8 +504,7 @@
                                         </div>
                                         <div class="menu-dropdown menu-default w-full max-w-[175px]">
                                             <div class="menu-item">
-                                                <a class="menu-link"
-                                                    href="html/demo1/account/home/settings-sidebar.html">
+                                                <a class="menu-link" href="#">
                                                     <span class="menu-icon">
                                                         <i class="ki-filled ki-sms">
                                                         </i>
@@ -527,8 +515,7 @@
                                                 </a>
                                             </div>
                                             <div class="menu-item">
-                                                <a class="menu-link"
-                                                    href="html/demo1/account/home/settings-sidebar.html">
+                                                <a class="menu-link" href="#">
                                                     <span class="menu-icon">
                                                         <i class="ki-filled ki-message-notify">
                                                         </i>
@@ -539,8 +526,7 @@
                                                 </a>
                                             </div>
                                             <div class="menu-item">
-                                                <a class="menu-link"
-                                                    href="html/demo1/account/home/settings-sidebar.html">
+                                                <a class="menu-link" href="#">
                                                     <span class="menu-icon">
                                                         <i class="ki-filled ki-notification-status">
                                                         </i>
@@ -585,6 +571,17 @@
                                 data-scrollable-offset="200px">
                                 <div class="flex flex-col gap-5 pt-3 pb-4">
                                     <div class="flex grow gap-2.5 px-5" id="notification_request_13">
+                                        <div class="flex flex-col gap-3.5 grow">
+                                            <div class="flex flex-col gap-1">
+                                                <div class="mb-px font-medium text-2sm">
+                                                    <span class="text-gray-700">
+                                                        Belum ada notifikasi
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="flex grow gap-2.5 px-5" id="notification_request_13">
                                         <div class="relative shrink-0 mt-0.5">
                                             <img alt="" class="rounded-full size-8"
                                                 src="{{ asset('assets/images/nophoto.jpg') }}" />
@@ -642,239 +639,17 @@
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="border-b border-b-gray-200">
-                                    </div>
-                                    <div class="flex items-center grow gap-2.5 px-5">
-                                        <div
-                                            class="flex items-center justify-center border rounded-full size-8 bg-success-light border-success-clarity">
-                                            <i class="text-lg ki-filled ki-check text-success">
-                                            </i>
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <span class="font-medium text-gray-700 text-2sm">
-                                                You have succesfully verified your account
-                                            </span>
-                                            <span class="font-medium text-gray-500 text-2xs">
-                                                2 days ago
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="border-b border-b-gray-200">
-                                    </div>
-                                    <div class="flex grow gap-2.5 px-5">
-                                        <div class="relative shrink-0 mt-0.5">
-                                            <img alt="" class="rounded-full size-8"
-                                                src="{{ asset('assets/images/nophoto.jpg') }}" />
-                                            <span
-                                                class="size-1.5 badge badge-circle bg-gray-400 absolute top-7 end-0.5 ring-1 ring-light transform -translate-y-1/2">
-                                            </span>
-                                        </div>
-                                        <div class="flex flex-col gap-3.5 grow">
-                                            <div class="flex flex-col gap-1">
-                                                <div class="mb-px font-medium text-2sm">
-                                                    <a class="font-semibold text-gray-900 hover:text-primary-active"
-                                                        href="#">
-                                                        Ava Peterson
-                                                    </a>
-                                                    <span class="text-gray-700">
-                                                        uploaded attachment
-                                                    </span>
-                                                </div>
-                                                <span class="flex items-center font-medium text-gray-500 text-2xs">
-                                                    3 days ago
-                                                    <span class="badge badge-circle bg-gray-500 size-1 mx-1.5">
-                                                    </span>
-                                                    ACME
-                                                </span>
-                                            </div>
-                                            <div
-                                                class="card shadow-none flex items-center justify-between flex-row gap-1.5 p-2.5 rounded-lg bg-light-active">
-                                                <div class="flex items-center gap-1.5">
-                                                    <img class="h-6"
-                                                        src="{{ asset('plugins/assets/media/file-types/xls.svg') }}" />
-                                                    <div class="flex flex-col gap-0.5">
-                                                        <a class="text-xs font-medium text-gray-700 hover:text-primary-active"
-                                                            href="#">
-                                                            Redesign-2024.xls
-                                                        </a>
-                                                        <span class="font-medium text-gray-500 text-2xs">
-                                                            2.6 MB
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <button class="btn btn-icon btn-xs btn-clear btn-light">
-                                                    <svg fill="none" height="14" viewbox="0 0 14 14"
-                                                        width="14" xmlns="http://www.w3.org/2000/svg">
-                                                        <path clip-rule="evenodd"
-                                                            d="M6.63821 2.60467C4.81926 2.60467 3.32474 3.99623 3.16201 5.77252C3.1386 6.02803 2.92413 6.22253 2.66871 6.22227C1.74915 6.22149 0.976744 6.9868 0.976744 7.90442C0.976744 8.83344 1.72988 9.58657 2.65891 9.58657H3.09302C3.36274 9.58657 3.5814 9.80523 3.5814 10.0749C3.5814 10.3447 3.36274 10.5633 3.09302 10.5633H2.65891C1.19044 10.5633 0 9.37292 0 7.90442C0 6.58614 0.986948 5.48438 2.24496 5.27965C2.62863 3.20165 4.44941 1.62793 6.63821 1.62793C8.26781 1.62793 9.69282 2.50042 10.4729 3.80193C12.3411 3.72829 14 5.2564 14 7.18091C14 8.93508 12.665 10.3769 10.9552 10.5466C10.6868 10.5733 10.4476 10.3773 10.421 10.1089C10.3943 9.84052 10.5903 9.60135 10.8587 9.57465C12.0739 9.45406 13.0233 8.42802 13.0233 7.18091C13.0233 5.74002 11.6905 4.59666 10.2728 4.79968C10.0642 4.82957 9.85672 4.72382 9.76028 4.53181C9.18608 3.38796 8.00318 2.60467 6.63821 2.60467Z"
-                                                            fill="#99A1B7" fill-rule="evenodd">
-                                                        </path>
-                                                        <path clip-rule="evenodd"
-                                                            d="M6.99909 8.01611L8.28162 9.29864C8.47235 9.48937 8.78158 9.48937 8.97231 9.29864C9.16303 9.10792 9.16303 8.79874 8.97231 8.60802L7.57465 7.2103C7.25675 6.89247 6.74143 6.89247 6.42353 7.2103L5.02585 8.60802C4.83513 8.79874 4.83513 9.10792 5.02585 9.29864C5.21657 9.48937 5.5258 9.48937 5.71649 9.29864L6.99909 8.01611Z"
-                                                            fill="#99A1B7" fill-rule="evenodd">
-                                                        </path>
-                                                        <path clip-rule="evenodd"
-                                                            d="M7.00009 12.372C7.2698 12.372 7.48846 12.1533 7.48846 11.8836V7.97665C7.48846 7.70694 7.2698 7.48828 7.00009 7.48828C6.73038 7.48828 6.51172 7.70694 6.51172 7.97665V11.8836C6.51172 12.1533 6.73038 12.372 7.00009 12.372Z"
-                                                            fill="#99A1B7" fill-rule="evenodd">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="border-b border-b-gray-200">
-                                    </div>
-                                    <div class="flex gap-2 px-5 grow">
-                                        <div class="relative shrink-0 mt-0.5">
-                                            <img alt="" class="rounded-full size-8"
-                                                src="{{ asset('assets/images/nophoto.jpg') }}" />
-                                            <span
-                                                class="size-1.5 badge badge-circle bg-gray-400 absolute top-7 end-0.5 ring-1 ring-light transform -translate-y-1/2">
-                                            </span>
-                                        </div>
-                                        <div class="flex flex-col gap-3 grow">
-                                            <div class="flex flex-col gap-1">
-                                                <div class="mb-px font-medium text-2sm">
-                                                    <a class="font-semibold text-gray-900 hover:text-primary-active"
-                                                        href="#">
-                                                        Ethan Parker
-                                                    </a>
-                                                    <span class="text-gray-700">
-                                                        created a new tasks to
-                                                    </span>
-                                                    <a class="hover:text-primary-active text-primary" href="#">
-                                                        Site Sculpt
-                                                    </a>
-                                                    <span class="text-gray-700">
-                                                        project
-                                                    </span>
-                                                </div>
-                                                <span class="flex items-center font-medium text-gray-500 text-2xs">
-                                                    3 days ago
-                                                    <span class="badge badge-circle bg-gray-500 size-1 mx-1.5">
-                                                    </span>
-                                                    Web Designer
-                                                </span>
-                                            </div>
-                                            <div class="card shadow-none p-3.5 gap-3.5 rounded-lg bg-light-active">
-                                                <div class="flex items-center justify-between flex-wrap gap-2.5">
-                                                    <div class="flex flex-col gap-1">
-                                                        <span class="text-xs font-medium text-gray-900">
-                                                            Location history is erased after Logging In
-                                                        </span>
-                                                        <span class="font-medium text-gray-500 text-3xs">
-                                                            Due Date: 15 May, 2024
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex -space-x-2">
-                                                        <div class="flex">
-                                                            <img class="relative rounded-full hover:z-5 shrink-0 ring-1 ring-light-light size-6"
-                                                                src="{{ asset('assets/images/nophoto.jpg') }}" />
-                                                        </div>
-                                                        <div class="flex">
-                                                            <img class="relative rounded-full hover:z-5 shrink-0 ring-1 ring-light-light size-6"
-                                                                src="{{ asset('assets/images/nophoto.jpg') }}" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center gap-2.5">
-                                                    <span class="badge badge-sm badge-success badge-outline">
-                                                        Improvement
-                                                    </span>
-                                                    <span class="badge badge-sm badge-danger badge-outline">
-                                                        Bug
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="border-b border-b-gray-200">
-                                    </div>
-                                    <div class="flex grow gap-2.5 px-5" id="notification_request_3">
-                                        <div class="relative shrink-0 mt-0.5">
-                                            <img alt="" class="rounded-full size-8"
-                                                src="{{ asset('assets/images/nophoto.jpg') }}" />
-                                            <span
-                                                class="size-1.5 badge badge-circle bg-gray-400 absolute top-7 end-0.5 ring-1 ring-light transform -translate-y-1/2">
-                                            </span>
-                                        </div>
-                                        <div class="flex flex-col gap-3.5">
-                                            <div class="flex flex-col gap-1">
-                                                <div class="mb-px font-medium text-2sm">
-                                                    <a class="font-semibold text-gray-900 hover:text-primary-active"
-                                                        href="#">
-                                                        Benjamin Harris
-                                                    </a>
-                                                    <span class="text-gray-700">
-                                                        requested to upgrade plan
-                                                    </span>
-                                                    <a class="hover:text-primary-active text-primary" href="#">
-                                                    </a>
-                                                    <span class="text-gray-700">
-                                                    </span>
-                                                </div>
-                                                <span class="flex items-center font-medium text-gray-500 text-2xs">
-                                                    4 days ago
-                                                    <span class="badge badge-circle bg-gray-500 size-1 mx-1.5">
-                                                    </span>
-                                                    Marketing
-                                                </span>
-                                            </div>
-                                            <div class="flex flex-wrap gap-2.5">
-                                                <button class="btn btn-light btn-sm"
-                                                    data-dismiss="#notification_request_3">
-                                                    Decline
-                                                </button>
-                                                <button class="btn btn-dark btn-sm"
-                                                    data-dismiss="#notification_request_3">
-                                                    Accept
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="border-b border-b-gray-200">
-                                    </div>
-                                    <div class="flex grow gap-2.5 px-5">
-                                        <div class="relative shrink-0 mt-0.5">
-                                            <img alt="" class="rounded-full size-8"
-                                                src="{{ asset('assets/images/nophoto.jpg') }}" />
-                                            <span
-                                                class="size-1.5 badge badge-circle badge-success absolute top-7 end-0.5 ring-1 ring-light transform -translate-y-1/2">
-                                            </span>
-                                        </div>
-                                        <div class="flex flex-col gap-1">
-                                            <div class="mb-px font-medium text-2sm">
-                                                <a class="font-semibold text-gray-900 hover:text-primary-active"
-                                                    href="#">
-                                                    Isaac Morgan
-                                                </a>
-                                                <span class="text-gray-700">
-                                                    mentioned you in
-                                                </span>
-                                                <a class="hover:text-primary-active text-primary" href="#">
-                                                    Data Transmission
-                                                </a>
-                                                topic
-                                            </div>
-                                            <span class="flex items-center font-medium text-gray-500 text-2xs">
-                                                6 days ago
-                                                <span class="badge badge-circle bg-gray-500 size-1 mx-1.5">
-                                                </span>
-                                                Dev Team
-                                            </span>
-                                        </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="border-b border-b-gray-200">
                             </div>
                             <div class="grid grid-cols-2 p-5 gap-2.5" id="notifications_inbox_footer">
                                 <button class="justify-center btn btn-sm btn-light">
-                                    Archive all
+                                    Lihat Semua
                                 </button>
                                 <button class="justify-center btn btn-sm btn-light">
-                                    Mark all as read
+                                    Tandai semua sudah dibaca
                                 </button>
                             </div>
                         </div>
@@ -886,14 +661,14 @@
                     data-menu-item-toggle="dropdown" data-menu-item-trigger="click|lg:click">
                     <div class="rounded-full menu-toggle btn btn-icon">
                         <img alt="" class="border-2 rounded-full size-9 border-success shrink-0"
-                            src="{{ asset('assets/images/nophoto.jpg') }}">
+                            src="{{ asset('plugins/assets/media/avatars/blank.png') }}">
                         </img>
                     </div>
                     <div class="menu-dropdown menu-default light:border-gray-300 w-full max-w-[250px]">
                         <div class="flex items-center justify-between px-5 py-1.5 gap-1.5">
                             <div class="flex items-center gap-2">
                                 <img alt="" class="border-2 rounded-full size-9 border-success"
-                                    src="{{ asset('assets/images/nophoto.jpg') }}">
+                                    src="{{ asset('plugins/assets/media/avatars/blank.png') }}">
                                 <div class="flex flex-col gap-1.5">
                                     <span class="text-sm font-semibold leading-none text-gray-800">
                                         {{ Auth::user()->name }}
@@ -913,17 +688,6 @@
                         </div>
                         <div class="flex flex-col" data-menu-dismiss="true">
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
-                                    <span class="menu-icon">
-                                        <i class="ki-filled ki-badge">
-                                        </i>
-                                    </span>
-                                    <span class="menu-title">
-                                        Public Profile
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
                                 <a class="menu-link" href="{{ route('profile.edit') }}">
                                     <span class="menu-icon">
                                         <i class="ki-filled ki-profile-circle">
@@ -933,116 +697,6 @@
                                         My Profile
                                     </span>
                                 </a>
-                            </div>
-                            <div class="menu-item" data-menu-item-offset="-50px, 0"
-                                data-menu-item-placement="left-start" data-menu-item-toggle="dropdown"
-                                data-menu-item-trigger="click|lg:hover">
-                                <div class="menu-link">
-                                    <span class="menu-icon">
-                                        <i class="ki-filled ki-setting-2">
-                                        </i>
-                                    </span>
-                                    <span class="menu-title">
-                                        My Account
-                                    </span>
-                                    <span class="menu-arrow">
-                                        <i class="ki-filled ki-right text-3xs">
-                                        </i>
-                                    </span>
-                                </div>
-                                <div class="menu-dropdown menu-default light:border-gray-300 w-full max-w-[220px]">
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="#">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-coffee">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                Get Started
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="#">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-some-files">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                My Profile
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="#">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-icon">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                Billing
-                                            </span>
-                                            <span class="menu-badge" data-tooltip="true"
-                                                data-tooltip-placement="top">
-                                                <i class="text-gray-500 ki-filled ki-information-2 text-md">
-                                                </i>
-                                                <span class="tooltip" data-tooltip-content="true">
-                                                    Payment and subscription info
-                                                </span>
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="html/demo1/account/security/overview.html">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-medal-star">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                Security
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="html/demo1/account/members/teams.html">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-setting">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                Members &amp; Roles
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="html/demo1/account/integrations.html">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-switch">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                Integrations
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="menu-separator">
-                                    </div>
-                                    <div class="menu-item">
-                                        <a class="menu-link" href="html/demo1/account/security/overview.html">
-                                            <span class="menu-icon">
-                                                <i class="ki-filled ki-shield-tick">
-                                                </i>
-                                            </span>
-                                            <span class="menu-title">
-                                                Notifications
-                                            </span>
-                                            <label class="switch switch-sm">
-                                                <input checked="" name="check" type="checkbox" value="1">
-                                                </input>
-                                            </label>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="menu-separator">

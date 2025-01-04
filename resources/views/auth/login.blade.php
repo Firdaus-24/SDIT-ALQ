@@ -21,10 +21,6 @@
                     <label class="text-gray-900 form-label">
                         Password
                     </label>
-                    {{-- <a class="text-2sm link shrink-0"
-                        href="html/demo1/authentication/classic/reset-password/enter-email.html">
-                        Forgot Password?
-                    </a> --}}
                 </div>
                 <label class="input" data-toggle-password="true">
                     <x-text-input id="password" type="password" name="password" required
@@ -51,32 +47,4 @@
         </form>
     </div>
     <!-- Session Status -->
-
-    {{-- <h3 class="mb-10 text-lg font-bold text-sky-700">Login</h3>
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')"
-                required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block w-full mt-1" type="password" name="password" required
-                autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form> --}}
 </x-guest-layout>

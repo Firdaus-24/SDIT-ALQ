@@ -453,7 +453,6 @@
 
                 $(document).on('click', '#btn-delete', function() {
                     let rowData = dataTableList.row($(this).parents('tr')).data()
-                    console.log(rowData.id);
 
                     options.url = `/guru/${rowData.id}`;
                     options.id = rowData.id;

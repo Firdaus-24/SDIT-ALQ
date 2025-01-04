@@ -20,4 +20,9 @@ class Guru extends Model
     {
         return $this->hasMany(KeterlambatanGurus::class, 'id', 'guru_id');
     }
+
+    function user()
+    {
+        return $this->hasOne(User::class, 'id', 'guru_id');
+    }
 }
