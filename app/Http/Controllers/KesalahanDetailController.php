@@ -74,7 +74,7 @@ class KesalahanDetailController extends Controller
 
                 // Gabungkan semua tombol
                 return '<div class="flex flex-row items-center justify-center gap-2">' . implode(' ', $buttons) . '</div>';
-            })->rawColumns(['aksi']);;
+            })->rawColumns(['aksi']);
         return $dataTable->make(true);
     }
 

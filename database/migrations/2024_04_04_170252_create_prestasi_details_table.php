@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prestasi_details', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->foreignId('student_id')->require();
-            $table->foreignId('prestasi_id')->require();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('siswa_id')->require();
+            $table->foreignUuid('prestasi_id')->require();
             $table->dateTime('tanggal')->require();
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

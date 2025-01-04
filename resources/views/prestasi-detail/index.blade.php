@@ -1,114 +1,409 @@
-@extends('layouts.app')
+@extends('layouts.backend.dashboard.app')
 
 @section('container')
-    <div class="container p-4 mx-auto mt-1">
-        <h1 class="mb-3 text-2xl lg:text-4xl text-bold dark:text-white">DETAIL PRESTASI SISWA</h1>
-        <div class="hidden alert-prestasiDetail-delete">
-
+    <!-- begin: container -->
+    <div class="container-fixed">
+        <div class="flex flex-wrap items-center lg:items-end justify-items-start gap-5 pb-7.5">
+            <h1 class="text-xl font-semibold leading-none text-gray-900">
+                Prestasi Siswa
+            </h1>
         </div>
-        <div class="w-full p-4 overflow-x-auto bg-white rounded-lg shadow-md">
-            <button class="float-right p-2 mb-4 text-xs text-white rounded-md bg-sky-700 lg:text-base"
-                onclick="window.location.href = '{{ route('detailprestasi-siswa.create') }}'">Tambah</button>
-            <table class="text-xs display lg:text-base" style="width:100%" id="tableDetailPrestasi">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">No</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Nama</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Kelas</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Prestasi</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Tanggal</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">Keterangan</th>
-                        <th class="px-6 py-2 text-xs text-gray-500 lg:text-sm">actions</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        <div class="grid">
+            <div class="min-w-full card card-grid">
+                <div class="flex-wrap py-5 card-header">
+                    <h3 class="card-title">
+                        Prestasi Siswa
+                    </h3>
+                    <div class="flex justify-end">
+                        @if (auth()->user()->hasPermissionTo('detailprestasi-siswa.create'))
+                            <x-primary-button type="button" id="btn-add" data-modal-toggle="#modalPrestasiSiswa">
+                                <i class="ki-outline ki-plus-squared">
+                                </i>
+                                Tambah
+                            </x-primary-button>
+                        @endif
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="p-4 scrollable-x-auto">
+                        <table class="table table-auto table-border" data-datatable-table="true" id="tablePrestasiSiswa">
+                            <thead>
+                                <tr>
+                                    <th class="w-[30px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                No
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[250px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Nama
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[100px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Kelas
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[200px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Prestasi
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[130px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Tanggal
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[250px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Keterangan
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th class="w-[50px]">
+                                        <span class="sort">
+                                            <span class="sort-label">
+                                                Aksi
+                                            </span>
+                                            <span class="sort-icon">
+                                            </span>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination Container -->
+                    <div class="flex items-center gap-4 mt-4">
+                        <span data-datatable-info="true" class="text-sm text-gray-600"></span>
+                        <div class="flex items-center gap-4 pagination" data-datatable-pagination="true"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <script>
-        $(function() {
-            $('#tableDetailPrestasi').DataTable({
-                processing: true,
-                serverSide: true,
-                paging: true,
-                responsive: true,
-                searching: true,
-                ajax: {
-                    url: "{{ route('detailprestasi-siswa.list') }}",
-                },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
+    <!-- end: container -->
+
+    <!-- start:modal -->
+    <x-modal id="modalPrestasiSiswa" modalTitle="Form Prestasi Siswa" modalSize="medium">
+        <form action="" id="prestasidetail-form">
+            <div class="w-full mt-3">
+                <div class="flex flex-wrap items-baseline gap-3 mb-3 lg:flex-nowrap">
+                    <div class="flex flex-shrink-0 w-32 gap-1">
+                        <x-input-label>
+                            Nama
+                        </x-input-label>
+                        <span class="text-danger">
+                            *
+                        </span>
+                    </div>
+                    <x-text-input name="id" id="id" type="hidden" class="w-full" value=""
+                        autocomplete="off" maxlength="100"></x-text-input>
+                    <x-text-input name="txtidsiswa" id="txtidsiswa" type="hidden" class="w-full" value=""
+                        autocomplete="off" maxlength="100"></x-text-input>
+                    <x-text-input name="txtnama" id="txtnama" type="text" value="{{ old('nama') }}"
+                        autocomplete="off" required></x-text-input>
+                </div>
+                <div class=" items-baseline flex-wrap lg:flex-nowrap gap-2.5 hidden tbl-detailPrestasi-add mb-3">
+                    <div data-datatable="true" data-datatable-page-size="5">
+                        <div class="scrollable-x-auto">
+                            <table class="table text-sm table-border" data-datatable-table="true">
+                                <thead>
+                                    <tr>
+                                        <th class="w-[60px]">
+                                            Pilih
+                                        </th>
+                                        <th>
+                                            Nama
+                                        </th>
+                                        <th>
+                                            Kelas
+                                        </th>
+                                        <th>
+                                            NISN
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-baseline flex-wrap lg:flex-nowrap gap-2.5 mb-3">
+                    <div class="flex flex-shrink-0 w-32 gap-1">
+                        <x-input-label>
+                            Kelas
+                        </x-input-label>
+                        <span class="text-danger">
+                            *
+                        </span>
+                    </div>
+                    <x-text-input name="txtkelas" id="txtkelas" type="text" autocomplete="off" readonly></x-text-input>
+                </div>
+                <div class="flex items-baseline flex-wrap lg:flex-nowrap gap-2.5 mb-3">
+                    <div class="flex flex-shrink-0 w-32 gap-1">
+                        <x-input-label>
+                            Jenis Prestasi
+                        </x-input-label>
+                        <span class="text-danger">
+                            *
+                        </span>
+                    </div>
+                    <select name="txtprestasiId" id="txtprestasiId" class="select" required>
+                        <option value="">Pilih</option>
+                        @foreach ($prestasi as $p)
+                            <option value="{{ $p->id }}">
+                                {{ $p->nama }} - Score {{ $p->score }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex items-baseline flex-wrap lg:flex-nowrap gap-2.5 mb-3">
+                    <div class="flex flex-shrink-0 w-32 gap-1">
+                        <x-input-label>
+                            Tanggal
+                        </x-input-label>
+                        <span class="text-danger">
+                            *
+                        </span>
+                    </div>
+                    <x-text-input name="txttanggal" id="txttanggal" type="datetime-local"
+                        autocomplete="off"></x-text-input>
+                </div>
+                <div class="flex items-baseline flex-wrap lg:flex-nowrap gap-2.5 mb-3">
+                    <div class="flex flex-shrink-0 w-32 gap-1">
+                        <x-input-label>
+                            Keterangan
+                        </x-input-label>
+                        <span class="text-danger">
+                            *
+                        </span>
+                    </div>
+                    <textarea name="txtketerangan" id="txtketerangan" class="textarea" maxlength="255"
+                        placeholder="Masukan keterangan anda">{{ old('txtketerangan') }}</textarea>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="grid mt-4 justify-items-center">
+                <div class="flex gap-4">
+                    <x-secondary-button data-modal-dismiss="true">
+                        Cancel
+                    </x-secondary-button>
+                    <x-primary-button>
+                        <x-spinner></x-spinner>
+                        Save
+                    </x-primary-button>
+                </div>
+            </div>
+        </form>
+    </x-modal>
+    <!-- end:modal -->
+
+    <!-- start:modal import -->
+    <x-modal-import-excel id="modalImportKelas" modalTitle="Form Import Kelas"
+        form-id="form-import-Kelas"></x-modal-import-excel>
+    <!-- end:modal import -->
+
+    @push('js')
+        <script>
+            let modal = 'modalPrestasiSiswa';
+            let formMain = 'prestasidetail-form';
+            let dataTableList;
+            let options = {
+                url: null,
+                form: null,
+                id: null,
+                datatable: null,
+                dataTitle: "Kelas",
+            }
+
+            $(document).ready(function() {
+                // data table
+                dataTableList = $('#tablePrestasiSiswa').DataTable({
+                    dom: '<"top"f>rt<"bottom"ip><"clear">',
+                    language: {
+                        search: "Cari",
                     },
-                    {
-                        data: 'name',
-                        name: 'name'
+                    processing: true,
+                    serverSide: true,
+                    paging: true,
+                    responsive: true,
+                    searching: true,
+                    ajax: {
+                        url: "{!! route('detailprestasi-siswa.list') !!}",
                     },
-                    {
-                        data: 'kelas',
-                        name: 'kelas'
-                    },
-                    {
-                        data: 'prestasi',
-                        name: 'prestasi'
-                    },
-                    {
-                        data: 'tanggal',
-                        name: 'tangggal'
-                    },
-                    {
-                        data: 'keterangan',
-                        name: 'keterangan'
-                    },
-                    {
-                        data: 'actions',
-                        name: 'actions',
-                        orderable: false
+                    buttons: [{
+                            extend: 'excelHtml5',
+                            className: 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 ml-2 rounded '
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            className: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            className: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
+                        },
+                    ],
+                    "columnDefs": [{
+                        "targets": 0,
+                        "className": "text-center",
+                    }],
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            orderable: true,
+                            searchable: false
+                        },
+                        {
+                            data: 'nama',
+                            name: 'nama',
+                            orderable: true,
+                        },
+                        {
+                            data: 'kelas',
+                            name: 'kelas',
+                            orderable: false,
+                        },
+                        {
+                            data: 'prestasi',
+                            name: 'prestasi',
+                        },
+                        {
+                            data: 'tanggal',
+                            name: 'tanggal',
+                        },
+                        {
+                            data: 'keterangan',
+                            name: 'keterangan',
+                            orderable: false,
+                        },
+                        {
+                            name: 'aksi',
+                            data: 'aksi',
+                            orderable: false,
+                            searchable: false,
+                            className: 'text-center'
+                        }
+                    ]
+                });
+
+
+                $('.dataTables_filter').addClass('mb-4');
+                // handle form submit
+                handleFormSubmit({
+                    formSelector: formMain,
+                    dataTableSelector: dataTableList,
+                    modalSelector: modal,
+                    baseUrl: '/detailprestasi-siswa',
+                    methodOverride: true,
+                });
+
+
+                $(document).on('click', '.btn-edit', function() {
+                    openModal(modal)
+                    let rowData = dataTableList.row($(this).closest('tr')).data();
+                    $("#id").val(rowData.id);
+                    $("#txtidsiswa").val(rowData.siswa_id);
+                    $("#txtnama").val(rowData.nama);
+                    $("#txtkelas").val(rowData.kelas);
+                    $("#txtprestasiId").val(rowData.prestasi_id);
+                    $("#txttanggal").val(rowData.tanggal);
+                    $("#txtketerangan").val(rowData.keterangan);
+                });
+
+                $(document).on('click', '#btn-delete', function() {
+                    let rowData = dataTableList.row($(this).parents('tr')).data()
+                    options.url = `/detailprestasi-siswa/${rowData.id}`;
+                    options.id = rowData.id;
+                    options.dataTable = dataTableList;
+
+                    DELETE_DATA(options)
+                })
+
+                $(document).on('keyup', '#txtnama', function() {
+                    let url = "{{ route('detailprestasi-siswaByName.list', ':name') }}";
+                    options.url = url.replace(':name', this.value);
+
+                    if (this.value.length > 0) {
+                        $.ajax({
+                            type: "GET",
+                            url: options.url,
+                            dataType: "json",
+                            success: function(msg) {
+                                let trhtml = "";
+                                if (msg.length > 0) {
+                                    $.each(msg, function(i, data) {
+                                        let kelas = data.kelas?.nama ?? '-';
+                                        let nisn = data.nisn ? data.nisn : '-';
+                                        trhtml += `<tr>
+                                                    <td class="px-6 py-4 border border-gray-300">
+                                                        <input type='radio' onclick="getNameStudent('${data.id}', '${data.nama}', '${kelas}')">
+                                                    </td>
+                                                    <td class="px-6 py-4 border border-gray-300">${data.nama}</td>
+                                                    <td class="px-6 py-4 border border-gray-300">${kelas}</td>
+                                                    <td class="px-6 py-4 border border-gray-300">${nisn}</td>
+                                                </tr>`;
+                                    });
+
+                                    // Tampilkan tabel dan masukkan data ke tbody
+                                    $('.tbl-detailPrestasi-add').show();
+                                    $('.tbl-detailPrestasi-add tbody').html(trhtml);
+                                } else {
+                                    // Jika data kosong
+                                    $('.tbl-detailPrestasi-add').hide();
+                                    $('.tbl-detailPrestasi-add tbody').html('');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("AJAX Error:", error);
+                                $('.tbl-detailPrestasi-add').hide();
+                                $('.tbl-detailPrestasi-add tbody').html('');
+                            }
+                        });
+                    } else {
+                        // Jika input kosong
+                        $('.tbl-detailPrestasi-add').hide();
+                        $('.tbl-detailPrestasi-add tbody').html('');
                     }
-                ]
+
+
+                })
             });
 
-
-        });
-
-        const prestasiDetailDelete = (id) => {
-            if (confirm("Anda yakin untuk di hapus?") == true) {
-                let token = $("meta[name='csrf-token']").attr("content");
-                $.ajax({
-                    url: `detailprestasi-siswa/${id}`,
-                    type: "DELETE",
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        'method': 'put'
-                    },
-                    cache: false,
-                    success: function(res) {
-                        if (res.success == true) {
-                            $('.alert-prestasiDetail-delete').show()
-                            $('.alert-prestasiDetail-delete').html(`
-                        <div class="px-4 py-3 mb-3 text-teal-900 bg-teal-100 border-t-4 border-teal-500 rounded-lg rounded-b shadow-md"
-                            role="alert">
-                            <div class="flex">
-                                <div class="py-1 mx-3">
-                                    <i class="fa fa-exclamation"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold lg:text-base">Success</p>
-                                    <p class="text-xs lg:text-sm"> ${res.msg}</p>
-                                </div>
-                            </div>
-                        </div>
-                        `)
-                        } else {
-                            return false
-                        }
-                        let oTable = $('#tableDetailPrestasi').dataTable();
-                        oTable.fnDraw(false)
-                    }
-                })
+            const getNameStudent = (id, name, kelas) => {
+                $(".tbl-detailPrestasi-add").hide()
+                $(".tbl-detailPrestasi-add tbody").empty();
+                $("#txtidsiswa").val(id)
+                $("#txtnama").val(name)
+                $("#txtkelas").val(kelas)
             }
-        }
-    </script>
+        </script>
+    @endpush
 @endsection
