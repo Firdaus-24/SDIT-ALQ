@@ -18,13 +18,31 @@ class RolesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['permission:roles.index|roles.list|roles.create|roles.edit'], ['only' => ['index', 'dataTable']]);
+        $this->middleware(['permission:roles.index|roles.list'], ['only' => ['index', 'dataTable']]);
         $this->middleware(['permission:roles.create'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:roles.edit|roles.update'], ['only' => ['edit', 'update']]);
     }
     public function index()
     {
-        return view('roles.index');
+        // Ambil data permissions dari database
+        $permissions = DB::table('permissions')
+            ->selectRaw("SUBSTRING_INDEX(name, '.', 1) as category, name, id")
+            ->orderBy('id')
+            ->get()
+            ->groupBy('category');
+
+        // Format ulang data permissions
+        $permissionList = $permissions->map(function ($items, $category) {
+            return $items->map(function ($item, $index) {
+                return [
+                    'id' => $item->id,
+                    'permission' => $item->name,
+                ];
+            });
+        });
+
+        // Kirim data ke view
+        return view('roles.index', compact('permissionList'));
     }
 
     public function dataTable()
@@ -36,32 +54,49 @@ class RolesController extends Controller
                 return $roles['name'];
             })
             ->addColumn('total_users', function ($roles) {
-                return User::role($roles->name)->count();
+                $badge = '<span class="badge badge-outline badge-primary">' . User::role($roles->name)->count() . '</span>';
+                return $badge;
             })
             ->addColumn('permissions', function ($roles) {
-                return $roles->permissions->map(function ($permission) {
-                    return $permission->name;
-                })->join(', ');
-            })
-            ->addColumn('actions', function ($roles) {
-                $url = route('roles.edit',  $roles->id);
+                $listPermission = '<div class="table-permission">
+                    <ul class="space-y-2">';
 
-                return "
-                    <div class='flex flex-row'>
-                        <button id='btn-teacher' class='p-2 text-xs text-white rounded lg:text-sm bg-sky-700' onclick='window.location.href=\"{$url}\"'>
-                            Update
-                        </button>
-                    </div>
-                ";
-            })->rawColumns(['actions']);
+                $listPermission .= $roles->permissions->map(function ($permission) {
+                    return '<li class="flex items-center">
+                                <span class="mr-2 text-green-500">✔</span>
+                                <span class="hidden permission-id">' . $permission->id . '</span>
+                                <span>' . $permission->name . '</span>
+                            </li>';
+                })->join('');
+
+                $listPermission .= '</ul></div>';
+
+                return $listPermission;
+            })
+            ->addColumn('aksi', function ($roles) {
+                $buttons = [];
+
+                if (auth()->user()->hasPermissionTo('roles.update')) {
+                    $editButton = '<button type="button" class="p-2 btn btn-clear btn-info btn-edit" data-id="' . e($roles->id) . '">
+                                        <i class="ki-filled ki-pencil"></i>
+                                        </button>';
+                    $buttons[] = $editButton;
+                }
+
+                // if (auth()->user()->hasPermissionTo('roles.delete')) {
+                // $deleteButton = '<a href="javascript:void(0)" type="button" id="btn-delete" class="btn btn-clear btn-danger"><i class="ki-filled ki-trash"></i></a>';
+                // $buttons[] = $deleteButton;
+                // }
+
+                return '<div class="flex flex-row items-center justify-center">' . implode(' ', $buttons) . '</div>';
+            })->rawColumns(['aksi', 'total_users', 'permissions']);
 
         return $dataTable->make(true);
     }
 
     public function create()
     {
-        $permissions = Permission::all();
-        return view('roles.rolesAdd', compact('permissions'));
+        // 
     }
 
     public function store(Request $request)
@@ -98,13 +133,10 @@ class RolesController extends Controller
 
     public function edit($id)
     {
-        $role = Role::where('id', $id)->with('permissions')->first();
-        $permissions = Permission::all();
-
-        return view('roles.rolesUpdate', compact('role', 'permissions'));
+        // 
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         try {
             // Validasi input
@@ -115,7 +147,7 @@ class RolesController extends Controller
             ]);
 
             // Temukan role yang akan diupdate
-            $role = Role::findOrFail($id);
+            $role = Role::findOrFail($request->id);
 
             // Update nama role
             $role->name = $request->input('txtroles');
@@ -131,5 +163,10 @@ class RolesController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('msg', $th->getMessage());
         }
+    }
+
+    public function destroy()
+    {
+        // 
     }
 }

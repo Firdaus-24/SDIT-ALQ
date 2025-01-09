@@ -61,16 +61,6 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'detailprestasi-siswa.delete', 'guard_name' => 'web'],
             ['name' => 'detailprestasi-siswa.list', 'guard_name' => 'web'],
 
-            ['name' => 'keterlambatanguru.create', 'guard_name' => 'web'],
-            ['name' => 'keterlambatanguru.edit', 'guard_name' => 'web'],
-            ['name' => 'keterlambatanguru.delete', 'guard_name' => 'web'],
-            ['name' => 'keterlambatanguru.list', 'guard_name' => 'web'],
-
-            ['name' => 'kelas.create', 'guard_name' => 'web'],
-            ['name' => 'kelas.edit', 'guard_name' => 'web'],
-            ['name' => 'kelas.delete', 'guard_name' => 'web'],
-            ['name' => 'kelas.list', 'guard_name' => 'web'],
-            ['name' => 'kelas.import', 'guard_name' => 'web'],
         ];
 
         DB::beginTransaction();
