@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
                 'roles.list',
                 'roles.create',
                 'roles.update',
+                'roles.delete',
 
                 'user.list',
                 'user.create',
