@@ -232,6 +232,26 @@
                         </div>
                     </a>
                 </div>
+                <div class="menu-item pt-2.25 pb-px">
+                    <span class="menu-heading uppercase pl-[10px] pr-[10px] text-2sm font-semibold text-gray-500">
+                        Lainnya
+                    </span>
+                </div>
+                <div class="menu-item" data-menu-item-toggle="accordion" data-menu-item-trigger="click">
+                    <a href="{{ route('absen-guru.index') }}">
+                        <div class="menu-link flex items-center grow cursor-pointer border border-transparent gap-[10px] pl-[10px] pr-[10px] py-[6px]"
+                            tabindex="0">
+                            <span class="menu-icon items-start text-gray-500 dark:text-gray-400 w-[20px]">
+                                <i class="text-lg ki-filled ki-fingerprint-scanning">
+                                </i>
+                            </span>
+                            <span
+                                class="menu-title text-sm font-semibold text-gray-700 menu-item-active:text-primary menu-link-hover:!text-primary">
+                                Absensi
+                            </span>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

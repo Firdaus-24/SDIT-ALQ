@@ -102,7 +102,7 @@
                         <div
                             class="card-body p-10 bg-[length:80%] [background-position:175%_25%] bg-no-repeat entry-callout-bg">
                             <div class="flex flex-col justify-center gap-4">
-                                <h2 class="text-1.5xl font-semibold text-gray-900">
+                                <h2 class="text-1.5xl font-semibold text-gray-700">
                                     Visi Misi
                                     <br />
                                     <b>SDIT AL-Qur'aniyyah</b>
@@ -118,7 +118,7 @@
                         </div>
                         <div class="justify-center card-footer">
                             <a class="btn btn-link" href="#">
-                                Get Started
+                                Selengkapnya
                             </a>
                         </div>
                     </div>
