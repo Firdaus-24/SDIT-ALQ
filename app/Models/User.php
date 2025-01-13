@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'uuid',
         'email',
+        'guru_id',
         'password',
         'is_active',
     ];

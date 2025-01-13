@@ -34,16 +34,16 @@ class UserSeeder extends Seeder
                 Permission::create(['name' => $permission]);
             }
 
-            $role_superadmin = Role::whereName('superadmin')->first();
+            $role_superadmin = Role::whereName('admin')->first();
             $role_superadmin->givePermissionTo($permissions);
 
             $superadmin = User::create([
-                'name' => 'superadmin',
-                'email' => 'superadmin@test.com',
+                'name' => 'admin',
+                'email' => 'admin@test.com',
                 'password' => bcrypt('12345678'),
             ]);
 
-            $superadmin->assignRole('superadmin');
+            $superadmin->assignRole('admin');
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

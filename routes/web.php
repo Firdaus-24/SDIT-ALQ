@@ -1,21 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\AbsenGuruController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KesalahanController;
 use App\Http\Controllers\PrestasiDetailController;
 use App\Http\Controllers\KesalahanDetailController;
-use App\Http\Controllers\KeterlambatanGurusController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\KelasController;
-use App\Http\Controllers\SiswaController;
-use App\Models\Teachers;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,11 +74,6 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::post('kenaikan', [SiswaController::class, 'prosesKenaikanSiswa'])->name('siswa.proses-kenaikan');
     });
 
-    // keterlambatan guru
-    Route::resource('keterlambatanguru', KeterlambatanGurusController::class);
-    Route::get('keterlambatangurus/json', [KeterlambatanGurusController::class, 'dataTable'])->name('keterlambatanguru.list');
-    Route::get('keterlambatangurus/json/{name}', [KeterlambatanGurusController::class, 'searchName'])->name('keterlambatanguruByName.list');
-
     // kesalahan
     Route::resource('kesalahan-siswa', KesalahanController::class);
     Route::get('kesalahan-siswas/json', [KesalahanController::class, 'dataTable'])->name('kesalahan-siswa.list');
@@ -104,6 +98,10 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::get('json/list', [KelasController::class, 'dataTable'])->name('kelas.list');
         Route::post('import', [KelasController::class, 'prosesImport'])->name('kelas.import');
     });
+
+    // absen guru
+    Route::resource('absen-guru', AbsenGuruController::class);
+    Route::get('absen-gurus/json', [AbsenGuruController::class, 'dataTable'])->name('absen-guru.list');
 });
 
 
