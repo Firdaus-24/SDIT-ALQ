@@ -16,10 +16,6 @@ class Guru extends Model
     {
         return $this->belongsTo(Jabatan::class, 'jab_id', 'id');
     }
-    function keterlambatanGurus()
-    {
-        return $this->hasMany(KeterlambatanGurus::class, 'id', 'guru_id');
-    }
 
     function user()
     {
