@@ -1,6 +1,6 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-700">
             {{ __('Update Password') }}
         </h2>
 
@@ -15,22 +15,39 @@
 
         <div>
             <x-input-label for="update_password_current_password" :value="__('Password Lama')" />
-            <x-text-input id="update_password_current_password" name="current_password" type="password"
-                class="block w-full mt-1" autocomplete="current-password" />
+            <div class="relative">
+                <x-text-input id="update_password_current_password" name="current_password" type="password"
+                    class="block w-full pr-10 mt-1" autocomplete="current-password" />
+                <button type="button" onclick="togglePassword('update_password_current_password')"
+                    class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600 dark:text-gray-400">
+                    👁️
+                </button>
+            </div>
             <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
         </div>
-
         <div>
             <x-input-label for="update_password_password" :value="__('Password Baru')" />
-            <x-text-input id="update_password_password" name="password" type="password" class="block w-full mt-1"
-                autocomplete="new-password" />
+            <div class="relative">
+                <x-text-input id="update_password_password" name="password" type="password"
+                    class="block w-full pr-10 mt-1" autocomplete="new-password" />
+                <button type="button" onclick="togglePassword('update_password_password')"
+                    class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600 dark:text-gray-400">
+                    👁️
+                </button>
+            </div>
             <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password"
-                class="block w-full mt-1" autocomplete="new-password" />
+            <div class="relative">
+                <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password"
+                    class="block w-full pr-10 mt-1" autocomplete="new-password" />
+                <button type="button" onclick="togglePassword('update_password_password_confirmation')"
+                    class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600 dark:text-gray-400">
+                    👁️
+                </button>
+            </div>
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Guru;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,11 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // update email guru
+        Guru::where('email', $request->user()->email)->update([
+            'email' => $request->validated()['email'],
+        ]);
+
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -33,6 +39,7 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+
 
         return Redirect::route('profile.edit')->with('status', 'profile telah di update');
     }

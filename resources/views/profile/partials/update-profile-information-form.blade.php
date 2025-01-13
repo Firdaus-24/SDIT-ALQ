@@ -1,14 +1,15 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Informasi Profile') }}
-        </h2>
-
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __('Update akun nama dan alamat email yang terdaftar') }}
         </p>
     </header>
-
+    <!-- Flash Message -->
+    @if (session('status'))
+        <p class="mt-4 text-sm font-medium text-green-600 dark:text-green-400">
+            {{ session('status') }}
+        </p>
+    @endif
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
@@ -18,7 +19,7 @@
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Username')" />
             <x-text-input id="name" name="name" type="text" class="block w-full mt-1" :value="old('name', $user->name)"
                 required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />

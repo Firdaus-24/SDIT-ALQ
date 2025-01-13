@@ -41,8 +41,13 @@
     <!-- begin: container -->
     <div class="container-fixed">
         <div class="flex flex-col items-center gap-2 lg:gap-3.5 py-4 lg:pt-5 lg:pb-10">
-            <img class="rounded-full border-3 border-success size-[100px] shrink-0"
-                src="{{ asset('assets/images/nophoto.jpg') }}" />
+            @if (Auth::user()->guru_id)
+                <img class="rounded-full border-3 border-success size-[100px] shrink-0"
+                    src="{{ asset('storage/' . Auth::user()->guru->images) }}" />
+            @else
+                <img class="rounded-full border-3 border-success size-[100px] shrink-0"
+                    src="{{ asset('assets/images/nophoto.jpg') }}" />
+            @endif
             <div class="flex items-center gap-1.5">
                 <div class="text-lg font-semibold leading-5 text-gray-900">
                     {{ Auth::user()->name }}
@@ -54,13 +59,6 @@
                     </i>
                     <span class="text-gray-600">
                         Member
-                    </span>
-                </div>
-                <div class="flex gap-1.25 items-center">
-                    <i class="text-sm text-gray-500 ki-filled ki-geolocation">
-                    </i>
-                    <span class="text-gray-600">
-                        Pd. Aren Tangerang
                     </span>
                 </div>
                 <div class="flex gap-1.25 items-center">
@@ -109,7 +107,7 @@
                                             Status:
                                         </td>
                                         <td class="pb-3 text-sm font-medium text-gray-800">
-                                            @if (Auth::user()->is_active == 1)
+                                            @if (Auth::user()->guru->is_active == 1)
                                                 <span class="badge badge-sm badge-success badge-outline">
                                                     Active
                                                 </span>
@@ -118,14 +116,6 @@
                                                     Off
                                                 </span>
                                             @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pb-3 text-sm font-medium text-gray-500 pe-4 lg:pe-8">
-                                            Encryption:
-                                        </td>
-                                        <td class="pb-3 text-sm font-medium text-gray-800">
-                                            Strong
                                         </td>
                                     </tr>
                                     <tr>
@@ -156,25 +146,12 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    Recent Activity
+                                    Update Informasi
                                 </h3>
-                                <div class="flex items-center gap-2">
-                                    <label class="switch">
-                                        <span class="switch-label">
-                                            Auto refresh:
-                                            <span class="switch-on:hidden">
-                                                Off
-                                            </span>
-                                            <span class="hidden switch-on:inline">
-                                                On
-                                            </span>
-                                        </span>
-                                        <input checked="" name="check" type="checkbox" value="1" />
-                                    </label>
-                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="flex flex-col">
+                            <div class="grid card-body">
+                                @include('profile.partials.update-profile-information-form')
+                                {{-- <div class="flex flex-col">
                                     <div class="relative flex items-start">
                                         <div
                                             class="absolute bottom-0 left-0 translate-x-1/2 border-l w-9 top-9 border-l-gray-300">
@@ -378,12 +355,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="justify-center card-footer">
-                                <a class="btn btn-link" href="html/demo1/public-profile/activity.html">
-                                    All-time Activities
-                                </a>
+                                </div> --}}
+                                @include('profile.partials.update-password-form')
                             </div>
                         </div>
 
@@ -394,4 +367,14 @@
         <!-- end: grid -->
     </div>
     <!-- end: container -->
+
+    @push('js')
+        <script>
+            function togglePassword(inputId) {
+                const input = document.getElementById(inputId);
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+            }
+        </script>
+    @endpush
 @endsection

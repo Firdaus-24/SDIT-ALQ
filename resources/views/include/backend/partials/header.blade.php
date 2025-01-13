@@ -660,15 +660,25 @@
                 <div class="menu-item" data-menu-item-offset="20px, 10px" data-menu-item-placement="bottom-end"
                     data-menu-item-toggle="dropdown" data-menu-item-trigger="click|lg:click">
                     <div class="rounded-full menu-toggle btn btn-icon">
-                        <img alt="" class="border-2 rounded-full size-9 border-success shrink-0"
-                            src="{{ asset('plugins/assets/media/avatars/blank.png') }}">
+                        @if (Auth::user()->guru_id)
+                            <img alt="" class="border-2 rounded-full size-9 border-success shrink-0"
+                                src="{{ asset('storage/' . Auth::user()->guru->images) }}">
+                        @else
+                            <img alt="" class="border-2 rounded-full size-9 border-success shrink-0"
+                                src="{{ asset('plugins/assets/media/avatars/blank.png') }}">
+                        @endif
                         </img>
                     </div>
                     <div class="menu-dropdown menu-default light:border-gray-300 w-full max-w-[250px]">
                         <div class="flex items-center justify-between px-5 py-1.5 gap-1.5">
                             <div class="flex items-center gap-2">
-                                <img alt="" class="border-2 rounded-full size-9 border-success"
-                                    src="{{ asset('plugins/assets/media/avatars/blank.png') }}">
+                                @if (Auth::user()->guru_id)
+                                    <img alt="" class="border-2 rounded-full size-9 border-success"
+                                        src="{{ asset('storage/' . Auth::user()->guru->images) }}">
+                                @else
+                                    <img alt="" class="border-2 rounded-full size-9 border-success"
+                                        src="{{ asset('plugins/assets/media/avatars/blank.png') }}">
+                                @endif
                                 <div class="flex flex-col gap-1.5">
                                     <span class="text-sm font-semibold leading-none text-gray-800">
                                         {{ Auth::user()->name }}
