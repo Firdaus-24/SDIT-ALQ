@@ -107,15 +107,9 @@
                                             Status:
                                         </td>
                                         <td class="pb-3 text-sm font-medium text-gray-800">
-                                            @if (Auth::user()->guru->is_active == 1)
-                                                <span class="badge badge-sm badge-success badge-outline">
-                                                    Active
-                                                </span>
-                                            @else
-                                                <span class="badge badge-sm badge-danger badge-outline">
-                                                    Off
-                                                </span>
-                                            @endif
+                                            <span class="badge badge-sm badge-success badge-outline">
+                                                Active
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
