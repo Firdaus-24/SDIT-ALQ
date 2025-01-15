@@ -63,7 +63,7 @@ class AbsenGuruController extends Controller
             ->whereDate('created_at', $currentTime->toDateString())
             ->first();
 
-        if ($hour >= 6 && $hour < 12) {
+        if ($hour >= 6 && $hour < 11) {
             // Jam 6 pagi hingga sebelum jam 12 siang → Absen Masuk
             if (!$existingAbsen) {
                 // Buat data baru jika belum ada
@@ -174,7 +174,7 @@ class AbsenGuruController extends Controller
                 }
 
                 if ($jamMasukHour >= 12) {
-                    return '<span class="badge badge-sm badge-outline badge-danger text-center">
+                    return '<span class="text-center badge badge-sm badge-outline badge-danger">
                                 Tidak absen
                             </span>';
                 }
@@ -183,7 +183,7 @@ class AbsenGuruController extends Controller
             })
             ->addColumn('lokasi_masuk', function ($data) {
                 return $data->latitude_masuk !== null && $data->longitude_masuk !== null
-                    ? '<a href="https://www.google.com/maps?q=' . $data->latitude_masuk . ',' . $data->longitude_masuk . '" target="_blank" class="text-blue-500 text-lg ">
+                    ? '<a href="https://www.google.com/maps?q=' . $data->latitude_masuk . ',' . $data->longitude_masuk . '" target="_blank" class="text-lg text-blue-500 ">
                         <i class="ki-filled ki-map"></i>
                     </a>'
                     : '';
@@ -195,7 +195,7 @@ class AbsenGuruController extends Controller
                 if ($jamKeluarHour < 12) {
                     return '-';
                 } elseif ($jamKeluarHour >= 18) {
-                    return '<span class="badge badge-sm badge-outline badge-danger text-center">
+                    return '<span class="text-center badge badge-sm badge-outline badge-danger">
                                 Tidak absen
                             </span>';
                 } else {
@@ -204,7 +204,7 @@ class AbsenGuruController extends Controller
             })
             ->addColumn('lokasi_pulang', function ($data) {
                 return $data->latitude_pulang !== null && $data->longitude_pulang !== null
-                    ? '<a href="https://www.google.com/maps?q=' . $data->latitude_pulang . ',' . $data->longitude_pulang . '" target="_blank" class="text-blue-500 text-lg">
+                    ? '<a href="https://www.google.com/maps?q=' . $data->latitude_pulang . ',' . $data->longitude_pulang . '" target="_blank" class="text-lg text-blue-500">
                        <i class="ki-filled ki-map"></i>
                     </a>'
                     : '';
