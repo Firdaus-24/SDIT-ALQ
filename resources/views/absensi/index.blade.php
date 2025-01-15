@@ -49,8 +49,15 @@
                                 12:45 PM
                             </div>
                             <!-- Date -->
-                            <div id="date"
-                                class="flex items-center justify-center px-8 py-2 text-xl font-semibold tracking-wider text-white">
+                            <div class="flex flex-col notes">
+                                <div id="date"
+                                    class="flex items-center justify-center px-8 py-2 text-xl font-semibold tracking-wider text-white">
+                                </div>
+                                <span class="mt-2 font-semibold text-white">Peringatan</span>
+                                <span class="text-sm font-light text-white">Absen pagi di lakukan mulai jam 06:00 - 11:00
+                                    dan Absen
+                                    pulang dari
+                                    jam 12:00 - 18:00</span>
                             </div>
                         </div>
                     </div>
