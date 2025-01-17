@@ -74,7 +74,7 @@ class GuruController extends Controller
         // Menyimpan gambar jika ada
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/guru');
+            $imagePath = $request->file('image')->store('images/guru', 'public');
         }
 
         // Membuat instance baru dari Guru dan mengisi data
@@ -153,7 +153,7 @@ class GuruController extends Controller
                 Storage::delete($guru->images);
             }
             // Store the new image
-            $validated['image'] = $request->file('image')->store('images/guru');
+            $validated['image'] = $request->file('image')->store('images/guru', 'public');
         }
 
         // Update the Guru instance with validated data
