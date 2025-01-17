@@ -260,7 +260,7 @@
                             </span>
                         </div>
                         <x-text-input name="txtemail" id="txtemail" type="text" class="w-full"
-                            value="{{ old('txtemail') }}" autocomplete="off" maxlength="20" required></x-text-input>
+                            value="{{ old('txtemail') }}" autocomplete="off" maxlength="225" required></x-text-input>
                     </div>
                     <div class="flex flex-col">
                         <div class="flex flex-row">
